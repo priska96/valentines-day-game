@@ -8,6 +8,9 @@ import CanvasContext from './canvasContext';
 import Character from './Character';
 import {MAP_DIMENSIONS, TILE_SIZE, MAP_TILE_IMAGES} from './constants';
 
+import NPC from "./NPC";
+import ObjectNPC from "./ObjectNPC";
+
 const TileView = ({mapImagesLoaded, gameStatus}) => {
     const width = MAP_DIMENSIONS.COLS * TILE_SIZE;
     const height = MAP_DIMENSIONS.ROWS * TILE_SIZE;
@@ -22,6 +25,7 @@ const TileView = ({mapImagesLoaded, gameStatus}) => {
     return (
         <>
             <ImagesBuffer />
+
             {Object.keys(mapImagesLoaded).length === Object.keys(MAP_TILE_IMAGES).length &&
                 <>
                     <Grid width={width} height={height}>
@@ -29,7 +33,9 @@ const TileView = ({mapImagesLoaded, gameStatus}) => {
                     </Grid>
                 </>
             }
-            {gameStatus.mapLoaded && <Character />}
+            {gameStatus.mapLoaded  && <ObjectNPC/>}
+            {gameStatus.mapLoaded &&  <NPC/>}
+            {gameStatus.mapLoaded && <Character/>}
         </>
     );
 };

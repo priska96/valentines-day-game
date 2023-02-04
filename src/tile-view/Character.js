@@ -1,33 +1,36 @@
 import React, {useEffect, useContext, useRef} from 'react';
 import {connect} from 'react-redux';
 
-import CanvasConext from './canvasContext';
-import {HEROES_SPRITE, HERO_IMAGE_SIZE, HERO_CLASSES_MAP} from '../constants';
+import CanvasContext from './canvasContext';
+import {HEROES_SPRITE, HERO_IMAGE_SIZE, HEROES_SPRITE_NAKED} from '../constants';
 import {TILE_SIZE} from './constants';
 import {bufferImage} from './slices/characterSlice';
 import {loadCharacter} from './slices/statusSlice';
+import {fullyGeared} from "./utils";
 
-const Character = ({x, y, heroClass, heroImg, loadCharacter, bufferImage}) => {
-    const ctx = useContext(CanvasConext);
+const Character = ({x, y, step=0, dir=0, heroClass, heroImg, inventory, loadCharacter, bufferImage}) => {
+    const ctx = useContext(CanvasContext);
     const imgRef = useRef(null);
+
+    const img = fullyGeared(inventory) === 3 ? HEROES_SPRITE: HEROES_SPRITE_NAKED
 
     useEffect(() => {
         if (heroImg) {
-            const {sx, sy} = HERO_CLASSES_MAP[heroClass].icon;
             ctx.drawImage(
                 document.querySelector(heroImg),
-                sx,
-                sy,
-                HERO_IMAGE_SIZE - 5,
-                HERO_IMAGE_SIZE - 5,
+                step* HERO_IMAGE_SIZE,
+                dir* HERO_IMAGE_SIZE,
+                HERO_IMAGE_SIZE,
+                HERO_IMAGE_SIZE ,
                 x * TILE_SIZE,
                 y * TILE_SIZE,
                 HERO_IMAGE_SIZE,
                 HERO_IMAGE_SIZE,
             );
             loadCharacter(true);
-        };  
-    }, [ctx, heroClass, heroImg, x, y, loadCharacter]);
+        }
+        return ()=>{}
+    }, [ctx, heroClass, heroImg, x, y, step, dir, loadCharacter, inventory]);
 
     return (
         <img
@@ -38,7 +41,7 @@ const Character = ({x, y, heroClass, heroImg, loadCharacter, bufferImage}) => {
                 () => bufferImage(`#${imgRef.current.id}`)
             }
             className="images-buffer"
-            src={HEROES_SPRITE}
+            src={img}
         />
     );
 };

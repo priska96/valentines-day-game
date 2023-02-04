@@ -41,6 +41,17 @@ const Map = ({ loadMap }) => {
 
         drawLayer(LAYERS[0]);
         drawLayer(LAYERS[1]);
+        // ctx.drawImage(
+        //     document.querySelector(`#woodhouse`),
+        //     0,
+        //     0,
+        //     //17,
+        //     //13,
+        //     // x,
+        //     // y,
+        //     544,
+        //     416,
+        // );
         loadMap(true);
     }, [COLS, ROWS, ctx, loadMap]);
 

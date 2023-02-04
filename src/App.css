@@ -15,9 +15,10 @@ main {
   border-radius: 15px;
 }
 
-.game-ui__avatar {
-  background: url('/assets/heroes/portraits.png');
-  background-repeat: no-repeat;
-  width: 48px;
-  height: 48px;
+.game-ui__avatar img{
+  width: 200px;
+  height: 200px;
+}
+.game-ui__inventory span{
+  padding: 10px;
 }

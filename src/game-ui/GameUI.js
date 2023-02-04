@@ -1,24 +1,42 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {updatePlayerSummary} from '../tile-view/slices/characterSlice'
 
-import {HERO_CLASSES_MAP} from '../constants';
-
-const GameUI = ({heroClass}) => {
-    const {className, portrait} = HERO_CLASSES_MAP[heroClass];
-    const {sx, sy} = portrait;
+const GameUI = ({character, updatePlayerSummary}) => {
+    const {heroClass, playerSummary, portrait, inventory} = character;
 
     return (
         <div className="game-ui">
-            <div className="game-ui__avatar" style={{backgroundPosition:`${sx}px -${sy}px`}} />
-            <div className="gamie-ui__info">
-                <p>Name: KilroggD</p>                
-                <p>Class: {className}</p>
-                <p>Health: 100/100</p>
+            <div className="game-ui__avatar" />
+            <img src={portrait} alt={`portrait_${playerSummary.name}`}/>
+            <div className="game-ui__info">
+                <p>Name: {playerSummary.name}</p>
+                <p>Class: {heroClass}</p>
+                <p>Level: {playerSummary.level}</p>
+                <p>Health: {playerSummary.health}/ {playerSummary.maxHealth}</p>
+                <p className="game-ui__inventory">Inventory:<br/>
+                    {inventory.map((item, idx)=>{
+                        return (
+                            <span key={idx}>
+                                <span>{item.item}: </span >
+                                <span onClick={()=> {
+                                    if(item.healing >0) {
+                                        const newHealth = playerSummary.health + item.healing > playerSummary.maxHealth?
+                                            playerSummary.maxHealth : playerSummary.health + item.healing
+                                        updatePlayerSummary({health: newHealth})
+                                    }}}
+                                >
+                                    {item.item}
+                                </span><br/>
+                            </span>
+                        )
+                    })}
+                </p>
             </div>
         </div>
     );
 };
 
-const mapStateToProps = ({character}) => ({heroClass: character.heroClass});
-
-export default connect(mapStateToProps)(GameUI);
+const mapStateToProps = ({character}) => ({character: character});
+const mapDispatch = {updatePlayerSummary}
+export default connect(mapStateToProps, mapDispatch)(GameUI);
