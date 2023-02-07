@@ -21,6 +21,7 @@ const npcSlice = createSlice({
                 heroImg: null,
                 stopMoving: false,
                 type: 'npc',
+                map:['forest', 'evilKing'],
                 npcSummary: {
                     main: false,
                     name: 'Blue Dragon',
@@ -31,20 +32,40 @@ const npcSlice = createSlice({
             },
             {
                 id: "npc-1",
-                x: 12,
-                y: 6,
+                x: 0,//8,
+                y: 0,//3,
                 step: 0,
                 dir: 0,
                 heroClass: 'PUREEVIL',
                 heroImg: null,
                 stopMoving: false,
                 type: 'npc',
+                map:['evilKing'],
                 npcSummary: {
                     main: false,
                     name: 'Evil King',
-                    level: 5,
+                    level: 10,
                     health: 355,
                     maxHealth: 355,
+                }
+            },
+            {
+                id: "npc-2",
+                x: 0,//3,
+                y: 0,//13,
+                step: 0,
+                dir: 0,
+                heroClass: 'PRINCESS',
+                heroImg: null,
+                stopMoving: false,
+                type: 'npc',
+                map:['evilKing'],
+                npcSummary: {
+                    main: false,
+                    name: 'Pri',
+                    level: 2,
+                    health: 24,
+                    maxHealth: 244,
                 }
             },
         ]
@@ -62,10 +83,15 @@ const npcSlice = createSlice({
         },
         fireAction(state, action) {
             state.npcs[action.payload.idx].stopMoving = !state.npcs[action.payload.idx].stopMoving;
+        },
+        updateNPC(state, action) {
+            action.payload.idx.forEach((index)=>{
+                state.npcs[index] = {...state.npcs[index] , ...action.payload[`data-${index}`]}
+            })
         }
     }
 });
 
-export const {move, bufferImage, changeRandomMove, fireAction} = npcSlice.actions;
+export const {move, bufferImage, fireAction, updateNPC} = npcSlice.actions;
 
 export default npcSlice.reducer;

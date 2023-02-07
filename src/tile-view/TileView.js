@@ -10,6 +10,7 @@ import {MAP_DIMENSIONS, TILE_SIZE, MAP_TILE_IMAGES} from './constants';
 
 import NPC from "./NPC";
 import ObjectNPC from "./ObjectNPC";
+import BackgroundView from "./BackgroundView";
 
 const TileView = ({mapImagesLoaded, gameStatus}) => {
     const width = MAP_DIMENSIONS.COLS * TILE_SIZE;
@@ -18,14 +19,15 @@ const TileView = ({mapImagesLoaded, gameStatus}) => {
 
     useEffect(() => {
         return () => {
-            return () => ctx && ctx.clearRect(0, 0, ctx.width, ctx.height);
+            return () => {
+                ctx && ctx.clearRect(0, 0, ctx.width, ctx.height);
+            }
         }
-    }, [ctx])
-
+    }, [ctx, gameStatus.map])
     return (
         <>
+            <BackgroundView/>
             <ImagesBuffer />
-
             {Object.keys(mapImagesLoaded).length === Object.keys(MAP_TILE_IMAGES).length &&
                 <>
                     <Grid width={width} height={height}>
@@ -33,8 +35,8 @@ const TileView = ({mapImagesLoaded, gameStatus}) => {
                     </Grid>
                 </>
             }
-            {gameStatus.mapLoaded  && <ObjectNPC/>}
-            {gameStatus.mapLoaded &&  <NPC/>}
+            {gameStatus.mapLoaded && <ObjectNPC/>}
+            {gameStatus.mapLoaded && <NPC/>}
             {gameStatus.mapLoaded && <Character/>}
         </>
     );

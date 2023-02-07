@@ -1,14 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const statusSlice = createSlice({
-    name: 'status',
+    name: 'gameStatus',
     initialState: {
         mapLoaded: false,
         characterLoaded: false,
         npcLoaded: [false, false],
         objectLoaded: [false,false,false,false],
         mode: 'world',
-        winner: undefined
+        winner: undefined,
+        map: 'forest',
+        backgroundImg: null,
+        backgroundImgLoaded: false,
     },
     reducers: {
         loadMap(state, payload) {
@@ -32,9 +35,18 @@ const statusSlice = createSlice({
             state.mode = action.payload.mode;
             state.winner = action.payload.winner;
         },
+        changeMap(state, action){
+            state.map = action.payload;
+        },
+        bufferBackgroundImage(state, action){
+            state.backgroundImg = action.payload;
+        },
+        loadBackground(state, payload) {
+            state.backgroundImgLoaded = payload;
+        },
     }
 });
 
-export const { loadMap, loadCharacter, loadNPC, loadObject, onGameEnd } = statusSlice.actions;
+export const { loadMap, loadCharacter, loadNPC, loadObject, onGameEnd, changeMap, bufferBackgroundImage, loadBackground } = statusSlice.actions;
 
 export default statusSlice.reducer;

@@ -30,11 +30,12 @@ function SimpleDialog({dialog, npc, objectNPC, setContents, fireAction}) {
 
     const handleClose = () => {
         const openerId = dialog.openerId;
+        const otherThingIdx = parseInt(openerId.split('-')[1])
         setContents({open: false, title: '', text: '', openerId: ''});
         if (openerId.startsWith("object-")) {
-            fireActionObject({id: openerId});
+            fireActionObject({idx: otherThingIdx});
         } else {
-            fireAction();
+            fireAction({idx: otherThingIdx});
         }
     };
 

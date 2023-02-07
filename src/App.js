@@ -19,9 +19,11 @@ function App(mode) {
             <SimpleDialog />
                 <>
                     <GameUI />
+                    <div id="stage" style={{width: 544, height: 480, backgroundImage: "url('/assets/sky_background.png')"}}>
                     <GameLoop>
-                      <TileView />
+                        <TileView />
                     </GameLoop>
+                    </div>
                 </>
             {currentMode === 'battle' ?
             <Battle/>

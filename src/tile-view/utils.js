@@ -1,7 +1,8 @@
 import {LAYERS, MAP_DIMENSIONS, SOLID_TILES} from './constants';
 
-export const isSolidTile = (x, y) => {
-    for (let layer of LAYERS) {
+export const isSolidTile = (x, y, map) => {
+    const currentMapLayers = LAYERS[map];
+    for (let layer of currentMapLayers) {
         if (SOLID_TILES.includes(layer[y][x])) {
             // console.log('isSolidTile', true)
             return true;
@@ -46,8 +47,8 @@ export const whoIsOnMap = (x,y,others) => {
     return result
 };
 
-export const checkMapCollision = (x, y, others) => {
-    return isMapEdge(x,y) || isSolidTile(x,y) ||othersIsOnMap(x,y,others);
+export const checkMapCollision = (x, y, others, map) => {
+    return isMapEdge(x,y) || isSolidTile(x,y, map) ||othersIsOnMap(x,y,others);
 };
 
 export const fullyGeared = (inventory) =>{

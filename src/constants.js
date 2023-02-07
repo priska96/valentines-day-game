@@ -7,7 +7,7 @@ export const NPC_IMAGE_SIZE = {"npc-0":48, "npc-1": 32, "npc-2":32, "npc-3":32};
 export const NPC_SPRITE  = {
     "npc-0": 'assets/heroes/blue-dragon.png',
     "npc-1": 'assets/heroes/evil-king.png',
-    "npc-2": 'assets/heroes/blue-dragon.png',
+    "npc-2": 'assets/heroes/priska.png',
     "npc-3": 'assets/heroes/blue-dragon.png',
 };
 

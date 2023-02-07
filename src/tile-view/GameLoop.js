@@ -3,17 +3,15 @@ import {connect} from 'react-redux';
 
 import CanvasContext from './canvasContext';
 import {MAP_DIMENSIONS, TILE_SIZE, MOVE_DIRECTIONS} from './constants';
-import {onGameEnd} from './slices/statusSlice'
+import {onGameEnd, changeMap} from './slices/statusSlice'
 import {addToInventory, move} from './slices/characterSlice'
-import {move as moveNPC, fireAction, } from './slices/npcSlice'
+import {move as moveNPC, fireAction, updateNPC,} from './slices/npcSlice'
 import {fireAction as fireActionObject} from './slices/objectSlice'
 import {setContents} from '../game-ui/slices/dialogSlice'
 import {checkMapCollision, fullyGeared, whoIsOnMap} from './utils';
 
-//import useWalk from "../hooks/use-walk";
-
-const mapDispatch = {move, moveNPC, addToInventory, fireAction, setContents, fireActionObject, onGameEnd};
-const mapStateToProps = ({character, npc, objectNPC, dialog}) => ({character, npc, objectNPC, dialog});
+const mapDispatch = {move, moveNPC, addToInventory, fireAction, setContents, fireActionObject, onGameEnd, changeMap, updateNPC  };
+const mapStateToProps = ({character, npc, objectNPC, dialog, gameStatus}) => ({character, npc, objectNPC, dialog, map:gameStatus.map});
 
 const GameLoop = ({
                       children,
@@ -24,9 +22,9 @@ const GameLoop = ({
                       objectNPC,
                       fireAction,
                       dialog,
-                      setContents,gameStatus,
+                      setContents,map,
                       fireActionObject,
-                      addToInventory, onGameEnd
+                      addToInventory, onGameEnd, changeMap, updateNPC
                   }) => {
     const canvasRef = useRef(null);
     const [ctx, setCtx] = useState(null);
@@ -36,14 +34,22 @@ const GameLoop = ({
     const loopRef = useRef();
     const width = MAP_DIMENSIONS.COLS * TILE_SIZE;
     const height = MAP_DIMENSIONS.ROWS * TILE_SIZE;
+
     const moveCharacter = useCallback((e) => {
-        const key = e.key//.replace("Arrow","").toLowerCase();
-        //console.log(key)
+        const key = e.key
+
         e.preventDefault();
         if (MOVE_DIRECTIONS[key]) {
             const [x, y] = MOVE_DIRECTIONS[key];
-            const collusion = checkMapCollision(character.x + x, character.y + y, [...npc.npcs, ...objectNPC.objects])
-            //console.log('is colusion char:', collusion)
+            const collusion = checkMapCollision(
+                character.x + x,
+                character.y + y,
+                [
+                    ...npc.npcs,
+                    ...objectNPC.objects
+                ],
+                map
+            )
             if (collusion === false) {
                 setIsUpdateRequired(true);
                 move([x, y, key]);
@@ -56,6 +62,10 @@ const GameLoop = ({
             } else {
                 doAction();
             }
+        }
+        if(key === 'm'){
+            changeMap('sky');
+            updateNPC({idx:[2,1],'data-1':{ x:8 ,y: 3, stopMoving:true},'data-2':{ x:3 ,y: 13}})
         }
     }, [move, character.x, character.y, character.step, character.dir, dialog.open]);
 
@@ -85,7 +95,16 @@ const GameLoop = ({
         if (currentNPC.stopMoving) return
         if (MOVE_DIRECTIONS[keyString]) {
             const [x, y] = MOVE_DIRECTIONS[keyString];
-            const collusion = checkMapCollision(currentNPC.x + x, currentNPC.y + y, [character, ...objectNPC.objects, ...npc.npcs.filter(npc => npc !== currentNPC)])
+            const collusion = checkMapCollision(
+                currentNPC.x + x,
+                currentNPC.y + y,
+                [
+                    character,
+                    ...objectNPC.objects,
+                    ...npc.npcs.filter(npc => npc !== currentNPC)
+                ],
+                map
+            )
             //console.log('is colusion:', collusion)
             if (collusion === false) {
                 setIsUpdateRequired(true);
@@ -101,31 +120,48 @@ const GameLoop = ({
     useEffect(() => {
         const interval = setInterval(() => {
             moveNPC2(getRandom(movesList),0)
-        }, 3000);
+        }, 1500);
         return () => clearInterval(interval);
     }, [npc.npcs[0].x, npc.npcs[0].y, npc.npcs[0].stopMoving]);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            moveNPC2(getRandom(movesList) ,1)
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [npc.npcs[1].x, npc.npcs[1].y, npc.npcs[1].stopMoving]);
+        if(map ==="evilKing"){
+            const interval = setInterval(() => {
+                moveNPC2(getRandom(movesList), 1)
+            }, 1500);
+            return () => clearInterval(interval);
+        }
+    }, [npc.npcs[1].x, npc.npcs[1].y, npc.npcs[1].stopMoving, map]);
+
+    useEffect(() => {
+        if(map==="evilKing"){
+            const interval = setInterval(() => {
+                moveNPC2(getRandom(movesList), 2)
+            }, 1500);
+            return () => clearInterval(interval);
+        }
+    }, [npc.npcs[2].x, npc.npcs[2].y, npc.npcs[2].stopMoving, map]);
 
     const finishAction = () => {
         console.log("finish action")
         const openerId = dialog.openerId;
+        if(openerId === 'enter-dungeon'){
+            changeMap('evilKing');
+            updateNPC({idx:[2,1],'data-1':{ x:8 ,y: 3, stopMoving:true},'data-2':{ x:3 ,y: 13}})
+
+        }
         const otherThingIdx = parseInt(openerId.split('-')[1])
-        fireAction({idx: otherThingIdx});
-        if (npc.npcs[otherThingIdx].stopMoving) {
+        if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
             setContents({open: false, title: '', text: '', openerId: ''});
             fireAction({idx: otherThingIdx});
         }
         else if (openerId.startsWith('object-')) {
             setIsUpdateRequired(true);
+            const prevTitle = dialog.title
+
             setContents({open: false, title: '', text: '', openerId: ''});
             fireActionObject({idx: otherThingIdx});
-            addToInventory({item: objectNPC.objects[otherThingIdx]})
+            if( prevTitle!== 'Nothing!') addToInventory({item: objectNPC.objects[otherThingIdx]})
         }
         else{
             setContents({open: false, title: '', text: '', openerId: ''});
@@ -133,6 +169,14 @@ const GameLoop = ({
     }
     const doAction = () => {
         console.log("action")
+        if(map ==='sky' && character.x === 5 && character.y === 6 ){
+            setContents({
+                open: true,
+                title: "Blue Dragon",
+                text: "Are you ready to enter the dungeon?\n Then let's go and rescue the princess!",
+                openerId: 'enter-dungeon'
+            })
+        }
         const otherThing = whoIsOnMap(character.x, character.y, [...npc.npcs, ...objectNPC.objects])
         console.log(otherThing)
         if (!otherThing) return
@@ -182,6 +226,7 @@ const GameLoop = ({
                     ref={canvasRef}
                     width={width}
                     height={height}
+                    id={'playerCanvas'}
             />
             {isVisible && children}
         </CanvasContext.Provider>

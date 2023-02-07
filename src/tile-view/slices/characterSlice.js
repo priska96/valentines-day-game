@@ -11,7 +11,7 @@ const characterSlice = createSlice({
     name: 'character',
     initialState: {
         x: 7,
-        y: 1,
+        y: 7,//1,
         step:0,
         dir:0,
         heroClass: 'SWORDSMAN',

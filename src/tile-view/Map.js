@@ -5,9 +5,8 @@ import {LAYERS, MAP_DIMENSIONS, TILE_SIZE} from './constants';
 import CanvasContext from './canvasContext';
 import {loadMap} from './slices/statusSlice';
 
-const mapDispatch = { loadMap };
 
-const Map = ({ loadMap }) => {
+const Map = ({ loadMap, map }) => {
     const ctx = useContext(CanvasContext);
     const {COLS, ROWS} = MAP_DIMENSIONS;
 
@@ -39,25 +38,15 @@ const Map = ({ loadMap }) => {
             }
         };
 
-        drawLayer(LAYERS[0]);
-        drawLayer(LAYERS[1]);
-        // ctx.drawImage(
-        //     document.querySelector(`#woodhouse`),
-        //     0,
-        //     0,
-        //     //17,
-        //     //13,
-        //     // x,
-        //     // y,
-        //     544,
-        //     416,
-        // );
+        drawLayer(LAYERS[map][0]);
+        drawLayer(LAYERS[map][1]);
         loadMap(true);
-    }, [COLS, ROWS, ctx, loadMap]);
+    }, [COLS, ROWS, ctx, loadMap, map]);
 
     return null;
 };
 
 
-
-export default connect(null, mapDispatch)(Map);
+const mapStateToProps = (state) => ({map: state.gameStatus.map})
+const mapDispatch = { loadMap };
+export default connect(mapStateToProps, mapDispatch)(Map);

@@ -12,6 +12,7 @@ const Grid = ({width, height, children}) => {
             ctx.moveTo(0, y);
             ctx.lineTo(width, y);
             ctx.stroke();
+            ctx.closePath();
         }
         for(let j = 0; j < width; j++) {
             const x = j * TILE_SIZE;
@@ -19,7 +20,8 @@ const Grid = ({width, height, children}) => {
             ctx.moveTo(x, 0);
             ctx.lineTo(x, height);
             ctx.stroke();
-        } 
+            ctx.closePath();
+        }
     }, [ctx, height, width]);
 
     return children;
