@@ -7,7 +7,7 @@ const statusSlice = createSlice({
         characterLoaded: false,
         npcLoaded: [false, false],
         objectLoaded: [false,false,false,false],
-        mode: 'game-won',
+        mode: 'start',
         winner: 'Jihoon',
         selectedOpponentIdx: 0,
         map: 'forest',

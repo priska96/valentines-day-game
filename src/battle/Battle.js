@@ -10,6 +10,8 @@ import {onGameEnd} from "../tile-view/slices/statusSlice";
 import {updatePlayerSummary} from "../tile-view/slices/characterSlice";
 import {setContents} from '../game-ui/slices/dialogSlice'
 import {dialogs} from "../tile-view/dialog_utils";
+import BattleMusic from "../images/battle.mp3"
+import BattleMusic2 from "../images/battle2.mp3"
 
 const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, updatePlayerSummary}) => {
     //debugger
@@ -90,6 +92,15 @@ const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, u
 
     return (
         <div className={styles.mainContainer}>
+            {npcSummary.name === "Blue Dragon"?
+                <audio id="audio" loop autoPlay>
+                    <source src={BattleMusic2} type="audio/mp3"/>
+                </audio>:
+                <audio id="audio" loop autoPlay>
+                    <source src={BattleMusic} type="audio/mp3"/>
+                </audio>
+            }
+
             <div className={styles.gameHeader}>
                 {playerSummary.name} vs {npcSummary.name}
             </div>
