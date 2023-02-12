@@ -1,5 +1,4 @@
 import React from 'react';
-
 import GameUI from './game-ui/GameUI';
 import GameLoop from './tile-view/GameLoop';
 import TileView from './tile-view/TileView';
@@ -10,9 +9,13 @@ import SimpleDialog from "./game-ui/SimpleDialog";
 import Battle from "./battle/Battle";
 import {connect} from "react-redux";
 import {onGameEnd} from "./tile-view/slices/statusSlice";
+import {setContents} from './game-ui/slices/dialogSlice'
+import Sky from "./images/sky_background.png"
+import Reward from "./images/message.mp4"
 
-function App({mode, onGameEnd}) {
+function App({mode, onGameEnd, setContents}) {
     const currentMode = mode;
+
   return (
     <>
         <header>        
@@ -21,7 +24,7 @@ function App({mode, onGameEnd}) {
             <SimpleDialog />
                 <>
                     <GameUI />
-                    <div id="stage" style={{width: 544, height: 480, backgroundImage: "url('/assets/sky_background.png')"}}>
+                    <div id="stage" style={{width: 544, height: 480, backgroundImage: Sky}}>
                     <GameLoop>
                         <TileView />
                     </GameLoop>
@@ -61,6 +64,15 @@ function App({mode, onGameEnd}) {
             {currentMode === 'game-won' ?
                 <div className={styles.gameOverContainer}>
                     <div className={styles.gameOver}>Victory!!<br/>You finished the game!</div>
+                    <div className={styles.startGameButtonContainer}>
+                        <span className={styles.startGameButton}
+                              onClick={()=> {
+                                  setContents({open: true, title: 'Please be my Valentine forever!!!', text: Reward, openerId: '', action: 'video'});
+                              }}
+                        >
+                            Open Reward
+                        </span>
+                    </div>
                 </div>
                 :''
             }
@@ -71,5 +83,5 @@ function App({mode, onGameEnd}) {
   );
 }
 const mapStateToProps = (state) => ({mode:state.gameStatus.mode})
-const mapDispatch = {onGameEnd}
+const mapDispatch = {onGameEnd, setContents}
 export default connect(mapStateToProps, mapDispatch)(App);

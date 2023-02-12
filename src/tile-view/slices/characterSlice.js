@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
+import JihoonFight from "./../../images/heroes/jihoon_fight.png"
+import JihoonPortrait from "./../../images/heroes/jihoon_portrait.png"
 
 const directions = {
     s: 0,
@@ -21,14 +23,14 @@ const characterSlice = createSlice({
             health: 20,
             maxHealth: 177,
             name: 'Jihoon',
-            img: '/assets/heroes/jihoon_fight.png',
+            img: JihoonFight,
 
             magic: 32,
             attack: 50,
             defense: 30,
             magicDefense: 30,
         },
-        portrait: '/assets/heroes/jihoon_portrait.png',
+        portrait: JihoonPortrait,
         inventory:[]
     },
     reducers: {

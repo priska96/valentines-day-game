@@ -1,4 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
+import BlueDragonFight from "./../../images/heroes/blue-dragon_fight.png"
+import EvilKingFight from "./../../images/heroes/evil-king_fight.png"
 
 const directions = {
     s: 0,
@@ -26,7 +28,7 @@ const npcSlice = createSlice({
                 npcSummary: {
                     main: false,
                     name: 'Blue Dragon',
-                    img: '/assets/heroes/blue-dragon_fight.png',
+                    img: BlueDragonFight,
                     level: 2,
                     health: 150,
                     maxHealth: 150,
@@ -52,7 +54,7 @@ const npcSlice = createSlice({
                 npcSummary: {
                     main: false,
                     name: 'Evil King',
-                    img: '/assets/heroes/evil-king_fight.png',
+                    img: EvilKingFight,
                     level: 10,
                     health: 355,
                     maxHealth: 355,

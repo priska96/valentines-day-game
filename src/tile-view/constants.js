@@ -1,10 +1,8 @@
+import React from "react";
+
 export const TILE_SIZE = 32;
 
-export const MAP_DIMENSIONS2 = {
-    COLS: 17,
-    ROWS: 13,
-    TILE_SIZE,
-};
+
 export const MAP_DIMENSIONS = {
     COLS: 17,
     ROWS: 15,

@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import CanvasContext from './canvasContext';
 import {bufferBackgroundImage, loadBackground} from "./slices/statusSlice";
+import Sky from "../images/sky_background.png"
 
 const BackgroundView = ({backgroundImg, bufferBackgroundImage}) => {
     const ctx = useContext(CanvasContext);
@@ -13,12 +14,12 @@ const BackgroundView = ({backgroundImg, bufferBackgroundImage}) => {
             ctx.drawImage(document.querySelector(backgroundImg), 0, 0);
         }
         loadBackground(true);
-    }, [ctx, loadBackground])
+    }, [ctx, backgroundImg])
 
     return (
         <img
             id="skybackground"
-            src='/assets/sky_background.png'
+            src={Sky}
             alt='background'
             ref={imgRef}
             className="images-buffer"
