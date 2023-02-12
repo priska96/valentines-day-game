@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/valentines-day-game/precache-manifest.e485858b03b9d78dad92752bddd1b741.js"
+  "/valentines-day-game/precache-manifest.83fa2eb89b5849202eddaf89aa45d52a.js"
 );
 
 self.addEventListener('message', (event) => {
