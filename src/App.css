@@ -22,3 +22,7 @@ main {
 .game-ui__inventory span{
   padding: 10px;
 }
+.healingItem{
+  text-decoration: underline;
+  color: rgba(24, 161, 203, 1);
+}

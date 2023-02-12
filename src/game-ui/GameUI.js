@@ -18,8 +18,7 @@ const GameUI = ({character, updatePlayerSummary}) => {
                     {inventory.map((item, idx)=>{
                         return (
                             <span key={idx}>
-                                <span>{item.item}: </span >
-                                <span onClick={()=> {
+                                <span className={item.healing>0?"healingItem":""} onClick={()=> {
                                     if(item.healing >0) {
                                         const newHealth = playerSummary.health + item.healing > playerSummary.maxHealth?
                                             playerSummary.maxHealth : playerSummary.health + item.healing

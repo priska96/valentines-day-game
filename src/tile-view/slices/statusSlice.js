@@ -7,8 +7,9 @@ const statusSlice = createSlice({
         characterLoaded: false,
         npcLoaded: [false, false],
         objectLoaded: [false,false,false,false],
-        mode: 'world',
-        winner: undefined,
+        mode: 'start',
+        winner: 'Jihoon',
+        selectedOpponentIdx: 0,
         map: 'forest',
         backgroundImg: null,
         backgroundImgLoaded: false,
@@ -34,6 +35,7 @@ const statusSlice = createSlice({
         onGameEnd(state, action){
             state.mode = action.payload.mode;
             state.winner = action.payload.winner;
+            state.selectedOpponentIdx = action.payload.selectedOpponentIdx;
         },
         changeMap(state, action){
             state.map = action.payload;

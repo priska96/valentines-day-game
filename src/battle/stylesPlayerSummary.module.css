@@ -1,12 +1,12 @@
 .main {
-    width: 500px;
-    height: 150px;
+    width: 300px;
+    height: 80px;
     border-radius: 10px;
     box-shadow: 0 0 3px black;
 
     color: white;
 
-    padding: 25px;
+    padding: 10px;
     box-sizing: border-box;
 
     display: flex;
@@ -21,7 +21,7 @@
 
 .name,
 .level {
-    font-size: 32px;
+    font-size: 22px;
 }
 
 .health{

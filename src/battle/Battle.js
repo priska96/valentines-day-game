@@ -4,18 +4,18 @@ import { wait } from './shared/helpers';
 import styles from './stylesBattle.module.css';
 import {PlayerSummary} from "./PlayerSummary";
 import {useAIOpponent, useBattleSequence} from "./hooks";
-import {opponentStats, playerStats} from "./shared/characters";
 import {BattleMenu} from "./BattleMenu";
 import {BattleAnnouncer} from "./BattleAnnouncer";
 import {onGameEnd} from "../tile-view/slices/statusSlice";
 import {updatePlayerSummary} from "../tile-view/slices/characterSlice";
 import {setContents} from '../game-ui/slices/dialogSlice'
+import {dialogs} from "../tile-view/dialog_utils";
 
-const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) => {
-    debugger
+const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, updatePlayerSummary}) => {
+    //debugger
     const [sequence, setSequence] = useState({});
     const {playerSummary} = character;
-    const { npcSummary} = npc;
+    const { npcSummary} = npcs[selectedOpponentIdx];
 
 
     const {
@@ -26,7 +26,7 @@ const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) =
         playerAnimation,
         opponentAnimation,
         announcerMessage,
-    } = useBattleSequence(sequence);
+    } = useBattleSequence(sequence, playerSummary, npcSummary);
 
     const aiChoice = useAIOpponent(turn);
     useEffect(() => {
@@ -40,13 +40,49 @@ const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) =
         if (playerHealth === 0 || opponentHealth === 0) {
             (async () => {
                 await wait(1000);
-                onGameEnd(playerHealth === 0 ? {mode:'world' , winner: opponentStats} : {mode:'world' , winner: playerStats});
+                onGameEnd(playerHealth === 0 ? {mode:'world' , winner: npcSummary.name} : {mode:'world' , winner: playerSummary.name});
             })();
             if(opponentHealth === 0){
-                setContents(
-                {open: true, title: 'Blue Dragon', text: 'You are a true swordsman! I believe you are ready to fight the evil King and resuce the princess!', openerId: ''}
-                )
-                updatePlayerSummary({level: 3, health: playerHealth, maxHealth: 250})
+                if(npcSummary.name === 'Blue Dragon') {
+                    updatePlayerSummary({
+                        level: 3,
+                        health: playerHealth,
+                        maxHealth: 250,
+                        attack: 70,
+                        magic: 55,
+                        defense: 45,
+                        magicDefense: 35
+                    })
+                    setTimeout(()=> {
+                        setContents(dialogs.forest["npc-0"].afterFight.won.content)
+                        },500
+                    )
+                }
+                if(npcSummary.name === 'Evil King') {
+                    updatePlayerSummary({
+                        level: 12,
+                        health: playerHealth,
+                        maxHealth: 450,
+                        attack: 100,
+                        magic: 75,
+                        defense: 55,
+                        magicDefense: 55
+                    })
+                    setTimeout(()=> {
+                        setContents(dialogs.evilKing["npc-1"].afterFight.won.content)
+                        },500
+                    )
+                }
+            }
+            if(playerHealth === 0){
+                if(npcSummary.name === 'Blue Dragon'){
+                    setContents(dialogs.forest["npc-0"].afterFight.lost.content)
+                }
+                else if (npcSummary.name === 'Evil King'){
+                    setContents(dialogs.evilKing["npc-1"].afterFight.lost.content)
+                }
+
+                updatePlayerSummary({health: playerHealth})
             }
         }
         return()=>{setSequence({})}
@@ -54,23 +90,23 @@ const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) =
 
     return (
         <div className={styles.mainContainer}>
-
+            <div className={styles.gameHeader}>
+                {playerSummary.name} vs {npcSummary.name}
+            </div>
             <div className={styles.opponent}>
                 <div className={styles.summary}>
                     <PlayerSummary
                         main={false}
                         health={opponentHealth}
-                        name={opponentStats.name}
-                        level={opponentStats.level}
-                        maxHealth={opponentStats.maxHealth}
+                        name={npcSummary.name}
+                        level={npcSummary.level}
+                        maxHealth={npcSummary.maxHealth}
                     />
                 </div>
             </div>
 
             <div className={styles.characters}>
-                <div className={styles.gameHeader}>
-                    {playerSummary.name} vs {opponentStats.name}
-                </div>
+
                 <div className={styles.gameImages}>
                     <div className={styles.playerSprite}>
                         <img
@@ -81,8 +117,8 @@ const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) =
                     </div>
                     <div className={styles.opponentSprite}>
                         <img
-                            alt={opponentStats.name}
-                            src={opponentStats.img}
+                            alt={npcSummary.name}
+                            src={npcSummary.img}
                             className={styles[opponentAnimation]}
                         />
                     </div>
@@ -123,6 +159,6 @@ const Battle = ({character, npc, onGameEnd, setContents, updatePlayerSummary}) =
     );
 }
 
-const mapStateToProps = (state) => ({character:{...state.character}, npc:{...state.npc}})
+const mapStateToProps = (state) => ({character:{...state.character}, npcs:[...state.npc.npcs], selectedOpponentIdx: state.gameStatus.selectedOpponentIdx})
 const mapDispatch =  {onGameEnd, setContents, updatePlayerSummary}
 export default connect(mapStateToProps, mapDispatch)(Battle);

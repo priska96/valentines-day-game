@@ -7,7 +7,8 @@ const dialogSlice = createSlice({
         open: false,
         title: '',
         text: '',
-        openerId: ''
+        openerId: '',
+        action: ''
     },
     reducers: {
         setContents(state, action) {
@@ -16,6 +17,7 @@ const dialogSlice = createSlice({
             state.title = action.payload.title;
             state.text = action.payload.text;
             state.openerId = action.payload.openerId;
+            state.action = action.payload.action;
         },
     }
 });

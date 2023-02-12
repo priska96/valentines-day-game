@@ -4,19 +4,15 @@ import {
   heal,
   attack,
 } from '../shared/helpers';
-import {
-  playerStats,
-  opponentStats,
-} from '../shared/characters';
 import { useEffect, useState } from 'react';
 
-export const useBattleSequence = sequence => {
+export const useBattleSequence = (sequence, playerSummary, npcSummary) => {
   const [turn, setTurn] = useState(0);
   const [inSequence, setInSequence] = useState(false);
 
-  const [playerHealth, setPlayerHealth] = useState(playerStats.maxHealth);
+  const [playerHealth, setPlayerHealth] = useState(playerSummary.maxHealth);
   const [opponentHealth, setOpponentHealth] = useState(
-    opponentStats.maxHealth,
+      npcSummary.maxHealth,
   );
 
   const [announcerMessage, setAnnouncerMessage] = useState('');
@@ -28,8 +24,8 @@ export const useBattleSequence = sequence => {
     const { mode, turn } = sequence;
 
     if (mode) {
-      const attacker = turn === 0 ? playerStats : opponentStats;
-      const receiver = turn === 0 ? opponentStats : playerStats;
+      const attacker = turn === 0 ? playerSummary : npcSummary;
+      const receiver = turn === 0 ? npcSummary : playerSummary;
 
       switch (mode) {
         case 'attack': {
@@ -64,7 +60,7 @@ export const useBattleSequence = sequence => {
               : setPlayerHealth(h => (h - damage > 0 ? h - damage : 0)); // We don't want a negative HP.
             await wait(2000);
 
-            setAnnouncerMessage(`Now it's ${receiver.name} turn!`);
+            setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
             await wait(1500);
 
             setTurn(turn === 0 ? 1 : 0);
@@ -101,7 +97,7 @@ export const useBattleSequence = sequence => {
               ? setOpponentAnimation('static')
               : setPlayerAnimation('static');
             setAnnouncerMessage(
-              `${receiver.name} doesn't know what hit them!`,
+              `${receiver.name} doesn't know what hit him!`,
             );
             turn === 0
               ? setOpponentHealth(h => (h - damage > 0 ? h - damage : 0))

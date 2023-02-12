@@ -11,7 +11,7 @@ export const playerStats = {
   portrait: '/assets/heroes/jihoon_portrait.png',
 };
 export const opponentStats = {
-  level: 1,
+  level: 2,
   name: 'Blue Dragon',
   maxHealth: 80,
   img: '/assets/heroes/evil-king_fight.png',

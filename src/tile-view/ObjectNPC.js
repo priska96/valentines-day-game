@@ -7,12 +7,12 @@ import {TILE_SIZE} from './constants';
 import {bufferImage} from './slices/objectSlice';
 import {loadObject} from './slices/statusSlice';
 
-const ObjectNPC = ({id, x, y, objectImg, idx,  loadObject, bufferImage, tookItem}) => {
+const ObjectNPC = ({id, x, y, objectImg, map, idx,  loadObject, bufferImage, tookItem, currentMap}) => {
     const ctx = useContext(CanvasContext);
     const imgRef = useRef(null);
 
     useEffect(() => {
-        if (objectImg) {
+        if (objectImg && map.includes(currentMap )) {
             ctx.drawImage(
                 document.querySelector(objectImg),
                 0* 32,
@@ -27,7 +27,7 @@ const ObjectNPC = ({id, x, y, objectImg, idx,  loadObject, bufferImage, tookItem
             loadObject({idx: idx, val:true});
         }
         return ()=>{}
-    }, [ctx, loadObject, tookItem]);
+    }, [ctx, loadObject, tookItem, currentMap]);
 
     return (
         <img
@@ -51,13 +51,13 @@ const ObjectNPCs = (props) => {
     return(
         <div>
             {props.objects.map((elem, idx)=>{
-               return ObjectNPC({...elem, idx, bufferImage:props.bufferImage, loadObject: props.loadObject})
+               return ObjectNPC({...elem, idx, bufferImage:props.bufferImage, loadObject: props.loadObject, currentMap: props.currentMap})
             })}
         </div>
     );
 };
 
-const mapStateToProps = (state) => (state.objectNPC);
+const mapStateToProps = (state) => ({...state.objectNPC, currentMap: state.gameStatus.map,});
 
 const mapDispatch = {loadObject, bufferImage};
 

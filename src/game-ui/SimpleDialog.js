@@ -2,10 +2,7 @@ import * as React from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContentText from '@mui/material/DialogContentText';
-import {setContents} from "./slices/dialogSlice";
 import {connect} from "react-redux";
-import {fireAction} from "../tile-view/slices/npcSlice";
-import {fireAction as fireActionObject} from "../tile-view/slices/objectSlice"
 import {styled} from "@mui/material";
 
 
@@ -25,23 +22,11 @@ export const GameUIDialog = styled(Dialog)`
 `;
 
 
-function SimpleDialog({dialog, npc, objectNPC, setContents, fireAction}) {
+function SimpleDialog({dialog}) {
     const {open, title, text} = dialog
 
-    const handleClose = () => {
-        const openerId = dialog.openerId;
-        const otherThingIdx = parseInt(openerId.split('-')[1])
-        setContents({open: false, title: '', text: '', openerId: ''});
-        if (openerId.startsWith("object-")) {
-            fireActionObject({idx: otherThingIdx});
-        } else {
-            fireAction({idx: otherThingIdx});
-        }
-    };
-
-
     return (
-        <GameUIDialog onClose={handleClose} open={open} fullWidth>
+        <GameUIDialog  open={open} fullWidth>
             <DialogTitle>{title}</DialogTitle>
             <DialogContentText>
                 {text}
@@ -50,8 +35,6 @@ function SimpleDialog({dialog, npc, objectNPC, setContents, fireAction}) {
     );
 }
 
-const mapStateToProps = ({dialog, npc, objectNPC}) => ({dialog, npc, objectNPC});
+const mapStateToProps = ({dialog}) => ({dialog});
 
-const mapDispatch = {fireAction, setContents};
-
-export default connect(mapStateToProps, mapDispatch)(SimpleDialog);
+export default connect(mapStateToProps)(SimpleDialog);

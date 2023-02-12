@@ -21,13 +21,20 @@ const npcSlice = createSlice({
                 heroImg: null,
                 stopMoving: false,
                 type: 'npc',
-                map:['forest', 'evilKing'],
+                map:['forest', 'sky'],
+                dead: false,
                 npcSummary: {
                     main: false,
                     name: 'Blue Dragon',
-                    level: 0,
-                    health: 100,
-                    maxHealth: 100,
+                    img: '/assets/heroes/blue-dragon_fight.png',
+                    level: 2,
+                    health: 150,
+                    maxHealth: 150,
+
+                    magic: 42,
+                    attack: 70,
+                    defense: 30,
+                    magicDefense: 30,
                 }
             },
             {
@@ -41,12 +48,18 @@ const npcSlice = createSlice({
                 stopMoving: false,
                 type: 'npc',
                 map:['evilKing'],
+                dead: false,
                 npcSummary: {
                     main: false,
                     name: 'Evil King',
+                    img: '/assets/heroes/evil-king_fight.png',
                     level: 10,
                     health: 355,
                     maxHealth: 355,
+                    magic: 70,
+                    attack: 65,
+                    defense: 40,
+                    magicDefense: 40,
                 }
             },
             {
@@ -60,6 +73,7 @@ const npcSlice = createSlice({
                 stopMoving: false,
                 type: 'npc',
                 map:['evilKing'],
+                dead: false,
                 npcSummary: {
                     main: false,
                     name: 'Pri',

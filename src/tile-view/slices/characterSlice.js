@@ -43,16 +43,24 @@ const characterSlice = createSlice({
             state.heroImg = action.payload;
         },
         addToInventory(state, action){
-            debugger
+            //debugger
             console.log('toinventar')
             state.inventory.push(action.payload.item);
         },
+        updatePlayerPosition(state, action) {
+            console.log(action.payload)
+            state.x = action.payload.x;
+            state.y = action.payload.y;
+            state.step = action.payload.step;
+            state.dir = action.payload.dir;
+        },
+
         updatePlayerSummary(state, action) {
             state.playerSummary = {...state.playerSummary, ...action.payload};
         },
     }
 });
 
-export const { move, bufferImage, addToInventory, updatePlayerSummary } = characterSlice.actions;
+export const { move, bufferImage, addToInventory, updatePlayerPosition, updatePlayerSummary } = characterSlice.actions;
 
 export default characterSlice.reducer;

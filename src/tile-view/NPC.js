@@ -2,13 +2,14 @@ import React, {useEffect, useContext, useRef} from 'react';
 import {connect} from 'react-redux';
 
 import CanvasContext from './canvasContext';
-import {NPC_SPRITE, NPC_IMAGE_SIZE} from '../constants';
+import {NPC_SPRITE, NPC_IMAGE_SIZE, EVIL_KING_DEAD} from '../constants';
 import {TILE_SIZE} from './constants';
 import {bufferImage} from './slices/npcSlice';
 import {loadNPC} from './slices/statusSlice';
 
 const NPC = ({id, x, y ,step=0, dir=0,
                  heroImg,
+                 dead,
                  idx,
                  loadNPC, bufferImage,
                  map, currentMap, }) => {
@@ -46,7 +47,7 @@ const NPC = ({id, x, y ,step=0, dir=0,
                     }
                 }
                 className={"images-buffer"}
-                src={NPC_SPRITE[id]}
+                src={!dead? NPC_SPRITE[id] : EVIL_KING_DEAD}
             />
         );
 };

@@ -10,11 +10,13 @@ export const NPC_SPRITE  = {
     "npc-2": 'assets/heroes/priska.png',
     "npc-3": 'assets/heroes/blue-dragon.png',
 };
-
+export const EVIL_KING_DEAD = 'assets/heroes/evil-king_dead.png'
 export const OBJECT_NPC_SPRITE  = {
     "object-0": ['assets/map/PineTools.com_files/row-6-column-1.png','assets/map/PineTools.com_files/row-6-column-3.png'],
     "object-1": ['assets/map/PineTools.com_files/row-6-column-1.png','assets/map/PineTools.com_files/row-6-column-3.png'],
     "object-2": ['assets/map/PineTools.com_files/row-11-column-7.png','assets/map/PineTools.com_files/row-11-column-6.png'],
     "object-3": ['assets/map/PineTools.com_files/row-12-column-6.png','assets/map/PineTools.com_files/row-11-column-6.png'],
     "object-4": ['assets/map/PineTools.com_files/row-6-column-1.png','assets/map/PineTools.com_files/row-6-column-3.png'],
+    "object-5": ['assets/map/evil/row-15-column-4.png','assets/map/evil/row-15-column-5.png'],
+    "object-6": ['assets/map/evil/row-16-column-4.png','assets/map/evil/row-16-column-5.png'],
 };
