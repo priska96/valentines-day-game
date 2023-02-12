@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/valentines-day-game/static/css/main.6a38841c.chunk.css",
+    "main.js": "/valentines-day-game/static/js/main.80e0f421.chunk.js",
+    "main.js.map": "/valentines-day-game/static/js/main.80e0f421.chunk.js.map",
+    "runtime-main.js": "/valentines-day-game/static/js/runtime-main.a3842296.js",
+    "runtime-main.js.map": "/valentines-day-game/static/js/runtime-main.a3842296.js.map",
+    "static/js/2.7580b298.chunk.js": "/valentines-day-game/static/js/2.7580b298.chunk.js",
+    "static/js/2.7580b298.chunk.js.map": "/valentines-day-game/static/js/2.7580b298.chunk.js.map",
+    "index.html": "/valentines-day-game/index.html",
+    "precache-manifest.a1941c951b6493749334466d374b47fb.js": "/valentines-day-game/precache-manifest.a1941c951b6493749334466d374b47fb.js",
+    "service-worker.js": "/valentines-day-game/service-worker.js",
+    "static/css/main.6a38841c.chunk.css.map": "/valentines-day-game/static/css/main.6a38841c.chunk.css.map",
+    "static/js/2.7580b298.chunk.js.LICENSE.txt": "/valentines-day-game/static/js/2.7580b298.chunk.js.LICENSE.txt",
+    "static/js/main.80e0f421.chunk.js.LICENSE.txt": "/valentines-day-game/static/js/main.80e0f421.chunk.js.LICENSE.txt",
+    "static/media/blue-dragon_fight.png": "/valentines-day-game/static/media/blue-dragon_fight.e8fd23c4.png",
+    "static/media/evil-king_fight.png": "/valentines-day-game/static/media/evil-king_fight.d51a0382.png",
+    "static/media/jihoon_fight.png": "/valentines-day-game/static/media/jihoon_fight.4be66f58.png",
+    "static/media/jihoon_portrait.png": "/valentines-day-game/static/media/jihoon_portrait.f0e390ff.png",
+    "static/media/message.mp4": "/valentines-day-game/static/media/message.5c58ce2c.mp4",
+    "static/media/sky_background.png": "/valentines-day-game/static/media/sky_background.01c9cfab.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a3842296.js",
+    "static/js/2.7580b298.chunk.js",
+    "static/css/main.6a38841c.chunk.css",
+    "static/js/main.80e0f421.chunk.js"
+  ]
+}
