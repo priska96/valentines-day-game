@@ -7,7 +7,7 @@ import {useAIOpponent, useBattleSequence} from "./hooks";
 import {BattleMenu} from "./BattleMenu";
 import {BattleAnnouncer} from "./BattleAnnouncer";
 import {onGameEnd} from "../tile-view/slices/statusSlice";
-import {updatePlayerSummary} from "../tile-view/slices/characterSlice";
+import {updatePlayerSummary} from "../tile-view/character/slices/characterSlice";
 import {setContents} from '../game-ui/slices/dialogSlice'
 import {dialogs} from "../tile-view/dialog_utils";
 import BattleMusic from "../images/battle.mp3"
