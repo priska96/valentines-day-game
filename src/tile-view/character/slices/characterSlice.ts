@@ -26,11 +26,11 @@ export interface CharacterState {
 }
 
 
-interface AddToInventoryAction {
+export interface AddToInventoryAction {
         item: any; // You may want to replace 'any' with a specific type for items
 }
 
-interface UpdatePlayerPositionAction {
+export interface UpdatePlayerPositionAction {
         x: number;
         y: number;
         step: number;
@@ -65,7 +65,7 @@ const characterSlice = createSlice({
             name: "Jihoon",
             img: JihoonFight,
             magic: 32,
-            attack: 50,
+            attack: 100,
             defense: 30,
             magicDefense: 30,
         },

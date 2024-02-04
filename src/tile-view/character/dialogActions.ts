@@ -1,13 +1,28 @@
 import {battleEvilKind, enterDungeon, gameOver, gameWon, goToSky, leaveDungeon, victory} from "../action_utils";
 import {dialogs} from "../dialog_utils";
 import {fullyGeared, whoIsOnMap} from "../utils";
-import {ObjectNPC, ObjectState, fireAction as fireActionObject, updateObject} from "../objectNPC/slices/objectSlice";
-import {addToInventory, CharacterState, updatePlayerPosition} from "./slices/characterSlice";
-import {fireAction, NPCState, updateNPC} from "../npc/slices/npcSlice";
-import {DialogState, setContents} from "../../game-ui/slices/dialogSlice";
-import {changeMap, onGameEnd} from "../slices/statusSlice";
+import {ObjectNPC, ObjectState, UpdateObjectAction} from "../objectNPC/slices/objectSlice";
+import {AddToInventoryAction, CharacterState, UpdatePlayerPositionAction} from "./slices/characterSlice";
+import {FireAction, NPCState, UpdateNPCAction} from "../npc/slices/npcSlice";
+import {DialogState} from "../../game-ui/slices/dialogSlice";
+import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
+import {OnGameEndAction} from "../slices/statusSlice";
 
-export const finishAction = (dialog: DialogState, npc: NPCState, objectNPC: ObjectState, setIsUpdateRequired: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const finishAction = (
+    dialog: DialogState,
+    npc: NPCState,
+    objectNPC: ObjectState,
+    setIsUpdateRequired: React.Dispatch<React.SetStateAction<boolean>>,
+    setContents: ActionCreatorWithPayload<any, "dialog/setContents">,
+    fireAction: ActionCreatorWithPayload<FireAction, "npc/fireAction">,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, "gameStatus/onGameEnd">,
+    changeMap: ActionCreatorWithPayload<string, "gameStatus/changeMap">,
+    updatePlayerPosition:  ActionCreatorWithPayload<UpdatePlayerPositionAction, "character/updatePlayerPosition">,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, "npc/updateNPC">,
+    updateObject:  ActionCreatorWithPayload<UpdateObjectAction, "objectNPC/updateObject">,
+    fireActionObject:  ActionCreatorWithPayload<FireAction, "objectNPC/fireAction">,
+    addToInventory:  ActionCreatorWithPayload<AddToInventoryAction, "character/addToInventory">
+    ) => {
     console.log("finish action")
     const openerId = dialog.openerId;
     const otherThingIdx = parseInt(openerId.split('-')[1])
@@ -49,7 +64,16 @@ export const finishAction = (dialog: DialogState, npc: NPCState, objectNPC: Obje
         setContents({open: false, title: '', text: '', openerId: '', action: ''});
     }
 }
-export const doAction = (map: string, character: CharacterState, npc: NPCState, objectNPC: ObjectState, winner:string|undefined, ) => {
+
+export const doAction = (
+    map: string,
+    character: CharacterState,
+    npc: NPCState, objectNPC: ObjectState,
+    winner:string|undefined,
+    setContents: ActionCreatorWithPayload<any, "dialog/setContents">,
+    fireAction: ActionCreatorWithPayload<FireAction, "npc/fireAction">,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, "gameStatus/onGameEnd">
+) => {
     console.log("action")
     if(map ==='sky' && character.x === 5 && character.y === 6 ){
         setContents(dialogs.sky["npc-0"].enterDungeon.content)

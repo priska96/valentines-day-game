@@ -25,7 +25,7 @@ export interface BufferImageAction {
         objectImg: any;
 }
 
-interface UpdateObjectAction {
+export interface UpdateObjectAction {
         idx: number[];
         [key: string]: any;
 }

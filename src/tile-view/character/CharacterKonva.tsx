@@ -1,15 +1,17 @@
-import React, {useEffect, useContext, useRef, useCallback, useState} from 'react';
+import React, {useEffect, useRef, useCallback, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import {Image, Sprite} from "react-konva";
+import {Sprite} from "react-konva";
 
 import {RootState} from "../../store";
-import {move} from './slices/characterSlice';
-import {changeMap, loadCharacter} from '../slices/statusSlice';
+import {addToInventory, move, updatePlayerPosition} from './slices/characterSlice';
+import {changeMap, loadCharacter, onGameEnd} from '../slices/statusSlice';
 import {HERO_IMAGE_SIZE} from "../../constants";
 import {MOVE_DIRECTIONS, MoveDirectionsInterface, TILE_SIZE} from "../constants";
 import {checkMapCollision} from "../utils";
-import {updateNPC} from "../npc/slices/npcSlice";
+import {fireAction, updateNPC} from "../npc/slices/npcSlice";
 import {doAction, finishAction} from "./dialogActions";
+import {setContents} from "../../game-ui/slices/dialogSlice";
+import {updateObject, fireAction as fireActionObject} from "../objectNPC/slices/objectSlice";
 
 const CharacterKonva : React.FC<PropsFromRedux> = (
     {x, y, step=0, dir=0,
@@ -22,7 +24,15 @@ const CharacterKonva : React.FC<PropsFromRedux> = (
         dialog,
         winner,
         move,
-        loadCharacter, changeMap,updateNPC
+        loadCharacter,
+        changeMap,updateNPC,
+        setContents,
+        fireAction,
+        onGameEnd,
+        updatePlayerPosition,
+        updateObject,
+        fireActionObject,
+        addToInventory
         }:PropsFromRedux) => {
 const spriteRef = useRef<any>(null)
     const [isUpdateRequired, setIsUpdateRequired] = useState(false);
@@ -59,9 +69,23 @@ const spriteRef = useRef<any>(null)
         }
 
         if (key === "Enter") {
-            //debugger
+            debugger
             if (dialog.open) {
-                finishAction(dialog, npc, objectNPC,setIsUpdateRequired);
+                finishAction(
+                    dialog,
+                    npc,
+                    objectNPC,
+                    setIsUpdateRequired,
+                    setContents,
+                    fireAction,
+                    onGameEnd,
+                    changeMap,
+                    updatePlayerPosition,
+                    updateNPC,
+                    updateObject,
+                    fireActionObject,
+                    addToInventory
+            );
             } else {
                 doAction(
                     map,
@@ -70,14 +94,17 @@ const spriteRef = useRef<any>(null)
                     heroImg,
                     playerSummary,
                     inventory, portrait},
-                    npc, objectNPC, winner);
+                    npc, objectNPC, winner,
+                setContents,
+                    fireAction,
+                    onGameEnd);
             }
         }
         if(key === 'm'){
             changeMap('sky');
             updateNPC({idx:[2,1],'data-1':{ x:8 ,y: 3, stopMoving:true},'data-2':{ x:3 ,y: 13}})
         }
-    },[spriteRef, move, x, y, step, dir])
+    },[spriteRef, move, x, y, step, dir, dialog])
 
     useEffect(() => {
         document.addEventListener('keypress', moveCharacter);
@@ -133,7 +160,19 @@ const mapStateToProps = (state: RootState) => (
         dialog: state.dialog
     });
 
-const mapDispatch = {loadCharacter, move, changeMap, updateNPC};
+const mapDispatch = {
+    loadCharacter,
+    move,
+    changeMap,
+    updateNPC,
+    setContents,
+    fireAction,
+    onGameEnd,
+    updatePlayerPosition,
+    updateObject,
+    fireActionObject,
+    addToInventory
+};
 
 const connector = connect(mapStateToProps, mapDispatch)
 

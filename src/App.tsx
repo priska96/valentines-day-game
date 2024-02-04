@@ -3,8 +3,8 @@ import GameUI from './game-ui/GameUI';
 
 import './App.css';
 import styles from './stylesApp.module.css';
-//import SimpleDialog from "./game-ui/SimpleDialog";
-//import Battle from "./battle/Battle";
+import SimpleDialog from "./game-ui/SimpleDialog";
+import Battle from "./battle/Battle";
 import {connect, ConnectedProps} from "react-redux";
 import {onGameEnd} from "./tile-view/slices/statusSlice";
 import {setContents} from './game-ui/slices/dialogSlice'
@@ -22,7 +22,6 @@ import NPCBuffer from "./tile-view/npc/NPCBuffer";
 import NPCKonva from "./tile-view/npc/NPCKonva";
 import ObjectNPCBuffer from "./tile-view/objectNPC/ObjectNPCBuffer";
 import ObjectNPCKonva from "./tile-view/objectNPC/ObjectNPCKonva";
-import SimpleDialog from "./game-ui/SimpleDialog";
 
 
 function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
@@ -33,9 +32,9 @@ function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
         <header>
         </header>
         <main className="content">
-          <SimpleDialog />
           <>
-            <GameUI />
+              <SimpleDialog/>
+                <GameUI />
 
               <BackgroundView/>
               <ImagesBuffer />
@@ -54,13 +53,6 @@ function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
                     <ObjectNPCKonva/>
               </Stage>
             }
-          {/*  <div id="stage" style={{width: 544, height: 480, backgroundImage: Sky}}>
-              <GameLoop>
-
-                <TileView />
-
-              </GameLoop>
-            </div>*/}
           </>
           {currentMode === 'start' ?
               <div className={styles.gameOverContainer}>
@@ -83,10 +75,10 @@ function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
               </div>
               :''
           }
-          {/*{currentMode === 'battle' ?
+          {currentMode === 'battle' ?
               <Battle/>
               :''
-          }*/}
+          }
           {currentMode === 'game-over' ?
               <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>Game Over</div>

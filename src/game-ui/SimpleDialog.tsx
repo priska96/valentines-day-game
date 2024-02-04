@@ -32,7 +32,7 @@ function SimpleDialog({dialog}:PropsFromRedux) {
         }
         return (<DialogContentText>{text}</DialogContentText>)
     }
-
+console.log("open", open)
 
     return (
         <Dialog

@@ -48,11 +48,11 @@ export interface BufferImageAction {
         heroImg: null | string;
 }
 
-interface FireAction {
+export interface FireAction {
         idx: number;
 }
 
-interface UpdateNPCAction {
+export interface UpdateNPCAction {
         idx: number[];
         [key: string]: any;
 }

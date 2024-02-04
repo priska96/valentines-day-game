@@ -22,7 +22,7 @@ export interface LoadObjectAction {
         val: boolean;
 }
 
-interface OnGameEndAction {
+export interface OnGameEndAction {
         mode: string|undefined;
         winner: string|undefined;
         selectedOpponentIdx: number;
