@@ -8,7 +8,7 @@ const mapImagesSlice = createSlice({
     name: 'images',
     initialState: {} as MapState,
     reducers: {
-        bufferImage(state, action: PayloadAction<string>) {
+        bufferMapImage(state, action: PayloadAction<string>) {
             const path = action.payload;
             if (path) {
                 state[path] = 1;
@@ -17,6 +17,6 @@ const mapImagesSlice = createSlice({
     }
 });
 
-export const { bufferImage } = mapImagesSlice.actions;
+export const { bufferMapImage } = mapImagesSlice.actions;
 
 export default mapImagesSlice.reducer;

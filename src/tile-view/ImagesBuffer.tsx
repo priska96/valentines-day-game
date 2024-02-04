@@ -2,9 +2,9 @@ import React from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 
 import {MAP_TILE_IMAGES} from './constants';
-import {bufferImage} from './slices/mapImagesSlice';
+import {bufferMapImage} from './slices/mapImagesSlice';
 
-const ImagesBuffer = ({ bufferImage }:PropsFromRedux) => {
+const ImagesBuffer = ({ bufferMapImage }:PropsFromRedux) => {
     return (
         <div className="images-buffer">
         {
@@ -15,7 +15,7 @@ const ImagesBuffer = ({ bufferImage }:PropsFromRedux) => {
                         id={`map-tile-img-${key}`} 
                         src={`${MAP_TILE_IMAGES[key]}`}
                         alt={`map-tile-${key}`}
-                        onLoad={() => { bufferImage(MAP_TILE_IMAGES[key]); }}
+                        onLoad={() => { bufferMapImage(MAP_TILE_IMAGES[key]); }}
                     />
                 );
             })
@@ -25,7 +25,7 @@ const ImagesBuffer = ({ bufferImage }:PropsFromRedux) => {
 }
 
 
-const mapDispatch = { bufferImage };
+const mapDispatch = { bufferMapImage };
 
 const connector = connect(null, mapDispatch)
 
