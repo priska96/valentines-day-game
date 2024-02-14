@@ -21,7 +21,7 @@ interface ObjectNPCProps {
     currentMap: string
 }
 
-const ObjectNPC: React.FC<ObjectNPCProps> = ({id, x, y, objectImg, map, idx,  loadObject, currentMap}: ObjectNPCProps) => {
+const ObjectNPC: React.FC<ObjectNPCProps> = ({ x, y, objectImg, map, idx,  loadObject, currentMap}: ObjectNPCProps) => {
 
     useEffect(() => {
         if (objectImg && map.includes(currentMap ) ) {

@@ -21,7 +21,7 @@ interface ObjectNPCProps {
 }
 
 const ObjectNPC: React.FC<ObjectNPCProps> = ({
-                                                 id, x, y,
+                                                 id,
                                                  idx,
                                                  bufferImage,
                                                  tookItem

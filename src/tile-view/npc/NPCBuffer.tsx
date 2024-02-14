@@ -12,7 +12,7 @@ interface NPCProps extends NPCInterface {
     bufferImage: ActionCreatorWithPayload<BufferImageAction, "npc/bufferImage">;
 }
 const NPC : React.FC<NPCProps> = ({
-                                      id, x, y ,step=0, dir=0,
+                                      id,
                                       dead,
                                       idx,
                                       bufferImage,

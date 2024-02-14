@@ -13,7 +13,6 @@ import {fireAction, updateNPC, move as moveNPC} from "../npc/slices/npcSlice";
 import {doAction, finishAction} from "./dialogActions";
 import {setContents} from "../../game-ui/slices/dialogSlice";
 import {updateObject, fireAction as fireActionObject} from "../objectNPC/slices/objectSlice";
-import {dialogs} from "../dialog_utils";
 
 const CharacterKonva : React.FC<PropsFromRedux> = (
     {x, y, step=0, dir=0,

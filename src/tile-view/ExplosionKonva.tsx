@@ -4,17 +4,12 @@ import {useEffect, useRef} from "react";
 import {MAP_DIMENSIONS, TILE_SIZE} from "./mapImgs";
 import {Ring, Satellite} from "./Explosion";
 import {RootState} from "../store";
-import {onGameEnd, OnGameEndAction} from "./slices/statusSlice";
+import {onGameEnd} from "./slices/statusSlice";
 import {setContents} from "../game-ui/slices/dialogSlice";
 import {connect, ConnectedProps} from "react-redux";
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 import {dialogs} from "./dialog_utils";
 
-interface ExplosionKonvaProos{
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, "gameStatus/onGameEnd">;
-    setContents: ActionCreatorWithPayload<any, "dialog/setContents">
-}
-const ExplosionKonva = ({onGameEnd, setContents}:ExplosionKonvaProos) => {
+const ExplosionKonva = ({onGameEnd, setContents}:PropsFromRedux) => {
 
     const {COLS, ROWS} = MAP_DIMENSIONS;
     const spriteRef = useRef<Konva.Layer>(null)
@@ -25,7 +20,6 @@ const ExplosionKonva = ({onGameEnd, setContents}:ExplosionKonvaProos) => {
         const COUNT = 12;
         const mouse = { x: 0, y: 0 };
 
-        const canvas = document.getElementById("canvas");
         const ctx = spriteRef.current!.getContext();
 
         function degreeToRadian(deg:number):number {
