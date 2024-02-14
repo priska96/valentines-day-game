@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 
 import {LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE} from './mapImgs';
@@ -9,6 +9,13 @@ import { Image , Group} from 'react-konva';
 
 const MapKonva: React.FC<PropsFromRedux> = ({ loadMap, map }: PropsFromRedux) => {
     const {COLS, ROWS} = MAP_DIMENSIONS;
+
+
+    useEffect(() => {
+        if(LAYERS[map as keyof LayersInterface][0] && LAYERS[map as keyof LayersInterface][1]){
+            loadMap(true);
+            }
+    }, []);
 
     const drawLayer = (grid: number[][])=> {
         console.log("draw map")

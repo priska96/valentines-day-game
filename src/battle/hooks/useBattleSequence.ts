@@ -1,11 +1,9 @@
 import {
-  wait,
   magic,
   heal,
   attack,
 } from '../shared/helpers';
 import { useEffect, useState } from 'react';
-import {dialogs} from "../../tile-view/dialog_utils";
 import {Sequence} from "../Battle";
 import {CharSummary} from "../../tile-view/character/slices/characterSlice";
 import {NPCSummary} from "../../tile-view/npc/slices/npcSlice";

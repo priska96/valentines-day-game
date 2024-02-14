@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback, useState} from 'react';
+import React, {useEffect, useRef, useCallback} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {Sprite} from "react-konva";
 
