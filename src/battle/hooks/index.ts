@@ -1,3 +1,3 @@
 export * from './useAIOpponent';
 export * from './useTypedMessage';
-export * from './useBattleSequence2';
+export * from './useBattleSequence';

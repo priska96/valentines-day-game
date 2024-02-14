@@ -1,4 +1,5 @@
 import {
+  wait,
   magic,
   heal,
   attack,
@@ -33,121 +34,129 @@ export const useBattleSequence = (sequence:Sequence, playerSummary: CharSummary,
         case 'attack': {
           const damage = attack({ attacker, receiver });
 
-          Promise.resolve()
-              .then(() => {
-                setInSequence(true);
-                setAnnouncerMessage(`${attacker.name} has chosen to attack!`);
-              })
-              .then(() => {
-                turn === 0
-                    ? setPlayerAnimation('attack')
-                    : setOpponentAnimation('attack');
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentAnimation('damage')
-                    : setPlayerAnimation('damage');
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentAnimation('static')
-                    : setPlayerAnimation('static');
-                setAnnouncerMessage(`${receiver.name} felt that!`)
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentHealth(h => (h - damage > 0 ? h - damage : 0))
-                    : setPlayerHealth(h => (h - damage > 0 ? h - damage : 0)); // We don't want a negative HP.
-              })
-              .then(() => {
-                setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
-              }).then(()=>{
+          (async () => {
+            setInSequence(true);
+            setAnnouncerMessage(`${attacker.name} has chosen to attack!`);
+            await wait(3000);
+
+            turn === 0
+                ? setPlayerAnimation('attack')
+                : setOpponentAnimation('attack');
+            await wait(100);
+
+            turn === 0
+                ? setPlayerAnimation('static')
+                : setOpponentAnimation('static');
+            await wait(500);
+
+            turn === 0
+                ? setOpponentAnimation('damage')
+                : setPlayerAnimation('damage');
+            await wait(1500);
+
+            turn === 0
+                ? setOpponentAnimation('static')
+                : setPlayerAnimation('static');
+            setAnnouncerMessage(`${receiver.name} felt that!`);
+
+            turn === 0
+                ? setOpponentHealth(h => (h - damage > 0 ? h - damage : 0))
+                : setPlayerHealth(h => (h - damage > 0 ? h - damage : 0)); // We don't want a negative HP.
+            await wait(3500);
+
+            setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
+            await wait(3500);
+
             setTurn(turn === 0 ? 1 : 0);
-            setInSequence(false)
-          });
+            setInSequence(false);
+          })();
+
           break;
         }
 
         case 'magic': {
           const damage = magic({ attacker, receiver });
 
-          Promise.resolve()
-              .then(() => {
-                setInSequence(true);
-                setAnnouncerMessage(`${attacker.name} has cast a spell!`);
-              })
-              .then(() => {
-                turn === 0
-                    ? setPlayerAnimation('magic')
-                    : setOpponentAnimation('magic');
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentAnimation('damage')
-                    : setPlayerAnimation('damage');
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentAnimation('static')
-                    : setPlayerAnimation('static');
-                setAnnouncerMessage(
-                    `${receiver.name} doesn't know what hit him!`,
-                );
+          (async () => {
+            setInSequence(true);
+            setAnnouncerMessage(`${attacker.name} has cast a spell!`);
+            await wait(3000);
 
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentHealth(h => (h - damage > 0 ? h - damage : 0))
-                    : setPlayerHealth(h => (h - damage > 0 ? h - damage : 0)); // We don't want a negative HP.
-              })
-              .then(() => {
-                setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
-              }).finally(()=>{
+            turn === 0
+                ? setPlayerAnimation('magic')
+                : setOpponentAnimation('magic');
+            await wait(1000);
+
+            turn === 0
+                ? setPlayerAnimation('static')
+                : setOpponentAnimation('static');
+            await wait(500);
+
+            turn === 0
+                ? setOpponentAnimation('damage')
+                : setPlayerAnimation('damage');
+            await wait(1500);
+
+            turn === 0
+                ? setOpponentAnimation('static')
+                : setPlayerAnimation('static');
+            setAnnouncerMessage(
+                `${receiver.name} doesn't know what hit him!`,
+            );
+            turn === 0
+                ? setOpponentHealth(h => (h - damage > 0 ? h - damage : 0))
+                : setPlayerHealth(h => (h - damage > 0 ? h - damage : 0)); // We don't want a negative HP.
+            await wait(3500);
+
+            setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
+            await wait(3500);
+
             setTurn(turn === 0 ? 1 : 0);
-            setInSequence(false)
-          });
+            setInSequence(false);
+          })();
+
           break;
         }
 
         case 'heal': {
           const recovered = heal({ receiver: attacker });
 
-          Promise.resolve()
-              .then(() => {
-                setInSequence(true);
-                setAnnouncerMessage(`${attacker.name} has chosen to heal!`);
-              })
-              .then(() => {
-                turn === 0
-                    ? setPlayerAnimation('magic')
-                    : setOpponentAnimation('magic');
-              })
-              .then(() => {
-                turn === 0
-                    ? setOpponentAnimation('static')
-                    : setPlayerAnimation('static');
-              })
-              .then(() => {
+          (async () => {
+            setInSequence(true);
+            setAnnouncerMessage(`${attacker.name} has chosen to heal!`);
+            await wait(3000);
 
-                setAnnouncerMessage(`${attacker.name} has recovered health.`);
-                turn === 0
-                    ? setPlayerHealth(h =>
-                        h + recovered <= (attacker.maxHealth ?? 0)
-                            ? h + recovered
-                            : attacker.maxHealth,
-                    )
-                    : setOpponentHealth(h =>
-                        h + recovered <= (attacker.maxHealth ?? 0)
-                            ? h + recovered
-                            : attacker.maxHealth,
-                    ); // We don't want to set HP more than the max
-              })
-              .then(() => {
-                setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
-              }).finally(()=>{
+            turn === 0
+              ? setPlayerAnimation('magic')
+              : setOpponentAnimation('magic');
+            await wait(1000);
+
+            turn === 0
+              ? setPlayerAnimation('static')
+              : setOpponentAnimation('static');
+            await wait(500);
+
+            setAnnouncerMessage(`${attacker.name} has recovered health.`);
+            turn === 0
+              ? setPlayerHealth(h =>
+                  h + recovered <= (attacker.maxHealth ?? 0)
+                    ? h + recovered
+                    : attacker.maxHealth,
+                )
+              : setOpponentHealth(h =>
+                  h + recovered <= (attacker.maxHealth ?? 0)
+                    ? h + recovered
+                    : attacker.maxHealth,
+                ); // We don't want to set HP more than the max
+            await wait(3500);
+
+            setAnnouncerMessage(`Now it's ${receiver.name}'s turn!`);
+            await wait(3500);
+
             setTurn(turn === 0 ? 1 : 0);
-            setInSequence(false)
-          });
+            setInSequence(false);
+          })();
+
           break;
         }
 
