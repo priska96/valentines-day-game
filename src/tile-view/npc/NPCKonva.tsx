@@ -2,20 +2,24 @@ import React, {useEffect, useRef} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 import {Layer, Sprite} from "react-konva";
-
+import Konva from "konva"
 import {NPC as NPCInterface, move, NPCState} from './slices/npcSlice';
 import {loadNPC, LoadNPCAction} from '../slices/statusSlice';
 import {RootState} from "../../store";
 import {CharacterState} from "../character/slices/characterSlice";
 import {ObjectState} from "../objectNPC/slices/objectSlice";
+import {setContents} from "../../game-ui/slices/dialogSlice";
 import {checkMapCollision, getRandom, movesList} from "../utils";
 import {NPC_IMAGE_SIZE} from '../../constants';
-import {MOVE_DIRECTIONS, MoveDirectionsInterface, TILE_SIZE} from '../constants';
+import {MOVE_DIRECTIONS, MoveDirectionsInterface} from '../constants';
+import {TILE_SIZE} from '../mapImgs';
+import {dialogs} from "../dialog_utils";
 
 interface NPCProps extends NPCInterface {
     idx: number;
     loadNPC: ActionCreatorWithPayload<LoadNPCAction, "gameStatus/loadNPC">;
     move: ActionCreatorWithPayload<any[], "npc/move">;
+    setContents: ActionCreatorWithPayload<any, "dialog/setContents">,
     currentMap: string,
     character:CharacterState,
     objectNPC: ObjectState,
@@ -24,12 +28,60 @@ interface NPCProps extends NPCInterface {
 }
 const NPC : React.FC<NPCProps> = ({id, x, y ,step=0, dir=0,stopMoving,
                  heroImg,
-                 dead,
+                 followHero, animate,
                  idx,
-                 loadNPC, move,
+                 loadNPC, move,setContents,
                  map, character, objectNPC, currentMap, allNPC}: NPCProps) => {
     const currentImgSize = NPC_IMAGE_SIZE[id]
-    const spriteRef = useRef<any>(null)
+    const spriteRef = useRef<Konva.Sprite>(null)
+
+    useEffect(() => {
+        if(spriteRef && spriteRef.current && animate === "evil-king-fall-down"){
+            spriteRef.current.to({
+                x: 10*TILE_SIZE, y:12*TILE_SIZE,
+                duration : 1,
+                onUpdate: () => {
+                    spriteRef.current!.rotate(45);
+                    },
+                onFinish: () => setTimeout(()=> {
+                    setContents(dialogs.piscesTown["npc-3"].evilKingFellDown.content)
+                    },200
+                ),
+            });
+        }
+
+        if(spriteRef && spriteRef.current && animate === "walk-to-dad"){
+            spriteRef.current.to({
+                x: 8*TILE_SIZE, y:14*TILE_SIZE,
+                duration : 0.3,
+                onUpdate: () => {
+                    spriteRef.current!.start();
+                },
+                onFinish: () => {
+                    spriteRef.current!.to({
+                        x: 8*TILE_SIZE, y:15*TILE_SIZE,
+                        duration : 0.3,
+                        onUpdate: () => {
+                            spriteRef.current!.start();
+                        },
+                        onFinish: () => {
+                            spriteRef.current!.to({
+                                x: 7*TILE_SIZE, y:12*TILE_SIZE,
+                                duration : 0.8,
+                                onUpdate: () => {
+                                    spriteRef.current!.start();
+                                },
+                                onFinish: () => {
+                                    spriteRef.current!.stop();
+                                    setContents(dialogs.piscesTown["npc-2"].beforeFight.content)
+                                },
+                            });
+                        },
+                    });
+                },
+            });
+        }
+    }, [animate]);
 
     useEffect(() => {
         if(heroImg && map.includes(currentMap )){
@@ -59,11 +111,14 @@ const NPC : React.FC<NPCProps> = ({id, x, y ,step=0, dir=0,stopMoving,
     }
 
     useEffect(() => {
+        if(followHero) {
+            return;
+        }
         const interval = setInterval(() => {
-            moveNPC(getRandom(movesList),0)
+            moveNPC(getRandom(movesList),idx)
         }, 1500);
         return () => clearInterval(interval);
-    }, [x, y, stopMoving]);
+    }, [x, y, stopMoving, followHero]);
 
     return heroImg && map.includes(currentMap)? (
         <Sprite
@@ -117,6 +172,7 @@ const NPCKonva = (props: PropsFromRedux) => {
                         character: props.character,
                         objectNPC:props.objectNPC,
                         move: props.move,
+                        setContents: props.setContents,
                         allNPC:props.allNPC
                     }
                 )
@@ -126,7 +182,7 @@ const NPCKonva = (props: PropsFromRedux) => {
 }
 const mapStateToProps = (state: RootState) => ({...state.npc, currentMap: state.gameStatus.map, character: state.character, objectNPC:state.objectNPC, allNPC:state.npc });
 
-const mapDispatch = {loadNPC, move};
+const mapDispatch = {loadNPC, move, setContents};
 
 const connector = connect(mapStateToProps, mapDispatch)
 

@@ -10,21 +10,23 @@ export interface CharacterState {
     dir: number;
     heroClass: string;
     heroImg: any;
-    playerSummary: {
-        level: number;
-        health: number;
-        maxHealth: number;
-        name: string;
-        img: string; // Assuming JihoonFight and JihoonPortrait are string paths
-        magic: number;
-        attack: number;
-        defense: number;
-        magicDefense: number;
-    };
+    type: string;
+    playerSummary: CharSummary
     portrait: string; // Assuming JihoonPortrait is a string path
     inventory: Array<ObjectNPC>; // You may want to replace 'any' with a specific type for items
 }
 
+export interface CharSummary{
+    level: number;
+    health: number;
+    maxHealth: number;
+    name: string;
+    img: string; // Assuming JihoonFight and JihoonPortrait are string paths
+    magic: number;
+    attack: number;
+    defense: number;
+    magicDefense: number;
+}
 
 export interface AddToInventoryAction {
         item: any; // You may want to replace 'any' with a specific type for items
@@ -53,11 +55,12 @@ const characterSlice = createSlice({
     name: 'character',
     initialState: {
         x: 8,
-        y: 7,
+        y: 14,
         step: 0,
         dir: 0,
         heroClass: 'SWORDSMAN',
         heroImg: null,
+        type: "hero",
         playerSummary: {
             level: 0,
             health: 20,
@@ -65,7 +68,7 @@ const characterSlice = createSlice({
             name: "Jihoon",
             img: JihoonFight,
             magic: 32,
-            attack: 100,
+            attack: 75,
             defense: 30,
             magicDefense: 30,
         },
@@ -79,7 +82,6 @@ const characterSlice = createSlice({
             state.y += y;
             state.step = state.step < 3 - 1 ? state.step + 1 : 0;
             state.dir = directions[dirKey as keyof KeyDirections];
-            console.log("move", directions[dirKey as keyof KeyDirections],x,y, state.x,state.y)
         },
         bufferImage(state, action: PayloadAction<any>) {
             state.heroImg = action.payload;

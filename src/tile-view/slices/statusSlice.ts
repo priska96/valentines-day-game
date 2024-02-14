@@ -2,8 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;
-    npcLoaded: [boolean, boolean];
-    objectLoaded: [boolean, boolean, boolean, boolean];
+    npcLoaded: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
+    objectLoaded: [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
     mode: string| undefined;
     winner: string| undefined;
     selectedOpponentIdx: number;
@@ -33,8 +33,8 @@ const statusSlice = createSlice({
     initialState: {
         mapLoaded: false,
         characterLoaded: false,
-        npcLoaded: [false, false],
-        objectLoaded: [false, false, false, false],
+        npcLoaded: [false, false,false,false,false,false,false,false,false,false],
+        objectLoaded: [false, false, false, false, false, false, false],
         mode: 'start',
         winner: 'Jihoon',
         selectedOpponentIdx: 0,

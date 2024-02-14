@@ -19,7 +19,6 @@ const dialogSlice = createSlice({
     } as DialogState,
     reducers: {
         setContents(state, action) {
-            //console.log('setconents')
             state.open = action.payload.open;
             state.title = action.payload.title;
             state.text = action.payload.text;

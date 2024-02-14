@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import { wait } from './shared/helpers';
 import styles from './stylesBattle.module.css';
 import {PlayerSummary} from "./PlayerSummary";
@@ -7,15 +7,18 @@ import {useAIOpponent, useBattleSequence} from "./hooks";
 import {BattleMenu} from "./BattleMenu";
 import {BattleAnnouncer} from "./BattleAnnouncer";
 import {onGameEnd} from "../tile-view/slices/statusSlice";
-import {updatePlayerSummary} from "../tile-view/character/slices/characterSlice";
+import  {updatePlayerSummary} from "../tile-view/character/slices/characterSlice";
 import {setContents} from '../game-ui/slices/dialogSlice'
 import {dialogs} from "../tile-view/dialog_utils";
 import BattleMusic from "../images/battle.mp3"
 import BattleMusic2 from "../images/battle2.mp3"
+import {RootState} from "../store";
 
-const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, updatePlayerSummary}) => {
+export interface Sequence {turn:number; mode:string}
+
+const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, updatePlayerSummary}:PropsFromRedux) => {
     //debugger
-    const [sequence, setSequence] = useState({});
+    const [sequence, setSequence] = useState<Sequence>({turn: -1, mode:""});
     const {playerSummary} = character;
     const { npcSummary} = npcs[selectedOpponentIdx];
 
@@ -31,63 +34,109 @@ const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, u
     } = useBattleSequence(sequence, playerSummary, npcSummary);
 
     const aiChoice = useAIOpponent(turn);
+
     useEffect(() => {
-        if (aiChoice && turn === 1 && !inSequence) {
+        if (aiChoice && turn === 1 && !inSequence && !sequence.mode) {
             setSequence({ turn, mode: aiChoice });
         }
-        return()=>{setSequence({})}
+        return()=>{setSequence({turn: -1, mode:""})}
     }, [turn, aiChoice, inSequence]);
 
     useEffect(() => {
         if (playerHealth === 0 || opponentHealth === 0) {
             (async () => {
                 await wait(1000);
-                onGameEnd(playerHealth === 0 ? {mode:'world' , winner: npcSummary.name} : {mode:'world' , winner: playerSummary.name});
+                onGameEnd(playerHealth === 0
+                    ? {mode:'world' , winner: npcSummary.name, selectedOpponentIdx: 0}
+                    : {mode:'world' , winner: playerSummary.name,selectedOpponentIdx: 0});
             })();
             if(opponentHealth === 0){
-                if(npcSummary.name === 'Blue Dragon') {
-                    updatePlayerSummary({
-                        level: 3,
-                        health: playerHealth,
-                        maxHealth: 250,
-                        attack: 70,
-                        magic: 55,
-                        defense: 45,
-                        magicDefense: 35
-                    })
-                    setTimeout(()=> {
-                        setContents(dialogs.forest["npc-0"].afterFight.won.content)
-                        },500
-                    )
-                }
-                if(npcSummary.name === 'Evil King') {
-                    updatePlayerSummary({
-                        level: 12,
-                        health: playerHealth,
-                        maxHealth: 450,
-                        attack: 100,
-                        magic: 75,
-                        defense: 55,
-                        magicDefense: 55
-                    })
-                    setTimeout(()=> {
-                        setContents(dialogs.evilKing["npc-1"].afterFight.won.content)
-                        },500
-                    )
+                switch(npcSummary.name ){
+                    case 'Blue Dragon': {
+                        updatePlayerSummary({
+                            level: 3,
+                            health: playerHealth,
+                            maxHealth: 250,
+                            attack: 85,
+                            magic: 55,
+                            defense: 45,
+                            magicDefense: 35
+                        })
+                        setTimeout(() => {
+                                setContents(dialogs.forest["npc-0"].afterFight.won!.content)
+                            }, 500
+                        )
+                        break;
+                    }
+                    case 'Evil King':{
+                        updatePlayerSummary({
+                            level: 12,
+                            health: playerHealth,
+                            maxHealth: 450,
+                            attack: 100,
+                            magic: 75,
+                            defense: 55,
+                            magicDefense: 55
+                        })
+                        setTimeout(()=> {
+                                setContents(dialogs.evilKing["npc-1"].afterFight.won!.content)
+                            },500
+                        )
+                        break;
+                    }
+                    case 'Evil Queen':{
+
+                        updatePlayerSummary({
+                            level: 17,
+                            health: playerHealth,
+                            maxHealth: 650,
+                            attack: 130,
+                            magic: 85,
+                            defense: 70,
+                            magicDefense: 65
+                        })
+                        setTimeout(()=> {
+                                setContents(dialogs.piscesTown["npc-3"].afterFight.won!.content)
+                            },500
+                        )
+                        break;
+                    }
+                    default:{
+                        updatePlayerSummary({
+                            level: playerSummary.level+0.5,
+                            health: playerHealth,
+                            maxHealth: playerSummary.maxHealth+30,
+                            attack: playerSummary.attack +10,
+                            magic: playerSummary.magic +5,
+                            defense: playerSummary.defense +15,
+                            magicDefense: playerSummary.magicDefense +5
+                        })
+                    }
                 }
             }
             if(playerHealth === 0){
-                if(npcSummary.name === 'Blue Dragon'){
-                    setContents(dialogs.forest["npc-0"].afterFight.lost.content)
-                }
-                else if (npcSummary.name === 'Evil King'){
-                    setContents(dialogs.evilKing["npc-1"].afterFight.lost.content)
-                }
 
+                switch(npcSummary.name ){
+                    case 'Blue Dragon':{
+                        setContents(dialogs.forest["npc-0"].afterFight.lost!.content)
+                        break;
+                    }
+                    case 'Evil King':{
+                        setContents(dialogs.evilKing["npc-1"].afterFight.lost!.content)
+                        break;
+                    }
+                    case 'Evil Queen':{
+                        setContents(dialogs.piscesTown["npc-3"].afterFight.lost!.content)
+                        break;
+                    }
+                    default:{
+                        onGameEnd({mode:'world' , winner: npcSummary.name, selectedOpponentIdx: 0})
+                    }
+                }
                 updatePlayerSummary({health: playerHealth})
             }
         }
-        return()=>{setSequence({})}
+        return()=>{setSequence({turn: -1, mode:""})}
     }, [playerHealth, opponentHealth, onGameEnd]);
 
     return (
@@ -170,6 +219,10 @@ const Battle = ({character, npcs, selectedOpponentIdx, onGameEnd, setContents, u
     );
 }
 
-const mapStateToProps = (state) => ({character:{...state.character}, npcs:[...state.npc.npcs], selectedOpponentIdx: state.gameStatus.selectedOpponentIdx})
+const mapStateToProps = (state: RootState) => ({character:{...state.character}, npcs:[...state.npc.npcs], selectedOpponentIdx: state.gameStatus.selectedOpponentIdx})
 const mapDispatch =  {onGameEnd, setContents, updatePlayerSummary}
-export default connect(mapStateToProps, mapDispatch)(Battle);
+const connector = connect(mapStateToProps, mapDispatch)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+export default connector(Battle);

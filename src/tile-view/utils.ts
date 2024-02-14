@@ -1,4 +1,4 @@
-import {LAYERS, LayersInterface, MAP_DIMENSIONS, SOLID_TILES} from './constants';
+import {LAYERS, LayersInterface, MAP_DIMENSIONS, SOLID_TILES} from './mapImgs';
 import {NPC} from "./npc/slices/npcSlice";
 import {ObjectNPC} from "./objectNPC/slices/objectSlice";
 import {CharacterState} from "./character/slices/characterSlice";
@@ -20,14 +20,19 @@ export const isMapEdge = (x: number,y: number): boolean => {
     return (x < 0 || x >= COLS || y < 0 || y >= ROWS)        
 };
 
-export const othersIsOnMap = (x: number,y: number ,others:(CharacterState|NPC|ObjectNPC)[]): boolean => {
+export const othersIsOnMap = (x: number,y: number , others:(CharacterState|NPC|ObjectNPC)[], map: string): boolean => {
     let result = false;
     others.forEach((otherElem)=>{
-        if(otherElem.x === x && otherElem.y ===y){
+        if(otherElem.x === x && otherElem.y ===y ){
             result = true
+            if(otherElem.type !== 'hero' && (otherElem as (NPC|ObjectNPC)).map.includes(map)){
+                result = true
+            }
+            if(otherElem.type !== 'hero' && !(otherElem as (NPC|ObjectNPC)).map.includes(map)){
+                result = false
+            }
         }
     })
-    //console.log('othersIsOnMap', result)
     return result
 };
 
@@ -47,11 +52,12 @@ export const whoIsOnMap = (x: number,y: number ,others:(CharacterState|NPC|Objec
             }
         }
     })
+
     return result
 };
 
 export const checkMapCollision = (x: number,y: number , others:(CharacterState|NPC|ObjectNPC)[], map: string) => {
-    return isMapEdge(x,y) || isSolidTile(x,y, map) ||othersIsOnMap(x,y,others);
+    return isMapEdge(x,y) || isSolidTile(x,y, map) ||othersIsOnMap(x,y,others, map);
 };
 
 export const fullyGeared = (inventory: ObjectNPC[]) =>{

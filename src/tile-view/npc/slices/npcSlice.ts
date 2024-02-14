@@ -1,6 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import BlueDragonFight from "../../../images/heroes/blue-dragon_fight.png"
 import EvilKingFight from "../../../images/heroes/evil-king_fight.png"
+import EvilQueenFight from "../../../images/heroes/evil-queen_fight.png"
+import RabbitFight from "../../../images/heroes/rabbit_fight.png"
+import RabbitSkeletonFight from "../../../images/heroes/bones_rabbit_fight.png"
+import SkeletonFight from "../../../images/heroes/skeleton_fight.png"
 interface KeyDirections{s: number; a: number; d:number; w: number}
 const directions = {
     s: 0,
@@ -10,7 +14,7 @@ const directions = {
 } as KeyDirections
 
 
-interface NPCSummary {
+export interface NPCSummary {
     main?: boolean;
     name?: string;
     img?: string;
@@ -29,12 +33,14 @@ export interface NPC {
     y: number;
     step: number;
     dir: number;
+    followHero:boolean;
     heroClass: string;
     heroImg: null | string;
     stopMoving: boolean;
     type: string;
     map: string[];
     dead: boolean;
+    animate: string;
     npcSummary: NPCSummary;
 }
 
@@ -63,16 +69,18 @@ const npcSlice = createSlice({
         npcs: [
             {
                 id: "npc-0",
-                x: 15,
-                y: 6,
+                x: 8,
+                y: 10,
                 step: 0,
-                dir: 0,
+                dir: 1,
+                followHero:false,
                 heroClass: 'DRAGON',
                 heroImg: null,
                 stopMoving: false,
                 type: 'npc',
                 map:['forest', 'sky'],
                 dead: false,
+                animate:"",
                 npcSummary: {
                     main: false,
                     name: 'Blue Dragon',
@@ -89,22 +97,24 @@ const npcSlice = createSlice({
             },
             {
                 id: "npc-1",
-                x: 0,//8,
-                y: 0,//3,
+                x: 8,
+                y: 3,
                 step: 0,
                 dir: 0,
+                followHero:false,
                 heroClass: 'PUREEVIL',
                 heroImg: null,
-                stopMoving: false,
+                stopMoving: true,
                 type: 'npc',
                 map:['evilKing'],
                 dead: false,
+                animate:"",
                 npcSummary: {
                     main: false,
                     name: 'Evil King',
                     img: EvilKingFight,
                     level: 10,
-                    health: 355,
+                    health: 1,
                     maxHealth: 355,
                     magic: 70,
                     attack: 65,
@@ -114,22 +124,198 @@ const npcSlice = createSlice({
             },
             {
                 id: "npc-2",
-                x: 0,//3,
-                y: 0,//13,
+                x: 3,
+                y: 13,
                 step: 0,
                 dir: 0,
+                followHero:false,
                 heroClass: 'PRINCESS',
                 heroImg: null,
-                stopMoving: false,
+                stopMoving: true,
                 type: 'npc',
                 map:['evilKing'],
                 dead: false,
+                animate:"",
                 npcSummary: {
                     main: false,
                     name: 'Pri',
                     level: 2,
                     health: 24,
                     maxHealth: 244,
+                }
+            },
+            {
+                id: "npc-3",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 1,
+                followHero:false,
+                heroClass: 'PUREEVIL',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['piscesTown3'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Evil Queen',
+                    img: EvilQueenFight,
+                    level: 15,
+                    health: 455,
+                    maxHealth: 455,
+                    magic: 80,
+                    attack: 65,
+                    defense: 40,
+                    magicDefense: 40,
+                }
+            },
+            {
+                id: "npc-4",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 2,
+                followHero:false,
+                heroClass: 'KING',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['piscesTown3'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'PiscesTown King',
+                    level: 2,
+                    health: 24,
+                    maxHealth: 244,
+                }
+            },
+            {
+                id: "npc-5",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero:false,
+                heroClass: 'NPC',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['piscesTown3Melted'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Servant 1',
+                    level: 2,
+                    health: 24,
+                    maxHealth: 244,
+                }
+            },
+            {
+                id: "npc-6",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero:false,
+                heroClass: 'NPC',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['piscesTown3Melted'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Servant 2',
+                    level: 2,
+                    health: 24,
+                    maxHealth: 244,
+                }
+            },
+            {
+                id: "npc-7",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero:false,
+                heroClass: 'WILD RABBIT',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['forest2, forest3'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Wild Rabbit',
+                    img: RabbitFight,
+                    level: 10,
+                    health: 1755,
+                    maxHealth: 175,
+                    magic: 30,
+                    attack: 65,
+                    defense: 40,
+                    magicDefense: 40,
+                }
+            },
+            {
+                id: "npc-8",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero:false,
+                heroClass: 'WILD RABBIT SKELETON',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['forest2, forest3'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Wild Rabbit Skeleton',
+                    img: RabbitSkeletonFight,
+                    level: 11,
+                    health: 200,
+                    maxHealth: 200,
+                    magic: 30,
+                    attack: 65,
+                    defense: 40,
+                    magicDefense: 40,
+                }
+            },
+            {
+                id: "npc-9",
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero:false,
+                heroClass: 'WILD RABBIT SKELETON',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map:['forest2, forest3'],
+                dead: false,
+                animate:"",
+                npcSummary: {
+                    main: false,
+                    name: 'Wild Skeleton',
+                    img: SkeletonFight,
+                    level: 12,
+                    health: 230,
+                    maxHealth: 230,
+                    magic: 30,
+                    attack: 65,
+                    defense: 40,
+                    magicDefense: 40,
                 }
             },
         ]

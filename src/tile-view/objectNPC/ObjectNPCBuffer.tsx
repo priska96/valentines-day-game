@@ -1,13 +1,10 @@
-import React, {useEffect, useContext, useRef} from 'react';
+import React, {useRef} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-
-import CanvasContext from '../canvasContext';
-import {OBJECT_NPC_SPRITE} from '../../constants';
-import {TILE_SIZE} from '../constants';
-import {bufferImage, BufferImageAction} from './slices/objectSlice';
-import {loadObject, LoadObjectAction} from '../slices/statusSlice';
-import {RootState} from "../../store";
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
+
+import {RootState} from "../../store";
+import {bufferImage, BufferImageAction} from './slices/objectSlice';
+import {OBJECT_NPC_SPRITE} from '../../constants';
 
 interface ObjectNPCProps {
     id: string;

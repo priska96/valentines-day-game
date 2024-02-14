@@ -1,9 +1,9 @@
-import React, {useEffect, useContext, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 import {Layer, Sprite} from "react-konva";
 
-import {TILE_SIZE} from '../constants';
+import {TILE_SIZE} from '../mapImgs';
 import {loadObject, LoadObjectAction} from '../slices/statusSlice';
 import {RootState} from "../../store";
 
@@ -23,13 +23,12 @@ interface ObjectNPCProps {
 
 const ObjectNPC: React.FC<ObjectNPCProps> = ({id, x, y, objectImg, map, idx,  loadObject, currentMap}: ObjectNPCProps) => {
 
-console.log(("objectfsd npc"))
     useEffect(() => {
         if (objectImg && map.includes(currentMap ) ) {
             loadObject({idx: idx, val:true});
         }
 
-    }, [loadObject, currentMap]);
+    }, [loadObject, map, objectImg, currentMap]);
 
     return objectImg && map.includes(currentMap)? (
         <Sprite

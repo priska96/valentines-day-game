@@ -1,22 +1,30 @@
 import React from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 
-import {MAP_TILE_IMAGES} from './constants';
+import {MAP_TILE_IMAGES2} from './mapImgs';
 import {bufferMapImage} from './slices/mapImagesSlice';
 
 const ImagesBuffer = ({ bufferMapImage }:PropsFromRedux) => {
     return (
         <div className="images-buffer">
         {
-            Object.keys(MAP_TILE_IMAGES).map(key => {
+            Object.keys(MAP_TILE_IMAGES2).map(key => {
                 return (
-                    <img
+                    <div style={{position: "relative"}}
+                         key={`map-tile-img-${key}`} >
+                        <span style={{position: "absolute", zIndex:2, color:"red"}} >{key}</span>
+                        <img
                         key={`map-tile-img-${key}`} 
                         id={`map-tile-img-${key}`} 
-                        src={`${MAP_TILE_IMAGES[key]}`}
+                        src={`${MAP_TILE_IMAGES2[key]}`}
                         alt={`map-tile-${key}`}
-                        onLoad={() => { bufferMapImage(MAP_TILE_IMAGES[key]); }}
-                    />
+                        onLoad={
+                            () => {
+                                bufferMapImage(MAP_TILE_IMAGES2[key]); console.log("done")
+                            }
+                        }
+                        />
+                    </div>
                 );
             })
         }

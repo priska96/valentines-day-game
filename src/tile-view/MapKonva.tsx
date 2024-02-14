@@ -1,16 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 
-import {LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE} from './constants';
-import CanvasContext from './canvasContext';
+import {LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE} from './mapImgs';
 import {loadMap} from './slices/statusSlice';
 import {RootState} from "../store";
 
 import { Image , Group} from 'react-konva';
 
 const MapKonva: React.FC<PropsFromRedux> = ({ loadMap, map }: PropsFromRedux) => {
-    const ctx = useContext(CanvasContext);
-    console.log("map", ctx)
     const {COLS, ROWS} = MAP_DIMENSIONS;
 
     const drawLayer = (grid: number[][])=> {

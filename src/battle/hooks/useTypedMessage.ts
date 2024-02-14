@@ -1,7 +1,7 @@
 import { wait } from '../shared/helpers';
 import { useEffect, useState } from 'react';
 
-export const useTypedMessage = message => {
+export const useTypedMessage = (message:string) => {
   const [typedMessage, setTypedMessage] = useState('');
 
   useEffect(() => {

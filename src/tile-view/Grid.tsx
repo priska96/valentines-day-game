@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 
 import CanvasContext from './canvasContext';
-import {TILE_SIZE} from './constants';
+import {TILE_SIZE} from './mapImgs';
 
 const Grid : React.FC<{width: number, height: number, children: JSX.Element}> = ({width, height, children}: {width: number, height: number, children: JSX.Element}) => {
     const ctx = useContext(CanvasContext);

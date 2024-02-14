@@ -8,52 +8,102 @@ import Battle from "./battle/Battle";
 import {connect, ConnectedProps} from "react-redux";
 import {onGameEnd} from "./tile-view/slices/statusSlice";
 import {setContents} from './game-ui/slices/dialogSlice'
-import Sky from "./images/sky_background.png"
-import Reward from "./images/message.mp4"
+import Reward from "./images/message2.mp4"
+import SpecialReward from "./images/IMG_5230.jpeg"
 import {RootState} from "./store";
-import {Layer, Stage} from 'react-konva';
+import {Layer, Stage, Image, Line} from 'react-konva';
 import MapKonva from "./tile-view/MapKonva";
 import BackgroundView from "./tile-view/BackgroundView";
 import ImagesBuffer from "./tile-view/ImagesBuffer";
-import {MAP_TILE_IMAGES} from "./tile-view/constants";
 import CharacterBuffer from "./tile-view/character/CharacterBuffer";
 import CharacterKonva from "./tile-view/character/CharacterKonva";
 import NPCBuffer from "./tile-view/npc/NPCBuffer";
 import NPCKonva from "./tile-view/npc/NPCKonva";
 import ObjectNPCBuffer from "./tile-view/objectNPC/ObjectNPCBuffer";
 import ObjectNPCKonva from "./tile-view/objectNPC/ObjectNPCKonva";
+import {MAP_DIMENSIONS, MAP_TILE_IMAGES2, TILE_SIZE} from "./tile-view/mapImgs";
+import ExplosionKonva from "./tile-view/ExplosionKonva";
+import MagicSpellSound from "./assets/magic-spell-sound.mp3";
+import BackgroundMusic from "./assets/background.mp3";
 
-
-function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
+function App({mode, mapImagesLoaded,backgroundImg, onGameEnd, setContents}: PropsFromRedux) {
   const currentMode = mode;
+    const {COLS, ROWS} = MAP_DIMENSIONS;
+    const gridTileLength = TILE_SIZE/2
 
   return (
-      <>
-        <header>
-        </header>
-        <main className="content">
+        <main className={`content ${currentMode === 'get-out' ? " shake" : ""}`}>
           <>
               <SimpleDialog/>
                 <GameUI />
 
-              <BackgroundView/>
               <ImagesBuffer />
               <CharacterBuffer />
               <NPCBuffer />
               <ObjectNPCBuffer />
-            {Object.keys(mapImagesLoaded).length === Object.keys(MAP_TILE_IMAGES).length &&
-                <Stage width={544} height={480}>
-                    <Layer>
+              <BackgroundView/>
+            {Object.keys(mapImagesLoaded).length >= Object.keys(MAP_TILE_IMAGES2).length-1 &&
+                <Stage width={COLS*32} height={ROWS*32}>
+                    <Layer name={"skyBackground"}>
+                        <Image
+                            x={0}
+                            y={0}
+                            image={document.querySelector(backgroundImg)}
+                        />
                         <MapKonva/>
+                        {Array.from({ length: MAP_DIMENSIONS.ROWS}, (value, index) => index)
+                            .map((row)=>{
+                                return(
+                                    <Line
+                                        key={`row-${row}`}
+                                        x={0}
+                                        y={row*gridTileLength}
+                                        points={[0,row*gridTileLength,COLS*32,row*gridTileLength]}
+                                        stroke="grey"
+                                        strokeWidth={0.7}
+                                    />
+                                )}
+                            )}
+                        {Array.from({ length: MAP_DIMENSIONS.COLS}, (value, index) => index)
+                            .map((col)=>{
+                                return(
+                                    <Line
+                                        key={`col-${col}`}
+                                        x={col*gridTileLength}
+                                        y={0}
+                                        points={[col*gridTileLength,0,col*gridTileLength, ROWS*32]}
+                                        stroke="grey"
+                                        strokeWidth={0.7}
+                                    />
+                                )}
+                            )}
                     </Layer>
                     <Layer>
                         <CharacterKonva/>
                     </Layer>
                     <NPCKonva/>
                     <ObjectNPCKonva/>
+                    {currentMode === 'victory-evil-queen'
+                        ?
+                        <ExplosionKonva/>
+                        :null
+                    }
               </Stage>
             }
           </>
+            {currentMode === 'victory-evil-queen'
+                ?
+                <audio id="audio" loop autoPlay>
+                    <source src={MagicSpellSound} type="audio/mp3"/>
+                </audio> : null
+            }
+
+            {!['start','victory-evil-queen', 'battle', 'game-over', 'game-over-hole', 'game-won'].includes(currentMode as string)
+                ?
+                <audio id="audio" loop autoPlay>
+                    <source src={BackgroundMusic}  type="audio/mp3"/>
+                </audio> : null
+            }
           {currentMode === 'start' ?
               <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>~~The Rescue~~</div>
@@ -85,28 +135,43 @@ function App({mode, mapImagesLoaded, onGameEnd, setContents}: PropsFromRedux) {
               </div>
               :''
           }
+            {currentMode === 'game-over-hole' ?
+                <div className={styles.gameOverContainer}>
+                    <div className={styles.gameOver}>Game Over <br/><br/>the Hero died from the fall in the hole...</div>
+                </div>
+                :''
+            }
           {currentMode === 'game-won' ?
               <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>Victory!!<br/>You finished the game!</div>
                 <div className={styles.startGameButtonContainer}>
                         <span className={styles.startGameButton}
                               onClick={()=> {
-                                setContents({open: true, title: 'Please be my Valentine forever!!!', text: Reward, openerId: '', action: 'video'});
+                                  setContents({open: true, title: 'Please be my Valentine forever!!!', text: Reward, openerId: '', action: 'video'});
                               }}
                         >
                             Open Reward
+                        </span>
+                    <span className={styles.startGameButton}
+                          onClick={()=> {
+                              setContents({open: true, title: 'Please be my Valentine forever!!!', text: SpecialReward, openerId: '', action: 'photo'});
+                          }}
+                    >
+                            Open Special Reward
                         </span>
                 </div>
               </div>
               :''
           }
         </main>
-        <footer>
-        </footer>
-      </>
   );
 }
-const mapStateToProps = (state: RootState) => ({mode:state.gameStatus.mode, mapImagesLoaded:state.mapImagesLoaded})
+const mapStateToProps = (state: RootState) => (
+    {
+        mode:state.gameStatus.mode,
+        mapImagesLoaded:state.mapImagesLoaded,
+        backgroundImg: state.gameStatus.backgroundImg
+    })
 const mapDispatch = {onGameEnd, setContents}
 
 

@@ -6,23 +6,25 @@ import {RootState} from "../../store";
 import {addToInventory, move, updatePlayerPosition} from './slices/characterSlice';
 import {changeMap, loadCharacter, onGameEnd} from '../slices/statusSlice';
 import {HERO_IMAGE_SIZE} from "../../constants";
-import {MOVE_DIRECTIONS, MoveDirectionsInterface, TILE_SIZE} from "../constants";
+import {MOVE_DIRECTIONS, MoveDirectionsInterface} from "../constants";
+import {TILE_SIZE} from "../mapImgs";
 import {checkMapCollision} from "../utils";
-import {fireAction, updateNPC} from "../npc/slices/npcSlice";
+import {fireAction, updateNPC, move as moveNPC} from "../npc/slices/npcSlice";
 import {doAction, finishAction} from "./dialogActions";
 import {setContents} from "../../game-ui/slices/dialogSlice";
 import {updateObject, fireAction as fireActionObject} from "../objectNPC/slices/objectSlice";
+import {dialogs} from "../dialog_utils";
 
 const CharacterKonva : React.FC<PropsFromRedux> = (
     {x, y, step=0, dir=0,
         heroClass,
-        heroImg,
+        heroImg,type,
         playerSummary,
         inventory,portrait,
         npc, objectNPC,
         map,
         dialog,
-        winner,
+        winner,mode,
         move,
         loadCharacter,
         changeMap,updateNPC,
@@ -32,10 +34,9 @@ const CharacterKonva : React.FC<PropsFromRedux> = (
         updatePlayerPosition,
         updateObject,
         fireActionObject,
-        addToInventory
+        addToInventory, moveNPC
         }:PropsFromRedux) => {
 const spriteRef = useRef<any>(null)
-    const [isUpdateRequired, setIsUpdateRequired] = useState(false);
 
     useEffect(() => {
         if(heroImg){
@@ -46,10 +47,7 @@ const spriteRef = useRef<any>(null)
 
     const moveCharacter = useCallback((e: KeyboardEvent) => {
         const key = e.key
-        // if(spriteRef.current){
-        //     spriteRef.current.start();
-        // }
-        console.log(key, step)
+
         e.preventDefault();
         if (MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface]) {
             const [xDir, yDir] = MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface];
@@ -63,19 +61,60 @@ const spriteRef = useRef<any>(null)
                 map
             )
             if (!collusion) {
-                console.log("collusion", collusion)
                 move([xDir, yDir, key]);
+                if(map=== "forest2" &&( x + xDir=== 2 && y + yDir===8|| x + xDir===6 && y + yDir===12)){
+                    onGameEnd({mode:"game-over-hole", winner:undefined, selectedOpponentIdx:0})
+                }
+                if((map=== "forest2" || map==="forest3" )&&mode !== "battle") {
+                    const wildFightOpts = [true, false, false, true, false, true, false, true, false, false, true, false, false, false, false, false, false, false, false, false, false]
+                    if (wildFightOpts[Math.floor(Math.random() * wildFightOpts.length)]) {
+                        const oppenent = [7, 8, 9]
+
+                        setContents({
+                            open: true,
+                            title: "Warning!!",
+                            text: "A wild monster attacked you!",
+                            openerId: "",
+                            action: ''
+                        })
+                        setTimeout(() => {
+                                setContents({
+                                    open: false,
+                                    title: "",
+                                    text: "",
+                                    openerId: "",
+                                    action: ''
+                                });
+                                onGameEnd({
+                                    mode: "battle",
+                                    winner: undefined,
+                                    selectedOpponentIdx: oppenent[Math.floor(Math.random() * oppenent.length)]
+                                })
+                            }, 3500
+                        )
+                    }
+                }
+
+                if(npc.npcs.some(n => n.followHero)){
+                   npc.npcs.forEach((n,idx)=>{
+                       if(n.followHero) {
+                           moveNPC([xDir, yDir, key, idx])
+                       }
+                    })
+                }
             }
         }
 
         if (key === "Enter") {
-            debugger
             if (dialog.open) {
                 finishAction(
                     dialog,
                     npc,
                     objectNPC,
-                    setIsUpdateRequired,
+                    {x, y, step, dir,
+                        heroClass,
+                        heroImg,type,
+                        playerSummary,inventory, portrait},
                     setContents,
                     fireAction,
                     onGameEnd,
@@ -91,13 +130,18 @@ const spriteRef = useRef<any>(null)
                     map,
                     {x, y, step, dir,
                     heroClass,
-                    heroImg,
+                    heroImg,type,
                     playerSummary,
                     inventory, portrait},
-                    npc, objectNPC, winner,
-                setContents,
+                    npc, objectNPC,
+                    winner,
+                    mode,
+                    setContents,
                     fireAction,
-                    onGameEnd);
+                    onGameEnd,
+                    changeMap,
+                    updatePlayerPosition,
+                    updateNPC,);
             }
         }
         if(key === 'm'){
@@ -156,6 +200,7 @@ const mapStateToProps = (state: RootState) => (
         npc: state.npc,
         objectNPC: state.objectNPC,
         map: state.gameStatus.map,
+        mode: state.gameStatus.mode,
         winner: state.gameStatus.winner,
         dialog: state.dialog
     });
@@ -171,7 +216,8 @@ const mapDispatch = {
     updatePlayerPosition,
     updateObject,
     fireActionObject,
-    addToInventory
+    addToInventory,
+    moveNPC
 };
 
 const connector = connect(mapStateToProps, mapDispatch)

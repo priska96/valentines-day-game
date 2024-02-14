@@ -1,11 +1,9 @@
-import React, {useContext, useRef} from 'react';
+import React, { useRef} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
-import CanvasContext from '../canvasContext';
-import {NPC_SPRITE, EVIL_KING_DEAD} from '../../constants';
+import {NPC_SPRITE, NPC_SPRITE_DEAD} from '../../constants';
 import {bufferImage, BufferImageAction, NPC as NPCInterface} from './slices/npcSlice';
-import {loadNPC, LoadNPCAction} from '../slices/statusSlice';
 import {RootState} from "../../store";
 
 
@@ -34,7 +32,7 @@ const NPC : React.FC<NPCProps> = ({
                     }
                 }
                 className={"images-buffer"}
-                src={!dead? NPC_SPRITE[id] : EVIL_KING_DEAD}
+                src={!dead? NPC_SPRITE[id] : NPC_SPRITE_DEAD[id]}
             />
         );
 };
