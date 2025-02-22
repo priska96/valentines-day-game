@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import CanvasContext from './canvasContext';
-import { TILE_SIZE } from './mapImgs';
+import { TILE_SIZE } from './maps/mapData';
 
 const Grid: React.FC<{
     width: number;

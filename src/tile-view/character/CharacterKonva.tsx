@@ -11,7 +11,7 @@ import {
 import { changeMap, loadCharacter, onGameEnd } from '../slices/statusSlice';
 import { HERO_IMAGE_SIZE } from '../../constants';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
-import { TILE_SIZE } from '../mapImgs';
+import { TILE_SIZE } from '../maps/mapImgs';
 import { checkMapCollision } from '../utils';
 import { fireAction, updateNPC, move as moveNPC } from '../npc/slices/npcSlice';
 import { doAction, finishAction } from './dialogActions';

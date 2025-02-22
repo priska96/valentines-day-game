@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE } from './mapImgs';
+import { MAP_DIMENSIONS, MapMatrixRow, TILE_SIZE } from './maps/mapData';
+import { LAYERS, LayersInterface } from './maps/mapImgs';
 import { loadMap } from './slices/statusSlice';
 import { RootState } from '../store';
 
@@ -23,7 +24,7 @@ const MapKonva: React.FC<PropsFromRedux> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const drawLayer = (grid: number[][]) => {
+    const drawLayer = (grid: MapMatrixRow) => {
         console.log('draw map');
         const rowArray = Array.from({ length: ROWS }, (value, index) => index);
         const colArray = Array.from({ length: COLS }, (value, index) => index);

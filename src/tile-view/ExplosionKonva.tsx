@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import { Layer } from 'react-konva';
 import { useEffect, useRef } from 'react';
-import { MAP_DIMENSIONS, TILE_SIZE } from './mapImgs';
+import { MAP_DIMENSIONS, TILE_SIZE } from './maps/mapData';
 import { Ring, Satellite } from './Explosion';
 import { RootState } from '../store';
 import { onGameEnd } from './slices/statusSlice';

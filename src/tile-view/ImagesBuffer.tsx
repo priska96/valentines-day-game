@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { MAP_TILE_IMAGES2 } from './mapImgs';
+import { MAP_TILE_IMAGES2 } from './maps/mapData';
 import { bufferMapImage } from './slices/mapImagesSlice';
 
 const ImagesBuffer = ({ bufferMapImage }: PropsFromRedux) => {

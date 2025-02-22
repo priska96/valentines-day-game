@@ -25,7 +25,7 @@ import {
     MAP_DIMENSIONS,
     MAP_TILE_IMAGES2,
     TILE_SIZE,
-} from './tile-view/mapImgs';
+} from './tile-view/maps/mapData';
 import ExplosionKonva from './tile-view/ExplosionKonva';
 import MagicSpellSound from './assets/magic-spell-sound.mp3';
 import BackgroundMusic from './assets/background.mp3';
@@ -61,7 +61,12 @@ function App({
                             <Image
                                 x={0}
                                 y={0}
-                                image={document.querySelector(backgroundImg)}
+                                image={
+                                    (document.querySelector(
+                                        backgroundImg ?? ''
+                                    ) as CanvasImageSource) ??
+                                    ({} as CanvasImageSource)
+                                }
                             />
                             <MapKonva />
                             {Array.from(

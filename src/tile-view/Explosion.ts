@@ -1,6 +1,6 @@
 import Konva from 'konva';
 import Context = Konva.Context;
-import { MAP_DIMENSIONS } from './mapImgs';
+import { MAP_DIMENSIONS } from './maps/mapData';
 
 const { COLS, ROWS } = MAP_DIMENSIONS;
 const CANVAS_WIDTH = COLS * 32;

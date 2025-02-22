@@ -1,9 +1,5 @@
-import {
-    LAYERS,
-    LayersInterface,
-    MAP_DIMENSIONS,
-    SOLID_TILES,
-} from './mapImgs';
+import { MAP_DIMENSIONS } from './maps/mapData';
+import { LAYERS, LayersInterface, SOLID_TILES } from './maps/mapImgs';
 import { NPC } from './npc/slices/npcSlice';
 import { ObjectNPC } from './objectNPC/slices/objectSlice';
 import { CharacterState } from './character/slices/characterSlice';
