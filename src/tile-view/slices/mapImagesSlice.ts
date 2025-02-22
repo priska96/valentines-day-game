@@ -1,8 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface MapState {
-    [key:string]: number
+    [key: string]: number;
 }
 const mapImagesSlice = createSlice({
     name: 'images',
@@ -12,9 +11,9 @@ const mapImagesSlice = createSlice({
             const path = action.payload;
             if (path) {
                 state[path] = 1;
-            }            
+            }
         },
-    }
+    },
 });
 
 export const { bufferMapImage } = mapImagesSlice.actions;

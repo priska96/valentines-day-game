@@ -1,11 +1,11 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ObjectNPC {
     id: string;
     x: number;
     y: number;
     item: string;
-    objectImg: any;
+    objectImg: string | null;
     type: string;
     map: string[];
     tookItem: boolean;
@@ -17,25 +17,25 @@ export interface ObjectState {
 }
 
 interface FireAction {
-        idx: number;
+    idx: number;
 }
 
 export interface BufferImageAction {
-        idx: number;
-        objectImg: any;
+    idx: number;
+    objectImg: string | null;
 }
 
-export interface UpdateObjectAction {
-        idx: number[];
-        [key: string]: any;
-}
+export type UpdateObjectAction = {
+    idx: number[];
+    updates: { [key: string]: Partial<ObjectNPC> };
+};
 
 const objectSlice = createSlice({
     name: 'objectNPC',
     initialState: {
         objects: [
             {
-                id: "object-0",
+                id: 'object-0',
                 x: 12,
                 y: 8,
                 item: 'Armor',
@@ -43,10 +43,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['forest'],
                 tookItem: false,
-                healing: 0
+                healing: 0,
             },
             {
-                id: "object-1",
+                id: 'object-1',
                 x: 15,
                 y: 2,
                 item: 'Boots',
@@ -54,10 +54,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['forest'],
                 tookItem: false,
-                healing: 0
+                healing: 0,
             },
             {
-                id: "object-2",
+                id: 'object-2',
                 x: 1,
                 y: 5,
                 item: 'Apples',
@@ -65,10 +65,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['forest'],
                 tookItem: false,
-                healing: 20
+                healing: 20,
             },
             {
-                id: "object-3",
+                id: 'object-3',
                 x: 2,
                 y: 3,
                 item: 'Fish',
@@ -76,10 +76,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['forest'],
                 tookItem: false,
-                healing: 30
+                healing: 30,
             },
             {
-                id: "object-4",
+                id: 'object-4',
                 x: 2,
                 y: 13,
                 item: 'Sword',
@@ -87,11 +87,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['forest'],
                 tookItem: false,
-                healing: 0
-            }
-            ,
+                healing: 0,
+            },
             {
-                id: "object-5",
+                id: 'object-5',
                 x: 0,
                 y: 0,
                 item: 'doorOpenTop',
@@ -99,10 +98,10 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['evilKing'],
                 tookItem: false,
-                healing: 0
+                healing: 0,
             },
             {
-                id: "object-6",
+                id: 'object-6',
                 x: 0,
                 y: 0,
                 item: 'doorOpenBottom',
@@ -110,9 +109,9 @@ const objectSlice = createSlice({
                 type: 'objectNPC',
                 map: ['evilKing'],
                 tookItem: false,
-                healing: 0
-            }
-        ]
+                healing: 0,
+            },
+        ],
     } as ObjectState,
     reducers: {
         fireAction(state, action: PayloadAction<FireAction>) {
@@ -124,12 +123,15 @@ const objectSlice = createSlice({
         },
         updateObject(state, action: PayloadAction<UpdateObjectAction>) {
             action.payload.idx.forEach((index) => {
-                state.objects[index] = { ...state.objects[index], ...action.payload[`data-${index}`] };
+                state.objects[index] = {
+                    ...state.objects[index],
+                    ...action.payload.updates[`data-${index}`],
+                };
             });
         },
     },
 });
 
-export const {fireAction, bufferImage, updateObject} = objectSlice.actions;
+export const { fireAction, bufferImage, updateObject } = objectSlice.actions;
 
 export default objectSlice.reducer;

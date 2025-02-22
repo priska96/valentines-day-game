@@ -1,13 +1,25 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import CanvasContext from './canvasContext';
-import {TILE_SIZE} from './mapImgs';
+import { TILE_SIZE } from './mapImgs';
 
-const Grid : React.FC<{width: number, height: number, children: JSX.Element}> = ({width, height, children}: {width: number, height: number, children: JSX.Element}) => {
+const Grid: React.FC<{
+    width: number;
+    height: number;
+    children: React.ReactNode;
+}> = ({
+    width,
+    height,
+    children,
+}: {
+    width: number;
+    height: number;
+    children: React.ReactNode;
+}) => {
     const ctx = useContext(CanvasContext);
 
     useEffect(() => {
-        if(ctx &&  ctx.map) {
+        if (ctx && ctx.map) {
             for (let i = 0; i < height; i++) {
                 const y = i * TILE_SIZE;
                 ctx.map.beginPath();
@@ -28,6 +40,6 @@ const Grid : React.FC<{width: number, height: number, children: JSX.Element}> = 
     }, [ctx, height, width]);
 
     return children;
-}
+};
 
 export default Grid;

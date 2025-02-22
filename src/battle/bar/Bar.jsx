@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './stylesBar.module.css'
+import styles from './stylesBar.module.css';
 
 export const Bar = ({ value, maxValue, label }) => (
     <div className={styles.main}>

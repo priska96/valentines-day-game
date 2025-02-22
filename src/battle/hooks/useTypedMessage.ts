@@ -1,26 +1,26 @@
-import { wait } from '../shared/helpers';
 import { useEffect, useState } from 'react';
+import { wait } from '../shared/helpers';
 
-export const useTypedMessage = (message:string) => {
-  const [typedMessage, setTypedMessage] = useState('');
+export const useTypedMessage = (message: string) => {
+    const [typedMessage, setTypedMessage] = useState('');
 
-  useEffect(() => {
-    setTypedMessage('');
+    useEffect(() => {
+        setTypedMessage('');
 
-    if (message.length) {
-      (async () => {
-        let visibleMessage = '';
-        for (let i = 0; i < message.length; i++) {
-          await wait(25);
+        if (message.length) {
+            void (async () => {
+                let visibleMessage = '';
+                for (let i = 0; i < message.length; i++) {
+                    await wait(25);
 
-          visibleMessage = visibleMessage + message[i];
+                    visibleMessage = visibleMessage + message[i];
 
-          setTypedMessage(visibleMessage);
+                    setTypedMessage(visibleMessage);
+                }
+            })();
         }
-      })();
-    }
-    return () =>{}
-  }, [message]);
+        return () => {};
+    }, [message]);
 
-  return typedMessage;
+    return typedMessage;
 };

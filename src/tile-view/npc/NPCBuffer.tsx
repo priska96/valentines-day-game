@@ -1,63 +1,32 @@
-import React, { useRef} from 'react';
-import {connect, ConnectedProps} from 'react-redux';
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { bufferImage } from './slices/npcSlice';
+import { RootState } from '../../store';
+import { BufferNPC } from './BufferNPC';
 
-import {NPC_SPRITE, NPC_SPRITE_DEAD} from '../../constants';
-import {bufferImage, BufferImageAction, NPC as NPCInterface} from './slices/npcSlice';
-import {RootState} from "../../store";
-
-
-interface NPCProps extends NPCInterface {
-    idx: number;
-    bufferImage: ActionCreatorWithPayload<BufferImageAction, "npc/bufferImage">;
-}
-const NPC : React.FC<NPCProps> = ({
-                                      id,
-                                      dead,
-                                      idx,
-                                      bufferImage,
-                                  }: NPCProps) => {
-
-    const imgRef = useRef<HTMLImageElement>(null);
-
-        return (
-            <img
-                key={id}
-                id={id}
-                alt="npc"
-                ref={imgRef}
-                onLoad={
-                    () => {
-                        bufferImage({idx: idx, heroImg: `#${imgRef.current!.id}`})
-                    }
-                }
-                className={"images-buffer"}
-                src={!dead? NPC_SPRITE[id] : NPC_SPRITE_DEAD[id]}
-            />
-        );
-};
-
-const NPCBuffer = (props: PropsFromRedux) => {
-    return(
+const NPCBuffer: React.FC<PropsFromRedux> = (props) => {
+    return (
         <div className="npc-imgs-buffer">
-            {props.npcs.map((elem, idx)=>{
-                return NPC(
-                    {
-                        ...elem,
-                        idx,
-                        bufferImage:props.bufferImage,
-                    }
-                )
-            })}
+            {props.npcs.map((elem, idx) => (
+                <BufferNPC
+                    key={idx}
+                    {...elem}
+                    idx={idx}
+                    bufferImage={props.bufferImage}
+                />
+            ))}
         </div>
     );
-}
-const mapStateToProps = (state: RootState) => ({...state.npc});
+};
 
-const mapDispatch = {bufferImage};
+const mapStateToProps = (state: RootState) => ({ ...state.npc });
 
-const connector = connect(mapStateToProps, mapDispatch)
+const mapDispatch = { bufferImage };
 
-type PropsFromRedux = ConnectedProps<typeof connector>
+const connector = connect(mapStateToProps, mapDispatch);
 
-export default connector(NPCBuffer);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const ConnectedNPCBuffer = connector(NPCBuffer);
+
+export default ConnectedNPCBuffer;

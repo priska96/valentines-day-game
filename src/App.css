@@ -1,38 +1,48 @@
 main {
-  padding-top: 50px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
-.shake{
- animation: horizontal-shaking 0.15s infinite;
+.shake {
+    animation: horizontal-shaking 0.15s infinite;
 }
 
 @keyframes horizontal-shaking {
-  0% { transform: translateX(0) }
-  25% { transform: translateX(5px) }
-  50% { transform: translateX(-5px) }
-  75% { transform: translateX(5px) }
-  100% { transform: translateX(0) }
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(5px);
+    }
+    50% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 .images-buffer {
-  display: none;
+    display: none;
 }
 
 .game-ui {
-  padding: 25px;
-  border: 1px solid dimgray;
-  border-radius: 15px;
+    padding: 25px;
+    border: 1px solid dimgray;
+    border-radius: 15px;
 }
 
-.game-ui__avatar img{
-  width: 200px;
-  height: 200px;
+.game-ui__avatar img {
+    width: 200px;
+    height: 200px;
 }
-.game-ui__inventory span{
-  padding: 10px;
+.game-ui__inventory span {
+    padding: 10px;
 }
-.healingItem{
-  text-decoration: underline;
-  color: rgba(24, 161, 203, 1);
+.healingItem {
+    text-decoration: underline;
+    color: rgba(24, 161, 203, 1);
 }

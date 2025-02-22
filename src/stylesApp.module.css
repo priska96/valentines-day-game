@@ -1,11 +1,10 @@
-
 .gameOverContainer {
     background: linear-gradient(
-            90deg,
-            rgba(24, 161, 203, 1) 0%,
-            rgba(255, 255, 255, 1) 35%,
-            rgba(255, 255, 255, 1) 65%,
-            rgba(253, 172, 0, 1) 100%
+        90deg,
+        rgba(24, 161, 203, 1) 0%,
+        rgba(255, 255, 255, 1) 35%,
+        rgba(255, 255, 255, 1) 65%,
+        rgba(253, 172, 0, 1) 100%
     );
 
     width: 818px;
@@ -38,7 +37,7 @@
     margin: 2em;
 }
 
-.startGameButton{
+.startGameButton {
     color: #7f0000;
     font-size: 28px;
     font-family: 'Press Start 2P', cursive;
@@ -47,7 +46,7 @@
     padding: 0.5em;
     cursor: pointer;
 }
-.startGameButton:hover{
+.startGameButton:hover {
     color: white;
     background-color: #7f0000;
 }

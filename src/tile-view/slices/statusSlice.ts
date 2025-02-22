@@ -1,31 +1,50 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;
-    npcLoaded: [boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean];
-    objectLoaded: [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
-    mode: string| undefined;
-    winner: string| undefined;
+    npcLoaded: [
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+    ];
+    objectLoaded: [
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+        boolean,
+    ];
+    mode: string | undefined;
+    winner: string | undefined;
     selectedOpponentIdx: number;
     map: string;
-    backgroundImg: any
+    backgroundImg: string | null;
     backgroundImgLoaded: boolean;
 }
 
 export interface LoadNPCAction {
-        idx: number;
-        val: boolean;
+    idx: number;
+    val: boolean;
 }
 
 export interface LoadObjectAction {
-        idx: number;
-        val: boolean;
+    idx: number;
+    val: boolean;
 }
 
 export interface OnGameEndAction {
-        mode: string|undefined;
-        winner: string|undefined;
-        selectedOpponentIdx: number;
+    mode: string | undefined;
+    winner: string | undefined;
+    selectedOpponentIdx: number;
 }
 
 const statusSlice = createSlice({
@@ -33,7 +52,18 @@ const statusSlice = createSlice({
     initialState: {
         mapLoaded: false,
         characterLoaded: false,
-        npcLoaded: [false, false,false,false,false,false,false,false,false,false],
+        npcLoaded: [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ],
         objectLoaded: [false, false, false, false, false, false, false],
         mode: 'start',
         winner: 'Jihoon',
@@ -63,15 +93,24 @@ const statusSlice = createSlice({
         changeMap(state, action: PayloadAction<string>) {
             state.map = action.payload;
         },
-        bufferBackgroundImage(state, action: PayloadAction<any>) {
+        bufferBackgroundImage(state, action: PayloadAction<string>) {
             state.backgroundImg = action.payload;
         },
         loadBackground(state, action: PayloadAction<boolean>) {
-            state.backgroundImgLoaded = action.payload ;
+            state.backgroundImgLoaded = action.payload;
         },
     },
 });
 
-export const { loadMap, loadCharacter, loadNPC, loadObject, onGameEnd, changeMap, bufferBackgroundImage, loadBackground } = statusSlice.actions;
+export const {
+    loadMap,
+    loadCharacter,
+    loadNPC,
+    loadObject,
+    onGameEnd,
+    changeMap,
+    bufferBackgroundImage,
+    loadBackground,
+} = statusSlice.actions;
 
 export default statusSlice.reducer;

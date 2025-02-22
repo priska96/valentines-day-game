@@ -1,40 +1,57 @@
-import React, {useEffect} from 'react';
-import {connect, ConnectedProps} from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 
-import {LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE} from './mapImgs';
-import {loadMap} from './slices/statusSlice';
-import {RootState} from "../store";
+import { LAYERS, LayersInterface, MAP_DIMENSIONS, TILE_SIZE } from './mapImgs';
+import { loadMap } from './slices/statusSlice';
+import { RootState } from '../store';
 
-import { Image , Group} from 'react-konva';
+import { Image, Group } from 'react-konva';
 
-const MapKonva: React.FC<PropsFromRedux> = ({ loadMap, map }: PropsFromRedux) => {
-    const {COLS, ROWS} = MAP_DIMENSIONS;
-
+const MapKonva: React.FC<PropsFromRedux> = ({
+    loadMap,
+    map,
+}: PropsFromRedux) => {
+    const { COLS, ROWS } = MAP_DIMENSIONS;
 
     useEffect(() => {
-        if(LAYERS[map as keyof LayersInterface][0] && LAYERS[map as keyof LayersInterface][1]){
+        if (
+            LAYERS[map as keyof LayersInterface][0] &&
+            LAYERS[map as keyof LayersInterface][1]
+        ) {
             loadMap(true);
-            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const drawLayer = (grid: number[][])=> {
-        console.log("draw map")
+    const drawLayer = (grid: number[][]) => {
+        console.log('draw map');
         const rowArray = Array.from({ length: ROWS }, (value, index) => index);
         const colArray = Array.from({ length: COLS }, (value, index) => index);
-        return rowArray.map(i =>{
-            return colArray.map(j=>{
+        return rowArray.map((i) => {
+            return colArray.map((j) => {
                 const item = grid[i][j];
                 if (!item) {
                     // empty tile
                     return null;
                 }
-                const img = document.querySelector(`#map-tile-img-${item}`) as CanvasImageSource;
+                const img = document.querySelector(
+                    `#map-tile-img-${item}`
+                ) as CanvasImageSource;
 
                 const x = j * TILE_SIZE;
                 const y = i * TILE_SIZE;
-                return( <Image key={i+"-"+j} image={img} x={x} y={y} width={TILE_SIZE} height={TILE_SIZE}/>)
-            })
-        })
+                return (
+                    <Image
+                        key={i + '-' + j}
+                        image={img}
+                        x={x}
+                        y={y}
+                        width={TILE_SIZE}
+                        height={TILE_SIZE}
+                    />
+                );
+            });
+        });
     };
 
     return (
@@ -45,11 +62,10 @@ const MapKonva: React.FC<PropsFromRedux> = ({ loadMap, map }: PropsFromRedux) =>
     );
 };
 
-
-const mapStateToProps = (state: RootState) => ({map: state.gameStatus.map})
+const mapStateToProps = (state: RootState) => ({ map: state.gameStatus.map });
 const mapDispatch = { loadMap };
-const connector = connect(mapStateToProps, mapDispatch)
+const connector = connect(mapStateToProps, mapDispatch);
 
-type PropsFromRedux = ConnectedProps<typeof connector>
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(MapKonva);

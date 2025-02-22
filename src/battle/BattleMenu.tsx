@@ -1,7 +1,12 @@
 import React from 'react';
 import styles from './stylesBattleMenu.module.css';
 
-export const BattleMenu = ({ onAttack, onMagic, onHeal }) => (
+interface BattleMenuProps {
+    onAttack: () => void;
+    onMagic: () => void;
+    onHeal: () => void;
+}
+export const BattleMenu = ({ onAttack, onMagic, onHeal }: BattleMenuProps) => (
     <div className={styles.main}>
         <div onClick={onAttack} className={styles.option}>
             Attack

@@ -1,30 +1,30 @@
-import Konva from "konva";
+import Konva from 'konva';
 import Context = Konva.Context;
-import {MAP_DIMENSIONS} from "./mapImgs";
+import { MAP_DIMENSIONS } from './mapImgs';
 
-const {COLS, ROWS} = MAP_DIMENSIONS;
-const CANVAS_WIDTH= COLS*32
-const CANVAS_HEIGHT = ROWS*32
+const { COLS, ROWS } = MAP_DIMENSIONS;
+const CANVAS_WIDTH = COLS * 32;
+const CANVAS_HEIGHT = ROWS * 32;
 
 const MIN = 0;
 const MAX = CANVAS_WIDTH;
 
-function clamp(number:number, min = MIN, max = MAX) : number {
+function clamp(number: number, min = MIN, max = MAX): number {
     return Math.max(min, Math.min(number, max));
 }
-function random(factor: number) :number {
+function random(factor: number): number {
     return clamp(Math.floor(Math.random() * factor));
 }
 export class Satellite {
-    ctx: Context|null = null
+    ctx: Context | null = null;
     x = 0;
     y = 0;
     size = 0;
     r = 0;
-    deg:number|undefined = 0;
-    bgColor = "";
+    deg: number | undefined = 0;
+    bgColor = '';
 
-    constructor(ctx: Context , deg?:number) {
+    constructor(ctx: Context, deg?: number) {
         this.ctx = ctx;
         this.deg = deg;
         this.reset();
@@ -32,7 +32,7 @@ export class Satellite {
     }
 
     draw() {
-        if(!this.ctx) return;
+        if (!this.ctx) return;
         this.ctx.beginPath();
         this.ctx.fillStyle = this.bgColor;
         this.ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -59,20 +59,20 @@ export class Satellite {
 
 // All the properties for Ring
 export class Ring {
-    ctx: Context|null = null
+    ctx: Context | null = null;
     x = 0;
     y = 0;
     radius = 0;
-    color = "";
+    color = '';
     velocity = 0;
 
-    constructor(ctx: Context , deg?:number) {
+    constructor(ctx: Context) {
         this.ctx = ctx;
         this.reset();
     }
 
     draw() {
-        if(!this.ctx) return;
+        if (!this.ctx) return;
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.ctx.strokeStyle = this.color;
@@ -85,7 +85,7 @@ export class Ring {
         this.x = 0;
         this.y = 0;
         this.radius = 0;
-        this.color = "#ffffffaa";
+        this.color = '#ffffffaa';
         this.velocity = 2;
     }
 }
