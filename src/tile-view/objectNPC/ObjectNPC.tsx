@@ -1,7 +1,7 @@
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Sprite } from 'react-konva';
-import { TILE_SIZE } from '../maps/mapImgs';
+import { TILE_SIZE } from '../maps/mapData';
 import { LoadObjectAction } from '../slices/statusSlice';
 
 interface ObjectNPCProps {

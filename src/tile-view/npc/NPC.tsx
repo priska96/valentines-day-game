@@ -7,7 +7,7 @@ import { Sprite } from 'react-konva';
 import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { dialogs } from '../dialog_utils';
-import { TILE_SIZE } from '../maps/mapImgs';
+import { TILE_SIZE } from '../maps/mapData';
 import { ObjectState } from '../objectNPC/slices/objectSlice';
 import { LoadNPCAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';

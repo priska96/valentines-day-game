@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;
@@ -99,6 +100,9 @@ const statusSlice = createSlice({
         loadBackground(state, action: PayloadAction<boolean>) {
             state.backgroundImgLoaded = action.payload;
         },
+        updateStatusState(_, action: PayloadAction<GameState>) {
+            return action.payload;
+        },
     },
 });
 
@@ -111,6 +115,7 @@ export const {
     changeMap,
     bufferBackgroundImage,
     loadBackground,
+    updateStatusState,
 } = statusSlice.actions;
 
 export default statusSlice.reducer;

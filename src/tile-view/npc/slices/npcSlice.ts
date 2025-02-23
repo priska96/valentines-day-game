@@ -355,9 +355,13 @@ const npcSlice = createSlice({
                 };
             });
         },
+        updateNPCState(_, action: PayloadAction<NPCState>) {
+            return action.payload;
+        },
     },
 });
 
-export const { move, bufferImage, fireAction, updateNPC } = npcSlice.actions;
+export const { move, bufferImage, fireAction, updateNPC, updateNPCState } =
+    npcSlice.actions;
 
 export default npcSlice.reducer;

@@ -81,3 +81,27 @@ export const OBJECT_NPC_SPRITE: Assets = {
     'object-5': [object51, object52],
     'object-6': [object61, object62],
 };
+
+export const wildFightOpts = [
+    true,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+];

@@ -122,6 +122,9 @@ const characterSlice = createSlice({
                 ...action.payload.updates,
             };
         },
+        updateCharacterState(_, action: PayloadAction<CharacterState>) {
+            return action.payload;
+        },
     },
 });
 
@@ -131,6 +134,7 @@ export const {
     addToInventory,
     updatePlayerPosition,
     updatePlayerSummary,
+    updateCharacterState,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;

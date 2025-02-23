@@ -32,9 +32,12 @@ const dialogSlice = createSlice({
             state.openerId = action.payload.openerId;
             state.action = action.payload.action;
         },
+        updateDialogState(_, action: PayloadAction<DialogState>) {
+            return action.payload;
+        },
     },
 });
 
-export const { setContents } = dialogSlice.actions;
+export const { setContents, updateDialogState } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

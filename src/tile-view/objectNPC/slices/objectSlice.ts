@@ -129,9 +129,13 @@ const objectSlice = createSlice({
                 };
             });
         },
+        updateObjectNPCState(_, action: PayloadAction<ObjectState>) {
+            return action.payload;
+        },
     },
 });
 
-export const { fireAction, bufferImage, updateObject } = objectSlice.actions;
+export const { fireAction, bufferImage, updateObject, updateObjectNPCState } =
+    objectSlice.actions;
 
 export default objectSlice.reducer;

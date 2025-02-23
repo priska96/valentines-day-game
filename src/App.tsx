@@ -29,6 +29,7 @@ import {
 import ExplosionKonva from './tile-view/ExplosionKonva';
 import MagicSpellSound from './assets/magic-spell-sound.mp3';
 import BackgroundMusic from './assets/background.mp3';
+import ConnectedLoadGameButton from './game-ui/LoadGameButton';
 
 function App({
     mode,
@@ -48,7 +49,6 @@ function App({
             <>
                 <SimpleDialog />
                 <GameUI />
-
                 <ImagesBuffer />
                 <CharacterBuffer />
                 <NPCBuffer />
@@ -62,10 +62,9 @@ function App({
                                 x={0}
                                 y={0}
                                 image={
-                                    (document.querySelector(
-                                        backgroundImg ?? ''
-                                    ) as CanvasImageSource) ??
-                                    ({} as CanvasImageSource)
+                                    document.querySelector(
+                                        backgroundImg as string
+                                    ) as CanvasImageSource
                                 }
                             />
                             <MapKonva />
@@ -156,6 +155,11 @@ function App({
                             Start
                         </span>
                     </div>
+
+                    {Object.keys(mapImagesLoaded).length >=
+                        Object.keys(MAP_TILE_IMAGES2).length - 1 && (
+                        <ConnectedLoadGameButton />
+                    )}
                     <div>
                         Instructions:
                         <ul>

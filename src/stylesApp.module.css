@@ -33,7 +33,7 @@
     row-gap: 2em;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: auto;
     margin: 2em;
 }
 
@@ -46,7 +46,28 @@
     padding: 0.5em;
     cursor: pointer;
 }
-.startGameButton:hover {
+.startGameButton:hover,
+.loadGameButton:hover {
     color: white;
     background-color: #7f0000;
+}
+
+.loadGameButtonContainer {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 2em;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+    margin-top: 0;
+}
+
+.loadGameButton {
+    color: #7f0000;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+    border: 2px solid #7f0000;
+    border-radius: 20px;
+    padding: 0.5em;
+    cursor: pointer;
 }

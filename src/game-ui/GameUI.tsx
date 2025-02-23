@@ -2,6 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { updatePlayerSummary } from '../tile-view/character/slices/characterSlice';
 import { RootState } from '../store';
+import SaveGameButton from './SaveGameButton';
 
 const GameUI: React.FC<PropsFromRedux> = ({
     character,
@@ -55,6 +56,7 @@ const GameUI: React.FC<PropsFromRedux> = ({
                     })}
                 </p>
             </div>
+            <SaveGameButton />
         </div>
     );
 };

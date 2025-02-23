@@ -11,16 +11,21 @@ import {
 import { changeMap, loadCharacter, onGameEnd } from '../slices/statusSlice';
 import { HERO_IMAGE_SIZE } from '../../constants';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
-import { TILE_SIZE } from '../maps/mapImgs';
+import { TILE_SIZE } from '../maps/mapData';
 import { checkMapCollision } from '../utils';
 import { fireAction, updateNPC, move as moveNPC } from '../npc/slices/npcSlice';
-import { doAction, finishAction } from './dialogActions';
 import { setContents } from '../../game-ui/slices/dialogSlice';
 import {
     updateObject,
     fireAction as fireActionObject,
 } from '../objectNPC/slices/objectSlice';
 import { Sprite as SpriteClass } from 'konva/lib/shapes/Sprite';
+import {
+    handleDialogAction,
+    handleGameEndConditions,
+    handleNPCFollow,
+    handleWildFight,
+} from './utils/moveFunctions';
 
 const CharacterKonva: React.FC<PropsFromRedux> = ({
     x,
@@ -61,176 +66,85 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const moveCharacter = useCallback(
-        (e: KeyboardEvent) => {
-            const key = e.key;
+    /**
+     * Handles character movement based on keyboard input.
+     * @param e - The keyboard event.
+     */
+    const handleMovement = (e: KeyboardEvent) => {
+        const key = e.key;
+        e.preventDefault();
 
-            e.preventDefault();
-            if (MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface]) {
-                const [xDir, yDir] =
-                    MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface];
-                const collusion = checkMapCollision(
-                    x + xDir,
-                    y + yDir,
-                    [...npc.npcs, ...objectNPC.objects],
-                    map
-                );
-                if (!collusion) {
-                    move({ x: xDir, y: yDir, dirKey: key });
-                    if (
-                        map === 'forest2' &&
-                        ((x + xDir === 2 && y + yDir === 8) ||
-                            (x + xDir === 6 && y + yDir === 12))
-                    ) {
-                        onGameEnd({
-                            mode: 'game-over-hole',
-                            winner: undefined,
-                            selectedOpponentIdx: 0,
-                        });
-                    }
-                    if (
-                        (map === 'forest2' || map === 'forest3') &&
-                        mode !== 'battle'
-                    ) {
-                        const wildFightOpts = [
-                            true,
-                            false,
-                            false,
-                            true,
-                            false,
-                            true,
-                            false,
-                            true,
-                            false,
-                            false,
-                            true,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                        ];
-                        if (
-                            wildFightOpts[
-                                Math.floor(Math.random() * wildFightOpts.length)
-                            ]
-                        ) {
-                            const oppenent = [7, 8, 9];
-
-                            setContents({
-                                open: true,
-                                title: 'Warning!!',
-                                text: 'A wild monster attacked you!',
-                                openerId: '',
-                                action: '',
-                            });
-                            setTimeout(() => {
-                                setContents({
-                                    open: false,
-                                    title: '',
-                                    text: '',
-                                    openerId: '',
-                                    action: '',
-                                });
-                                onGameEnd({
-                                    mode: 'battle',
-                                    winner: undefined,
-                                    selectedOpponentIdx:
-                                        oppenent[
-                                            Math.floor(
-                                                Math.random() * oppenent.length
-                                            )
-                                        ],
-                                });
-                            }, 3500);
-                        }
-                    }
-
-                    if (npc.npcs.some((n) => n.followHero)) {
-                        npc.npcs.forEach((n, idx) => {
-                            if (n.followHero) {
-                                moveNPC({ x: xDir, y: yDir, dirKey: key, idx });
-                            }
-                        });
-                    }
-                }
+        if (MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface]) {
+            const [xDir, yDir] =
+                MOVE_DIRECTIONS[key as keyof MoveDirectionsInterface];
+            const collusion = checkMapCollision(
+                x + xDir,
+                y + yDir,
+                [...npc.npcs, ...objectNPC.objects],
+                map
+            );
+            if (!collusion) {
+                move({ x: xDir, y: yDir, dirKey: key });
+                handleGameEndConditions(x + xDir, y + yDir, map, onGameEnd);
+                //handleWildFight(map, mode, setContents, onGameEnd);
+                handleNPCFollow(xDir, yDir, key, npc, moveNPC);
             }
+        }
 
-            if (key === 'Enter') {
-                if (dialog.open) {
-                    finishAction(
-                        dialog,
-                        npc,
-                        objectNPC,
-                        {
-                            x,
-                            y,
-                            step,
-                            dir,
-                            heroClass,
-                            heroImg,
-                            type,
-                            playerSummary,
-                            inventory,
-                            portrait,
-                        },
-                        setContents,
-                        fireAction,
-                        onGameEnd,
-                        changeMap,
-                        updatePlayerPosition,
-                        updateNPC,
-                        updateObject,
-                        fireActionObject,
-                        addToInventory
-                    );
-                } else {
-                    doAction(
-                        map,
-                        {
-                            x,
-                            y,
-                            step,
-                            dir,
-                            heroClass,
-                            heroImg,
-                            type,
-                            playerSummary,
-                            inventory,
-                            portrait,
-                        },
-                        npc,
-                        objectNPC,
-                        winner,
-                        mode,
-                        setContents,
-                        fireAction,
-                        onGameEnd,
-                        changeMap,
-                        updatePlayerPosition,
-                        updateNPC
-                    );
-                }
-            }
-            if (key === 'm') {
-                changeMap('sky');
-                updateNPC({
-                    idx: [2, 1],
-                    updates: {
-                        'data-1': { x: 8, y: 3, stopMoving: true },
-                        'data-2': { x: 3, y: 13 },
-                    },
-                });
-            }
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [spriteRef, move, x, y, step, dir, dialog]
-    );
+        if (key === 'Enter') {
+            const character = {
+                x,
+                y,
+                step,
+                dir,
+                heroClass,
+                heroImg,
+                type,
+                playerSummary,
+                inventory,
+                portrait,
+            };
+            handleDialogAction(
+                dialog,
+                npc,
+                objectNPC,
+                character,
+                map,
+                winner,
+                mode,
+                setContents,
+                fireAction,
+                onGameEnd,
+                changeMap,
+                updatePlayerPosition,
+                updateNPC,
+                updateObject,
+                fireActionObject,
+                addToInventory
+            );
+        }
+
+        if (key === 'm') {
+            changeMap('sky');
+            updateNPC({
+                idx: [2, 1],
+                updates: {
+                    'data-1': { x: 8, y: 3, stopMoving: true },
+                    'data-2': { x: 3, y: 13 },
+                },
+            });
+        }
+    };
+
+    const moveCharacter = useCallback(handleMovement, [
+        spriteRef,
+        move,
+        x,
+        y,
+        step,
+        dir,
+        dialog,
+    ]);
 
     useEffect(() => {
         document.addEventListener('keypress', moveCharacter);
