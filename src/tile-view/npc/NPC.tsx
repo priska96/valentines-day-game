@@ -25,6 +25,7 @@ interface NPCProps extends NPCInterface {
     character: CharacterState;
     objectNPC: ObjectState;
     allNPC: NPCState;
+    mode: string | undefined;
 }
 
 export const NPC: React.FC<NPCProps> = ({
@@ -46,6 +47,7 @@ export const NPC: React.FC<NPCProps> = ({
     objectNPC,
     currentMap,
     allNPC,
+    mode,
 }: NPCProps) => {
     const currentImgSize = NPC_IMAGE_SIZE[id];
     const spriteRef = useRef<Konva.Sprite>(null);
@@ -143,6 +145,9 @@ export const NPC: React.FC<NPCProps> = ({
     };
 
     useEffect(() => {
+        if (mode === 'start') {
+            return;
+        }
         if (followHero) {
             return;
         }
@@ -151,7 +156,7 @@ export const NPC: React.FC<NPCProps> = ({
         }, 1500);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [x, y, stopMoving, followHero]);
+    }, [x, y, stopMoving, followHero, mode]);
 
     return heroImg && map.includes(currentMap) ? (
         <Sprite

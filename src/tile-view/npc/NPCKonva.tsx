@@ -22,6 +22,7 @@ const NPCKonva = (props: PropsFromRedux) => {
                     move={props.move}
                     setContents={props.setContents}
                     allNPC={props.allNPC}
+                    mode={props.mode}
                 />
             ))}
         </Layer>
@@ -30,6 +31,7 @@ const NPCKonva = (props: PropsFromRedux) => {
 const mapStateToProps = (state: RootState) => ({
     ...state.npc,
     currentMap: state.gameStatus.map,
+    mode: state.gameStatus.mode,
     character: state.character,
     objectNPC: state.objectNPC,
     allNPC: state.npc,
