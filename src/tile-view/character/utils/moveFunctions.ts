@@ -170,7 +170,7 @@ export const handleDialogAction = (
     >
 ) => {
     if (dialog.open) {
-        finishAction(
+        finishAction({
             dialog,
             npc,
             objectNPC,
@@ -183,10 +183,10 @@ export const handleDialogAction = (
             updateNPC,
             updateObject,
             fireActionObject,
-            addToInventory
-        );
+            addToInventory,
+        });
     } else {
-        doAction(
+        doAction({
             map,
             character,
             npc,
@@ -198,7 +198,7 @@ export const handleDialogAction = (
             onGameEnd,
             changeMap,
             updatePlayerPosition,
-            updateNPC
-        );
+            updateNPC,
+        });
     }
 };

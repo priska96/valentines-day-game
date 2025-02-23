@@ -10,6 +10,10 @@ import bigTreeTopLeft from '../../assets/map/PineTools.com_files/row-8-column-1.
 import bigTreeTopRight from '../../assets/map/PineTools.com_files/row-8-column-2.png';
 import bigTreeBottomLeft from '../../assets/map/PineTools.com_files/row-9-column-1.png';
 import bigTreeBottomRight from '../../assets/map/PineTools.com_files/row-9-column-2.png';
+import bigPineTreeTopLeft from '../../assets/map/PineTools.com_files/row-2-column-1.png';
+import bigPineTreeTopRight from '../../assets/map/PineTools.com_files/row-2-column-2.png';
+import bigPineTreeBottomLeft from '../../assets/map/PineTools.com_files/row-3-column-1.png';
+import bigPineTreeBottomRight from '../../assets/map/PineTools.com_files/row-3-column-2.png';
 import yellowFlower from '../../assets/map/PineTools.com_files/row-8-column-8.png';
 import stone2Brown1 from '../../assets/map/stone_2_brown1.png';
 import bush from '../../assets/map/PineTools.com_files/row-2-column-5.png';
@@ -27,6 +31,26 @@ import waterLeftBottomCorner from '../../assets/map/PineTools.com_files/row-14-c
 import waterRightBottomCorner from '../../assets/map/PineTools.com_files/row-14-column-2.png';
 import woodenBoard from '../../assets/map/PineTools.com_files/row-7-column-6.png';
 import longGrassBush from '../../assets/map/PineTools.com_files/row-12-column-4.png';
+import rock from '../../assets/map/forest/tile023.png';
+import treeMeltedTop from '../../assets/map/forest/tile013.png';
+import treeMeltedRowMiddle from '../../assets/map/forest/tile014.png';
+import treeMeltedBottom from '../../assets/map/forest/tile021.png';
+import grassMelted from '../../assets/map/forest/tile009.png';
+import grassMelted2 from '../../assets/map/forest/tile010.png';
+import treeStomp from '../../assets/map/forest/tile012.png';
+import grassMeltedTopLeft from '../../assets/map/forest/tile272.png';
+import grassMeltedTopMiddle from '../../assets/map/forest/tile273.png';
+import grassMeltedTopRight from '../../assets/map/forest/tile274.png';
+import grassMeltedMiddleLeft from '../../assets/map/forest/tile280.png';
+import grassMeltedMiddleMiddle from '../../assets/map/forest/tile281.png';
+import grassMeltedMiddleRight from '../../assets/map/forest/tile282.png';
+import grassMeltedBottomLeft from '../../assets/map/forest/tile288.png';
+import grassMeltedBottomMiddle from '../../assets/map/forest/tile289.png';
+import grassMeltedBottomRight from '../../assets/map/forest/tile290.png';
+import grassMeltedCornerTopRight from '../../assets/map/forest/tile284.png';
+import grassMeltedCornerTopLeft from '../../assets/map/forest/tile283.png';
+import grassMeltedCornerBottomRight from '../../assets/map/forest/tile292.png';
+import grassMeltedCornerBottomLeft from '../../assets/map/forest/tile291.png';
 
 import groundEvil from '../../assets/map/evil/row-1-column-1.png';
 import black from '../../assets/map/evil/row-4-column-2.png';
@@ -253,6 +277,32 @@ export const MAP_TILE_IMAGES2: AssetsSingle = {
     82: bigTreeTopRight,
     91: bigTreeBottomLeft,
     92: bigTreeBottomRight,
+    21: bigPineTreeTopLeft,
+    22: bigPineTreeTopRight,
+    31: bigPineTreeBottomLeft,
+    32: bigPineTreeBottomRight,
+
+    23: rock,
+    13: treeMeltedTop,
+    14: treeMeltedRowMiddle,
+    t21: treeMeltedBottom,
+    f009: grassMelted,
+    f010: grassMelted2,
+    f012: treeStomp,
+    f272: grassMeltedTopLeft,
+    f273: grassMeltedTopMiddle,
+    f274: grassMeltedTopRight,
+    f280: grassMeltedMiddleLeft,
+    f281: grassMeltedMiddleMiddle,
+    f282: grassMeltedMiddleRight,
+    f288: grassMeltedBottomLeft,
+    f289: grassMeltedBottomMiddle,
+    f290: grassMeltedBottomRight,
+    f284: grassMeltedCornerTopRight,
+    f283: grassMeltedCornerTopLeft,
+    f292: grassMeltedCornerBottomRight,
+    f291: grassMeltedCornerBottomLeft,
+
     88: yellowFlower,
     5: stone2Brown1,
     25: bush,
@@ -483,6 +533,5 @@ export const MAP_TILE_IMAGES2: AssetsSingle = {
     m148: meltedGroundPath,
     m196: meltedLightBottom,
 };
-
 export type MapMatrixRow = Array<string[]>;
 export type MapMatrix = Array<MapMatrixRow>;

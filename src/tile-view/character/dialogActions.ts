@@ -23,6 +23,9 @@ import {
     victoryEvilQueen,
     spellBroken,
     followHeroHome,
+    goToForest,
+    goToForest2From3,
+    goToForest3From4,
 } from '../action_utils';
 import { dialogs } from '../dialog_utils';
 import { fullyGeared, whoIsOnMap } from '../utils';
@@ -48,42 +51,77 @@ import {
 } from '../../game-ui/slices/dialogSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { OnGameEndAction } from '../slices/statusSlice';
+import { FinishActionParams } from './types/FinishActionParams';
+import { HanldeActionAfterDialogParams } from './types/HanldeActionAfterDialogParams';
+import { InteractWithNPCParams } from './types/InteractWithNPCParams';
+import { InteractWithObjectParams } from './types/InteractWithObjectParams';
+import { DoActionParams } from './types/DoActionParams';
 
-export const finishAction = (
-    dialog: DialogState,
-    npc: NPCState,
-    objectNPC: ObjectState,
-    character: CharacterState,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    fireAction: ActionCreatorWithPayload<FireAction, 'npc/fireAction'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updateObject: ActionCreatorWithPayload<
-        UpdateObjectAction,
-        'objectNPC/updateObject'
-    >,
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >,
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >
-) => {
+export const finishAction = ({
+    dialog,
+    npc,
+    objectNPC,
+    character,
+    setContents,
+    fireAction,
+    onGameEnd,
+    changeMap,
+    updatePlayerPosition,
+    updateNPC,
+    updateObject,
+    fireActionObject,
+    addToInventory,
+}: FinishActionParams) => {
     const openerId = dialog.openerId;
     const otherThingIdx = parseInt(openerId.split('-')[1]);
+
+    handleActionAfterDialogDone({
+        dialog,
+        character,
+        otherThingIdx,
+        setContents,
+        onGameEnd,
+        changeMap,
+        updatePlayerPosition,
+        updateNPC,
+        updateObject,
+        fireActionObject,
+    });
+
+    if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
+        interactWithNPC({ setContents, npc, otherThingIdx, fireAction });
+    } else if (openerId.startsWith('object-')) {
+        interactWithObject({
+            dialog,
+            setContents,
+            fireActionObject,
+            otherThingIdx,
+            objectNPC,
+            addToInventory,
+        });
+    } else {
+        setContents({
+            open: false,
+            title: '',
+            text: '',
+            openerId: '',
+            action: '',
+        });
+    }
+};
+
+const handleActionAfterDialogDone = ({
+    dialog,
+    character,
+    otherThingIdx,
+    setContents,
+    changeMap,
+    onGameEnd,
+    updatePlayerPosition,
+    updateNPC,
+    updateObject,
+    fireActionObject,
+}: HanldeActionAfterDialogParams) => {
     if (
         enterDungeon(
             dialog.action,
@@ -196,65 +234,62 @@ export const finishAction = (
     ) {
         return;
     }
+};
 
-    if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
-        if (!npc.npcs[otherThingIdx].dead) {
-            fireAction({ idx: otherThingIdx });
-        }
-    } else if (openerId.startsWith('object-')) {
-        const prevTitle = dialog.title;
-
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
-        fireActionObject({ idx: otherThingIdx });
-        if (prevTitle !== 'Nothing!')
-            addToInventory({ item: objectNPC.objects[otherThingIdx] });
-    } else {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+const interactWithNPC = ({
+    setContents,
+    npc,
+    otherThingIdx,
+    fireAction,
+}: InteractWithNPCParams) => {
+    setContents({
+        open: false,
+        title: '',
+        text: '',
+        openerId: '',
+        action: '',
+    });
+    if (!npc.npcs[otherThingIdx].dead) {
+        fireAction({ idx: otherThingIdx });
     }
 };
 
-export const doAction = (
-    map: string,
-    character: CharacterState,
-    npc: NPCState,
-    objectNPC: ObjectState,
-    winner: string | undefined,
-    mode: string | undefined,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    fireAction: ActionCreatorWithPayload<FireAction, 'npc/fireAction'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
-) => {
+const interactWithObject = ({
+    dialog,
+    setContents,
+    fireActionObject,
+    otherThingIdx,
+    objectNPC,
+    addToInventory,
+}: InteractWithObjectParams) => {
+    const prevTitle = dialog.title;
+
+    setContents({
+        open: false,
+        title: '',
+        text: '',
+        openerId: '',
+        action: '',
+    });
+    fireActionObject({ idx: otherThingIdx });
+    if (prevTitle !== 'Nothing!')
+        addToInventory({ item: objectNPC.objects[otherThingIdx] });
+};
+
+export const doAction = ({
+    map,
+    character,
+    npc,
+    objectNPC,
+    winner,
+    mode,
+    setContents,
+    fireAction,
+    onGameEnd,
+    changeMap,
+    updatePlayerPosition,
+    updateNPC,
+}: DoActionParams) => {
     //in front of dungeon entrance
     if (map === 'sky' && character.x === 5 && character.y === 7) {
         setContents(
@@ -288,6 +323,10 @@ export const doAction = (
     if (map === 'forest' && character.x === 15 && character.y === 15) {
         goToForest2(changeMap, updateNPC, updatePlayerPosition);
     }
+    //in front of forest
+    if (map === 'forest2' && character.x === 15 && character.y === 0) {
+        goToForest(changeMap, updateNPC, updatePlayerPosition);
+    }
     //read woodenBoard
     if (
         map === 'forest2' &&
@@ -304,9 +343,17 @@ export const doAction = (
     if (map === 'forest2' && character.x === 5 && character.y === 15) {
         goToForest3(changeMap, updateNPC, updatePlayerPosition);
     }
+    //in front of forest2from3
+    if (map === 'forest3' && character.x === 15 && character.y === 0) {
+        goToForest2From3(changeMap, updateNPC, updatePlayerPosition);
+    }
+    //in front of forest3from4
+    if (map === 'forest4' && character.x === 0 && character.y === 10) {
+        goToForest3From4(changeMap, updateNPC, updatePlayerPosition, mode);
+    }
     //in front of forest4
     if (map === 'forest3' && character.x === 16 && character.y === 10) {
-        goToForest4(changeMap, updateNPC, updatePlayerPosition);
+        goToForest4(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of pisces town
     if (map === 'forest4' && character.x === 15 && character.y === 0) {

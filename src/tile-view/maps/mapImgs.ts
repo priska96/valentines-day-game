@@ -3,6 +3,7 @@ import { evilKing } from './evilKing';
 import { forest } from './forest';
 import { forest2 } from './forest2';
 import { forest3 } from './forest3';
+import { forest3Melted } from './forest3Melted';
 import { forest4 } from './forest4';
 import { MapMatrix } from './mapData';
 import { piscesTown } from './piscesTown';
@@ -16,6 +17,7 @@ export interface LayersInterface {
     forest: MapMatrix;
     forest2: MapMatrix;
     forest3: MapMatrix;
+    forest3Melted: MapMatrix;
     forest4: MapMatrix;
     piscesTown: MapMatrix;
     piscesTown2: MapMatrix;
@@ -31,6 +33,7 @@ export const LAYERS: LayersInterface = {
     forest,
     forest2,
     forest3,
+    forest3Melted,
     forest4,
     piscesTown,
     piscesTown2,
@@ -204,4 +207,14 @@ export const SOLID_TILES = [
     'm125',
     'm071',
     'm196',
+    '31',
+    '32',
+    '22',
+    '21',
+    '23',
+    '25',
+    't21',
+    '14',
+    '13',
+    'f012',
 ];

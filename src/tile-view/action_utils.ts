@@ -382,6 +382,32 @@ export const followHeroHome = (
     return false;
 };
 
+export const goToForest = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('forest');
+    updateNPC({
+        idx: [2],
+        updates: {
+            'data-2': {
+                x: 15,
+                y: 15,
+                step: 0,
+                dir: 3,
+                stopMoving: false,
+                map: ['forest'],
+                followHero: true,
+            },
+        },
+    });
+    updatePlayerPosition({ x: 15, y: 14, step: 0, dir: 3 });
+};
+
 export const goToForest2 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
@@ -406,6 +432,32 @@ export const goToForest2 = (
         },
     });
     updatePlayerPosition({ x: 15, y: 1, step: 0, dir: 0 });
+};
+
+export const goToForest2From3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('forest2');
+    updateNPC({
+        idx: [2],
+        updates: {
+            'data-2': {
+                x: 5,
+                y: 15,
+                step: 0,
+                dir: 3,
+                stopMoving: false,
+                map: ['forest2'],
+                followHero: true,
+            },
+        },
+    });
+    updatePlayerPosition({ x: 5, y: 14, step: 0, dir: 3 });
 };
 
 export const goToForest3 = (
@@ -433,15 +485,45 @@ export const goToForest3 = (
     });
     updatePlayerPosition({ x: 15, y: 1, step: 0, dir: 0 });
 };
+
+export const goToForest3From4 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: string | undefined
+) => {
+    const newMap = mode !== 'victory-evil-queen' ? 'forest3' : 'forest3Melted';
+    changeMap(newMap);
+    updateNPC({
+        idx: [2],
+        updates: {
+            'data-2': {
+                x: 16,
+                y: 10,
+                step: 0,
+                dir: 1,
+                stopMoving: false,
+                map: [newMap],
+                followHero: true,
+            },
+        },
+    });
+    updatePlayerPosition({ x: 15, y: 10, step: 0, dir: 1 });
+};
 export const goToForest4 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
-    changeMap('forest4');
+    const newMap = mode !== 'victory-evil-queen' ? 'forest4' : 'forest4Melted';
+    changeMap(newMap);
     updateNPC({
         idx: [2],
         updates: {
@@ -451,7 +533,7 @@ export const goToForest4 = (
                 step: 0,
                 dir: 2,
                 stopMoving: false,
-                map: ['forest4'],
+                map: [newMap],
                 followHero: true,
             },
         },

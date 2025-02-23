@@ -97,6 +97,7 @@ const characterSlice = createSlice({
             state.y += y;
             state.step = state.step < 3 - 1 ? state.step + 1 : 0;
             state.dir = directions[dirKey as keyof KeyDirections];
+            console.log('moved:', state.x, state.y, state.step, state.dir);
         },
         bufferImage(state, action: PayloadAction<BufferImageAction>) {
             state.heroImg = action.payload.heroImg;
