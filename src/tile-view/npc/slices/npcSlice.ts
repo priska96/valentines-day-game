@@ -328,6 +328,28 @@ const npcSlice = createSlice({
                     magicDefense: 40,
                 },
             },
+            {
+                id: 'npc-10',
+                x: 0,
+                y: 0,
+                step: 0,
+                dir: 0,
+                followHero: false,
+                heroClass: 'NPC',
+                heroImg: null,
+                stopMoving: true,
+                type: 'npc',
+                map: [],
+                dead: false,
+                animate: '',
+                npcSummary: {
+                    main: false,
+                    name: 'Ancient Seer',
+                    level: 2,
+                    health: 24,
+                    maxHealth: 244,
+                },
+            },
         ],
     } as NPCState,
     reducers: {
@@ -353,6 +375,7 @@ const npcSlice = createSlice({
                     ...state.npcs[index],
                     ...action.payload.updates[`data-${index}`],
                 };
+                console.log('state.npcs[10]', state.npcs[10]);
             });
         },
         updateNPCState(_, action: PayloadAction<NPCState>) {

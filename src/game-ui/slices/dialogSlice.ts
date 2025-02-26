@@ -20,8 +20,10 @@ export enum DialogActionEnum {
     GAME_WON_EVIL_QUEEN = 'game-won-evil-queen',
     REWARDED_KING = 'rewarded-king',
     RECEIVE_SWORD = 'receive-sword',
-    BREAK_SPELL = 'break-spell',
     SPELL_BROKEN = 'spell-broken',
+    SEER_COMES_OUT = 'seer-comes-out',
+    COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
+    RECEIVE_POTION = 'receive-potion',
     DEFAULT = '',
 }
 export interface DialogState {

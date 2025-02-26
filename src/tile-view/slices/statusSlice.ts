@@ -12,6 +12,7 @@ export enum GameModeEnum {
     VICTORY_EVIL_QUEEN = 'victory-evil-queen',
     SPELL_BROKEN = 'spell-broken',
     CHAPTER3 = 'chapter3',
+    COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
 }
 interface GameState {
     mapLoaded: boolean;

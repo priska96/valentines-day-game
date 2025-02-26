@@ -15,7 +15,7 @@ export const handleMagic = ({
 }: BattleActionHandlerProps) => {
     const damage = magic({ attacker, receiver });
 
-    void (async () => {
+    (async () => {
         setInSequence(true);
         setAnnouncerMessage(`${attacker.name} has cast a spell!`);
         await wait(3000);
@@ -59,5 +59,5 @@ export const handleMagic = ({
 
         setTurn(turn === 0 ? 1 : 0);
         setInSequence(false);
-    })();
+    })().catch((e) => console.error('handlMagic', e));
 };

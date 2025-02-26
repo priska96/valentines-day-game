@@ -13,7 +13,8 @@ import {
     initialDialogState,
     SetContentsAction,
 } from '@/game-ui/slices/dialogSlice';
-import { dragonSword } from './character/slices/inventory';
+import { dragonSword, underWaterPotion } from './character/slices/inventory';
+import { wait } from '@/battle/shared/helpers';
 
 export const goToSky = (
     action: DialogActionEnum,
@@ -901,7 +902,7 @@ export const getReward = (
 ) => {
     if (action === DialogActionEnum.REWARDED_KING) {
         setContents(
-            dialogs.piscesTown['npc-4'].getReward.content ??
+            dialogs.piscesTownMelted['npc-4'].getReward.content ??
                 ({} as SetContentsAction)
         );
         return true;
@@ -939,14 +940,9 @@ export const receiveSword = (
 
 export const spellBroken = (
     action: DialogActionEnum,
-    otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
     >,
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
@@ -975,6 +971,112 @@ export const spellBroken = (
                 'data-1': { map: ['piscesTown3Melted'] },
             },
         });
+
+        return true;
+    }
+    return false;
+};
+
+export const seerComesOut = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number
+) => {
+    if (action === DialogActionEnum.SEER_COMES_OUT) {
+        setContents(initialDialogState);
+        updateNPC({
+            idx: [10],
+            updates: {
+                'data-10': {
+                    x: 8,
+                    y: 8,
+                    step: 0,
+                    dir: 0,
+                    map: ['piscesTown3Melted'],
+                    stopMoving: false,
+                    animate: 'seer-comes-out',
+                },
+            },
+        });
+        return true;
+    }
+    return false;
+};
+export const collectMermaidTear = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number
+) => {
+    if (action === DialogActionEnum.COLLECT_MERMAID_TEAR) {
+        setContents(initialDialogState);
+        updateNPC({
+            idx: [10],
+            updates: {
+                'data-10': {
+                    map: ['piscesTown3Melted'],
+                    stopMoving: false,
+                    animate: '',
+                },
+            },
+        });
+        onGameEnd({
+            mode: GameModeEnum.GET_OUT,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
+        wait(1000).then(() => {
+            setContents(
+                dialogs.piscesTownMelted['npc-2'].collectMermaidTear.content ??
+                    ({} as SetContentsAction)
+            );
+        });
+        wait(8000).then(() => {
+            onGameEnd({
+                mode: GameModeEnum.COLLECT_MERMAID_TEAR,
+                winner: '',
+                selectedOpponentIdx: otherThingIdx,
+            });
+        });
+        return true;
+    }
+    return false;
+};
+
+export const receivePotion = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    addToInventory: ActionCreatorWithPayload<
+        AddToInventoryAction,
+        'character/addToInventory'
+    >,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number
+) => {
+    if (action === DialogActionEnum.RECEIVE_POTION) {
+        setContents(initialDialogState);
+        addToInventory({ item: underWaterPotion });
 
         return true;
     }

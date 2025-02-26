@@ -15,7 +15,7 @@ export const handleHeal = ({
 }: BattleActionHandlerProps) => {
     const recovered = heal({ receiver: attacker });
 
-    void (async () => {
+    (async () => {
         setInSequence(true);
         setAnnouncerMessage(`${attacker.name} has chosen to heal!`);
         await wait(3000);
@@ -55,5 +55,5 @@ export const handleHeal = ({
 
         setTurn(turn === 0 ? 1 : 0);
         setInSequence(false);
-    })();
+    })().catch((e) => console.error('handleHeal', e));
 };

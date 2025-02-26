@@ -51,25 +51,36 @@ export const othersIsOnMap = (
 export const whoIsOnMap = (
     x: number,
     y: number,
-    others: (CharacterState | NPC | ObjectNPC)[]
+    others: (CharacterState | NPC | ObjectNPC)[],
+    map: string
 ): (NPC | ObjectNPC) | undefined => {
     let result = undefined;
-    others.forEach((otherElem) => {
-        if (
-            (otherElem as ObjectNPC).type === 'objectNPC' ||
-            (otherElem as NPC).type === 'npc'
-        ) {
-            if (otherElem.x === x && otherElem.y === y - 1) {
-                result = otherElem as NPC | ObjectNPC;
-            } else if (otherElem.x === x - 1 && otherElem.y === y) {
-                result = otherElem as NPC | ObjectNPC;
-            } else if (otherElem.x === x && otherElem.y === y + 1) {
-                result = otherElem as NPC | ObjectNPC;
-            } else if (otherElem.x === x + 1 && otherElem.y === y) {
-                result = otherElem as NPC | ObjectNPC;
+    others
+        .filter((otherElem) => {
+            if (otherElem.type === 'character') {
+                return false;
             }
-        }
-    });
+            if ((otherElem as ObjectNPC | NPC).map.includes(map)) {
+                return true;
+            }
+            return false;
+        })
+        .forEach((otherElem) => {
+            if (
+                (otherElem as ObjectNPC).type === 'objectNPC' ||
+                (otherElem as NPC).type === 'npc'
+            ) {
+                if (otherElem.x === x && otherElem.y === y - 1) {
+                    result = otherElem as NPC | ObjectNPC;
+                } else if (otherElem.x === x - 1 && otherElem.y === y) {
+                    result = otherElem as NPC | ObjectNPC;
+                } else if (otherElem.x === x && otherElem.y === y + 1) {
+                    result = otherElem as NPC | ObjectNPC;
+                } else if (otherElem.x === x + 1 && otherElem.y === y) {
+                    result = otherElem as NPC | ObjectNPC;
+                }
+            }
+        });
 
     return result;
 };

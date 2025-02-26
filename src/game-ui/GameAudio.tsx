@@ -4,15 +4,13 @@ import BackgroundMusic from '../assets/background.mp3';
 import MagicSpellSound from '../assets/magic-spell-sound.mp3';
 import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
-const GameAudio = ({ mode }: PropsFromRedux) => {
+const GameAudio = ({ mode }: { mode?: GameModeEnum }) => {
     console.log(mode);
-    if (mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
-        return (
-            <audio id="audio" loop autoPlay>
-                <source src={MagicSpellSound} type="audio/mp3" />
-            </audio>
-        );
-    }
+
+    const source =
+        mode === GameModeEnum.VICTORY_EVIL_QUEEN
+            ? MagicSpellSound
+            : BackgroundMusic;
 
     if (
         [
@@ -28,7 +26,7 @@ const GameAudio = ({ mode }: PropsFromRedux) => {
     }
     return (
         <audio id="audio" loop autoPlay>
-            <source src={BackgroundMusic} type="audio/mp3" />
+            <source src={source} type="audio/mp3" />
         </audio>
     );
 };
@@ -41,4 +39,4 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(GameAudio);
+export default GameAudio; //connector(GameAudio);

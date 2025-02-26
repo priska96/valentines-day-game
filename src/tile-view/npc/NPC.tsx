@@ -12,6 +12,11 @@ import { ObjectState } from '../objectNPC/slices/objectSlice';
 import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';
 import { MoveAction, NPCState, NPC as NPCInterface } from './slices/npcSlice';
+import {
+    animateFallDownEvilKing,
+    animateSeerComesOut,
+    animateWalkToDad,
+} from './utils/moveNPCFunctions';
 
 interface NPCProps extends NPCInterface {
     idx: number;
@@ -53,75 +58,32 @@ export const NPC: React.FC<NPCProps> = ({
     const spriteRef = useRef<Konva.Sprite>(null);
 
     useEffect(() => {
-        if (
-            spriteRef &&
-            spriteRef.current &&
-            animate === 'evil-king-fall-down'
-        ) {
-            spriteRef.current.to({
-                x: 10 * TILE_SIZE,
-                y: 12 * TILE_SIZE,
-                duration: 1,
-                onUpdate: () => {
-                    spriteRef.current!.rotate(45);
-                },
-                onFinish: () =>
-                    setTimeout(() => {
-                        setContents(
-                            dialogs.piscesTown['npc-3'].evilKingFellDown
-                                .content ?? ({} as SetContentsAction)
-                        );
-                    }, 200),
-            });
-        }
+        animateFallDownEvilKing({
+            spriteRef,
+            animate,
+            setContents,
+        });
 
-        if (spriteRef && spriteRef.current && animate === 'walk-to-dad') {
-            spriteRef.current.to({
-                x: 8 * TILE_SIZE,
-                y: 14 * TILE_SIZE,
-                duration: 0.3,
-                onUpdate: () => {
-                    spriteRef.current!.start();
-                },
-                onFinish: () => {
-                    spriteRef.current!.to({
-                        x: 8 * TILE_SIZE,
-                        y: 15 * TILE_SIZE,
-                        duration: 0.3,
-                        onUpdate: () => {
-                            spriteRef.current!.start();
-                        },
-                        onFinish: () => {
-                            spriteRef.current!.to({
-                                x: 7 * TILE_SIZE,
-                                y: 12 * TILE_SIZE,
-                                duration: 0.8,
-                                onUpdate: () => {
-                                    spriteRef.current!.start();
-                                },
-                                onFinish: () => {
-                                    spriteRef.current!.stop();
-                                    setContents(
-                                        dialogs.piscesTown['npc-2'].beforeFight
-                                            .content ??
-                                            ({} as SetContentsAction)
-                                    );
-                                },
-                            });
-                        },
-                    });
-                },
-            });
-        }
+        animateWalkToDad({
+            spriteRef,
+            animate,
+            setContents,
+        });
+        animateSeerComesOut({
+            spriteRef,
+            animate,
+            setContents,
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [animate]);
 
     useEffect(() => {
         if (heroImg && map.includes(currentMap)) {
+            console.log('loadNPC', idx, heroImg);
             loadNPC({ idx: idx, val: true });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [heroImg, map, idx, currentMap]);
 
     const moveNPC = (keyString: string, idx: number) => {
         if (stopMoving) return;

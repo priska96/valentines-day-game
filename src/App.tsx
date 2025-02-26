@@ -33,7 +33,7 @@ function App({ mode }: PropsFromRedux) {
                 <BackgroundView />
                 <GameStage />
             </>
-            <GameAudio />
+            <GameAudio mode={currentMode} />
             {currentMode === GameModeEnum.START ? <GameStartScreen /> : ''}
             {currentMode === GameModeEnum.BATTLE ? <Battle /> : ''}
             <GameEndScreen />

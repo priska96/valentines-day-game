@@ -8,6 +8,7 @@ import evilQueen from './assets/heroes/evil-queen.png';
 import evilQueenDead from './assets/heroes/evil-queen_dead.png';
 import servant1 from './assets/heroes/npc5.png';
 import servant2 from './assets/heroes/npc6.png';
+import ancientSeer from './assets/heroes/npc10.png';
 import king from './assets/heroes/king.png';
 import objectO1 from './assets/map/PineTools.com_files/row-6-column-1.png';
 import objectO2 from './assets/map/PineTools.com_files/row-6-column-3.png';
@@ -43,6 +44,7 @@ export const NPC_IMAGE_SIZE: AssetsSingleSize = {
     'npc-7': 32,
     'npc-8': 32,
     'npc-9': 32,
+    'npc-10': 32,
 };
 
 interface AssetsSingle {
@@ -62,6 +64,7 @@ export const NPC_SPRITE: AssetsSingle = {
     'npc-7': ' ',
     'npc-8': ' ',
     'npc-9': ' ',
+    'npc-10': ancientSeer,
 };
 export const EVIL_KING_DEAD = evilKingDead;
 

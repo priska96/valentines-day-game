@@ -30,6 +30,9 @@ import {
     goToForest4FromPiscesTown,
     goToPiscesTown2From3,
     receiveSword,
+    seerComesOut,
+    collectMermaidTear,
+    receivePotion,
 } from '../action_utils';
 import { dialogs } from '../dialog_utils';
 import { fullyGeared, whoIsOnMap } from '../utils';
@@ -237,14 +240,35 @@ export const handleActionAfterDialogDone = ({
         )
     ) {
         return { success: true };
+    } else if (spellBroken(dialog.action, setContents, changeMap, updateNPC)) {
+        return { success: true };
     } else if (
-        spellBroken(
+        seerComesOut(
             dialog.action,
-            otherThingIdx,
             setContents,
+            updateNPC,
             onGameEnd,
-            changeMap,
-            updateNPC
+            otherThingIdx
+        )
+    ) {
+        return { success: true };
+    } else if (
+        collectMermaidTear(
+            dialog.action,
+            setContents,
+            updateNPC,
+            onGameEnd,
+            otherThingIdx
+        )
+    ) {
+        return { success: true };
+    } else if (
+        receivePotion(
+            dialog.action,
+            setContents,
+            addToInventory,
+            onGameEnd,
+            otherThingIdx
         )
     ) {
         return { success: true };
@@ -407,10 +431,12 @@ export const doAction = ({
     if (map === 'piscesTown2' && character.x === 0 && character.y === 7) {
         goToPiscesTownFrom2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
-    const otherThing = whoIsOnMap(character.x, character.y, [
-        ...npc.npcs,
-        ...objectNPC.objects,
-    ]);
+    const otherThing = whoIsOnMap(
+        character.x,
+        character.y,
+        [...npc.npcs, ...objectNPC.objects],
+        map
+    );
 
     if (!otherThing) return;
     if (otherThing.type === 'npc') {
@@ -472,17 +498,14 @@ export const doAction = ({
             );
             return;
         }
-        if (map === 'piscesTown3') {
+        if (map === 'piscesTown3' && mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
             setContents(
                 dialogs.piscesTown[otherThing.id].afterVictory.content ??
                     ({} as SetContentsAction)
             );
             return;
         }
-        if (
-            map === 'piscesTown3Melted' &&
-            mode === GameModeEnum.VICTORY_EVIL_QUEEN
-        ) {
+        if (map === 'piscesTown3Melted' && mode === GameModeEnum.SPELL_BROKEN) {
             setContents(
                 dialogs.piscesTownMelted[otherThing.id].afterSpell.content ??
                     ({} as SetContentsAction)
@@ -493,6 +516,23 @@ export const doAction = ({
             setContents(
                 dialogs.piscesTownMelted[otherThing.id].chapter3.content ??
                     ({} as SetContentsAction)
+            );
+            return;
+        }
+        if (
+            map === 'piscesTown3Melted' &&
+            mode === GameModeEnum.COLLECT_MERMAID_TEAR
+        ) {
+            if (character.inventory.find((item) => item.id === 'object-8')) {
+                setContents(
+                    dialogs.piscesTownMelted[otherThing.id].receivedPotion
+                        .content ?? ({} as SetContentsAction)
+                );
+                return;
+            }
+            setContents(
+                dialogs.piscesTownMelted[otherThing.id]?.collectMermaidTear
+                    .content ?? ({} as SetContentsAction)
             );
             return;
         }

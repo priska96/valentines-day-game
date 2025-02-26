@@ -15,7 +15,7 @@ export const handleAttack = ({
 }: BattleActionHandlerProps) => {
     const damage = attack({ attacker, receiver });
 
-    void (async () => {
+    (async () => {
         setInSequence(true);
         setAnnouncerMessage(`${attacker.name} has chosen to attack!`);
         await wait(3000);
@@ -60,5 +60,5 @@ export const handleAttack = ({
 
         setTurn(turn === 0 ? 1 : 0);
         setInSequence(false);
-    })();
+    })().catch((e) => console.error('handleAttack', e));
 };

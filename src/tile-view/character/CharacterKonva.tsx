@@ -88,6 +88,8 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
                 handleGameEndConditions(x + xDir, y + yDir, map, onGameEnd);
                 //handleWildFight(map, mode, setContents, onGameEnd);
                 handleNPCFollow(xDir, yDir, key, npc, moveNPC);
+            } else {
+                move({ x: 0, y: 0, dirKey: key });
             }
         }
 

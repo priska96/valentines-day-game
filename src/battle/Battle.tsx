@@ -55,7 +55,7 @@ const Battle = ({
 
     useEffect(() => {
         if (playerHealth === 0 || opponentHealth === 0) {
-            void (async () => {
+            (async () => {
                 await wait(1000);
                 onGameEnd(
                     playerHealth === 0
@@ -70,24 +70,29 @@ const Battle = ({
                               selectedOpponentIdx: 0,
                           }
                 );
-            })();
-            if (opponentHealth === 0) {
-                handleOpponentHealthZero({
-                    npcSummary,
-                    playerSummary,
-                    updatePlayerSummary,
-                    setContents,
-                    playerHealth,
+            })()
+                .then(() => {
+                    if (opponentHealth === 0) {
+                        handleOpponentHealthZero({
+                            npcSummary,
+                            playerSummary,
+                            updatePlayerSummary,
+                            setContents,
+                            playerHealth,
+                        });
+                    }
+                    if (playerHealth === 0) {
+                        handlePlayerHealthZero({
+                            npcSummary,
+                            updatePlayerSummary,
+                            playerHealth,
+                            setContents,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.error('battle ', err);
                 });
-            }
-            if (playerHealth === 0) {
-                handlePlayerHealthZero({
-                    npcSummary,
-                    updatePlayerSummary,
-                    playerHealth,
-                    setContents,
-                });
-            }
         }
         return () => {
             setSequence({ turn: -1, mode: '' });

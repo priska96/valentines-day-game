@@ -8,7 +8,7 @@ export const useTypedMessage = (message: string) => {
         setTypedMessage('');
 
         if (message.length) {
-            void (async () => {
+            (async () => {
                 let visibleMessage = '';
                 for (let i = 0; i < message.length; i++) {
                     await wait(25);
@@ -17,7 +17,7 @@ export const useTypedMessage = (message: string) => {
 
                     setTypedMessage(visibleMessage);
                 }
-            })();
+            })().catch((e) => console.error('useTypedMessage ', e));
         }
         return () => {};
     }, [message]);

@@ -1,6 +1,19 @@
 import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
+import { collectMermaidTear } from '../action_utils';
 
 export const piscesTown = {
+    'npc-1': {
+        afterSpell: {
+            content: {
+                open: true,
+                title: 'Evil King',
+                text: '.....',
+                openerId: 'npc-1',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
     'npc-2': {
         enterTown: {
             content: {
@@ -23,12 +36,13 @@ export const piscesTown = {
             },
         },
         afterVictory: {
+            // can be called while explosion is happening, but might also not be
             content: {
                 open: true,
                 title: 'Princess Priska',
                 text: 'Thank you my hero for defeating the Evil Queen and rescuing my father.',
                 openerId: 'npc-2',
-                action: DialogActionEnum.BREAK_SPELL,
+                action: DialogActionEnum.DEFAULT,
                 continue: false,
             },
         },
@@ -148,6 +162,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        chapter3: {
+            content: {
+                open: true,
+                title: 'Evil King',
+                text: '.....',
+                openerId: 'npc-1',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-2': {
         afterSpell: {
@@ -155,6 +179,36 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'Princess Priska',
                 text: "I'm so glad you came into my life and helped me my Hero Jihoon.",
+                openerId: 'npc-2',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        chapter3: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: "I'm so proud of you Hero Jihoon!You received the sword from the King.",
+                openerId: 'npc-2',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: 'Oh no, what is happening?! I can feel something bad is about to happen. Pisces Town is becomming weaker. Hero Jihoon, we need to collect the tears of the mermaids to restore the balance of power in Pisces Town.',
+                openerId: 'npc-2',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: 'Hero Jihoon, I believe in you. I hope you can find a way to restore the balance of power in Pisces Town. I feel we are running out of time.',
                 openerId: 'npc-2',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -174,6 +228,16 @@ export const piscesTownMelted = {
             },
         },
         afterSpell: {
+            content: {
+                open: true,
+                title: 'Evil Queen',
+                text: '.....',
+                openerId: 'npc-3',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        chapter3: {
             content: {
                 open: true,
                 title: 'Evil Queen',
@@ -215,11 +279,21 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
-        afterReward: {
+        chapter3: {
             content: {
                 open: true,
                 title: 'King of Pisces Town',
                 text: 'Good luck on your journey.',
+                openerId: 'npc-4',
+                action: DialogActionEnum.SEER_COMES_OUT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'King of Pisces Town',
+                text: 'We believe in you Hero Jihoon! Once again we ask you to help and rescue us! Good luck on your journey.',
                 openerId: 'npc-4',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -237,6 +311,36 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        chapter3: {
+            content: {
+                open: true,
+                title: 'Servant 1',
+                text: 'Thank you Hero!',
+                openerId: 'npc-5',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Servant 1',
+                text: 'I am so scared. Hero Jihoon you need to help us!',
+                openerId: 'npc-5',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Servant 1',
+                text: 'I wonder how you can find mermaids. I thought they were just a myth.',
+                openerId: 'npc-5',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-6': {
         afterSpell: {
@@ -245,6 +349,68 @@ export const piscesTownMelted = {
                 title: 'Servant 2',
                 text: 'I was so scared and thought I would continue being a snowman. Thank you!',
                 openerId: 'npc-6',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        chapter3: {
+            content: {
+                open: true,
+                title: 'Servant 2',
+                text: 'I was so scared and thought I would continue being a snowman. Thank you!',
+                openerId: 'npc-6',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Servant 2',
+                text: 'I wonder how you can find mermaids. I thought they were just a myth.',
+                openerId: 'npc-6',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Servant 2',
+                text: 'I wonder how you can find mermaids. I thought they were just a myth.',
+                openerId: 'npc-6',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-10': {
+        chapter3: {
+            content: {
+                open: true,
+                title: 'Ancient Seer',
+                text: 'My King!! Due to the ice spell the crystals that maintained the balance of power in Pisces Town were cracked. The only way to restore the balance is to gather tears of the fairies to fill the cracks.',
+                openerId: 'npc-10',
+                action: DialogActionEnum.COLLECT_MERMAID_TEAR,
+                continue: false,
+            },
+        },
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Ancient Seer',
+                text: 'Here Hero Jihoon. Take this potion. It will help you to breath under water.',
+                openerId: 'npc-10',
+                action: DialogActionEnum.RECEIVE_POTION,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Ancient Seer',
+                text: 'Come back to me when you have collected all the tears.',
+                openerId: 'npc-10',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
             },
