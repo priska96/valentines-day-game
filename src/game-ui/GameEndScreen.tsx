@@ -1,18 +1,19 @@
 import { RootState } from '@/store';
 import { connect, ConnectedProps } from 'react-redux';
 import styles from '../stylesApp.module.css';
-import { setContents } from './slices/dialogSlice';
+import { DialogActionEnum, setContents } from './slices/dialogSlice';
 import Reward from '../images/message2.mp4';
 import SpecialReward from '../images/IMG_5230.jpeg';
+import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
 const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
-    if (mode === 'game-over') {
+    if (mode === GameModeEnum.GAME_OVER) {
         return (
             <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>Game Over</div>
             </div>
         );
-    } else if (mode === 'game-over-hole') {
+    } else if (mode === GameModeEnum.GAME_OVER_HOLE) {
         return (
             <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>
@@ -22,7 +23,7 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                 </div>
             </div>
         );
-    } else if (mode === 'game-won') {
+    } else if (mode === GameModeEnum.GAME_WON) {
         return (
             <div className={styles.gameOverContainer}>
                 <div className={styles.gameOver}>
@@ -39,7 +40,8 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                                 title: 'Please be my Valentine forever!!!',
                                 text: Reward,
                                 openerId: '',
-                                action: 'video',
+                                action: DialogActionEnum.VIDEO,
+                                continue: false,
                             });
                         }}
                     >
@@ -53,7 +55,8 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                                 title: 'Please be my Valentine forever!!!',
                                 text: SpecialReward,
                                 openerId: '',
-                                action: 'photo',
+                                action: DialogActionEnum.PHOTO,
+                                continue: false,
                             });
                         }}
                     >

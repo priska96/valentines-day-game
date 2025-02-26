@@ -1,5 +1,5 @@
 import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { FireAction, NPCState } from '@/tile-view/npc/slices/npcSlice';
+import { FireAction } from '@/tile-view/npc/slices/npcSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { AddToInventoryAction } from '../slices/characterSlice';
 import { ObjectState } from '@/tile-view/objectNPC/slices/objectSlice';

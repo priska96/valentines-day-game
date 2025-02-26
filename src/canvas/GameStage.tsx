@@ -2,16 +2,13 @@ import { RootState } from '@/store';
 import CharacterKonva from '@/tile-view/character/CharacterKonva';
 import ExplosionKonva from '@/tile-view/ExplosionKonva';
 import MapKonva from '@/tile-view/MapKonva';
-import {
-    MAP_DIMENSIONS,
-    MAP_TILE_IMAGES2,
-    TILE_SIZE,
-} from '@/tile-view/maps/mapData';
+import { MAP_DIMENSIONS, MAP_TILE_IMAGES2 } from '@/tile-view/maps/mapData';
 import NPCKonva from '@/tile-view/npc/NPCKonva';
 import ObjectNPCKonva from '@/tile-view/objectNPC/ObjectNPCKonva';
-import { Stage, Layer, Line, Image } from 'react-konva';
+import { Stage, Layer, Image } from 'react-konva';
 import { connect, ConnectedProps } from 'react-redux';
 import { Grid } from './Grid';
+import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
 const GameStage = ({
     mode,
@@ -47,7 +44,9 @@ const GameStage = ({
             </Layer>
             <NPCKonva />
             <ObjectNPCKonva />
-            {currentMode === 'victory-evil-queen' ? <ExplosionKonva /> : null}
+            {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ? (
+                <ExplosionKonva />
+            ) : null}
         </Stage>
     );
 };

@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { MAP_DIMENSIONS, TILE_SIZE } from './maps/mapData';
 import { Ring, Satellite } from './Explosion';
 import { RootState } from '../store';
-import { onGameEnd } from './slices/statusSlice';
+import { GameModeEnum, onGameEnd } from './slices/statusSlice';
 import { setContents, SetContentsAction } from '../game-ui/slices/dialogSlice';
 import { connect, ConnectedProps } from 'react-redux';
 import { dialogs } from './dialog_utils';
@@ -12,6 +12,7 @@ import { dialogs } from './dialog_utils';
 const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const spriteRef = useRef<Konva.Layer>(null);
+
     function initializeAnimation() {
         const CANVAS_WIDTH = COLS * 32;
         const CANVAS_HEIGHT = ROWS * 32;
@@ -96,12 +97,13 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
                     ({} as SetContentsAction)
             );
             onGameEnd({
-                mode: 'spell-broken',
+                mode: GameModeEnum.SPELL_BROKEN,
                 winner: 'Jihoon',
                 selectedOpponentIdx: 0,
             });
         }, 6000);
     }
+
     useEffect(() => {
         if (spriteRef && spriteRef.current) {
             initializeAnimation();

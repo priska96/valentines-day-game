@@ -6,6 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../store';
 import './dialog.css';
+import { DialogActionEnum } from './slices/dialogSlice';
 
 function SimpleDialog({ dialog }: PropsFromRedux) {
     const { open, title, text, action } = dialog;
@@ -24,14 +25,14 @@ function SimpleDialog({ dialog }: PropsFromRedux) {
             ?.style.setProperty('--cursorY', y + 'px');
     };
     const message = () => {
-        if (action === 'video') {
+        if (action === DialogActionEnum.VIDEO) {
             return (
                 <video height="400" controls>
                     <source src={text} type="video/mp4" />
                 </video>
             );
         }
-        if (action === 'photo') {
+        if (action === DialogActionEnum.PHOTO) {
             return (
                 <div
                     style={{

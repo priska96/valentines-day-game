@@ -14,13 +14,14 @@ import GameStage from './canvas/GameStage';
 import GameStartScreen from './game-ui/GameStartScreen';
 import GameAudio from './game-ui/GameAudio';
 import GameEndScreen from './game-ui/GameEndScreen';
+import { GameModeEnum } from './tile-view/slices/statusSlice';
 
 function App({ mode }: PropsFromRedux) {
     const currentMode = mode;
 
     return (
         <main
-            className={`content ${currentMode === 'get-out' ? ' shake' : ''}`}
+            className={`content ${currentMode === GameModeEnum.GET_OUT ? ' shake' : ''}`}
         >
             <>
                 <SimpleDialog />
@@ -33,8 +34,8 @@ function App({ mode }: PropsFromRedux) {
                 <GameStage />
             </>
             <GameAudio />
-            {currentMode === 'start' ? <GameStartScreen /> : ''}
-            {currentMode === 'battle' ? <Battle /> : ''}
+            {currentMode === GameModeEnum.START ? <GameStartScreen /> : ''}
+            {currentMode === GameModeEnum.BATTLE ? <Battle /> : ''}
             <GameEndScreen />
         </main>
     );

@@ -254,6 +254,12 @@ import meltedWindowTop2 from '../../assets/map/PineTools.com_files/tile099.png';
 import meltedWindowBottom2 from '../../assets/map/PineTools.com_files/tile115.png';
 import meltedLightBottom from '../../assets/map/PineTools.com_files/tile196.png';
 import meltedPot from '../../assets/map/PineTools.com_files/row-7-column-1.png';
+import meltedWell from '../../assets/map/PineTools.com_files/tile147.png';
+import meltedBucket from '../../assets/map/PineTools.com_files/row-8-column-5.png';
+import meltedChimney from '../../assets/map/PineTools.com_files/tile144.png';
+import meltedSmallWindow from '../../assets/map/PineTools.com_files/tile064.png';
+import meltedDoor from '../../assets/map/PineTools.com_files/tile065.png';
+import meltedHouseWall from '../../assets/map/PineTools.com_files/tile034.png';
 
 export const TILE_SIZE = 32;
 export const MAP_DIMENSIONS = {
@@ -532,6 +538,12 @@ export const MAP_TILE_IMAGES2: AssetsSingle = {
     m071: meltedPot,
     m148: meltedGroundPath,
     m196: meltedLightBottom,
+    m147: meltedWell,
+    m85: meltedBucket,
+    m144: meltedChimney,
+    m064: meltedSmallWindow,
+    m065: meltedDoor,
+    m034: meltedHouseWall,
 };
 export type MapMatrixRow = Array<string[]>;
 export type MapMatrix = Array<MapMatrixRow>;

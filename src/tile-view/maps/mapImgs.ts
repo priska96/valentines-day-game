@@ -5,11 +5,14 @@ import { forest2 } from './forest2';
 import { forest3 } from './forest3';
 import { forest3Melted } from './forest3Melted';
 import { forest4 } from './forest4';
+import { forest4Melted } from './forest4Melted';
 import { MapMatrix } from './mapData';
 import { piscesTown } from './piscesTown';
 import { piscesTown2 } from './piscesTown2';
+import { piscesTown2Melted } from './piscesTown2Melted';
 import { piscesTown3 } from './piscesTown3';
 import { piscesTown3Melted } from './piscesTown3Melted';
+import { piscesTownMelted } from './piscesTownMelted';
 import { sky } from './sky';
 import { skyBroken } from './skyBroken';
 
@@ -19,8 +22,11 @@ export interface LayersInterface {
     forest3: MapMatrix;
     forest3Melted: MapMatrix;
     forest4: MapMatrix;
+    forest4Melted: MapMatrix;
     piscesTown: MapMatrix;
+    piscesTownMelted: MapMatrix;
     piscesTown2: MapMatrix;
+    piscesTown2Melted: MapMatrix;
     piscesTown3: MapMatrix;
     piscesTown3Melted: MapMatrix;
     evilKing: MapMatrix;
@@ -35,8 +41,11 @@ export const LAYERS: LayersInterface = {
     forest3,
     forest3Melted,
     forest4,
+    forest4Melted,
     piscesTown,
+    piscesTownMelted,
     piscesTown2,
+    piscesTown2Melted,
     piscesTown3,
     piscesTown3Melted,
     evilKing,
@@ -217,4 +226,11 @@ export const SOLID_TILES = [
     '14',
     '13',
     'f012',
+    'm071',
+    'm147',
+    'm85',
+    'm064',
+    'm144',
+    'm034',
+    'm065',
 ];

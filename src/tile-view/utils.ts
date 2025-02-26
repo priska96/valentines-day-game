@@ -54,7 +54,6 @@ export const whoIsOnMap = (
     others: (CharacterState | NPC | ObjectNPC)[]
 ): (NPC | ObjectNPC) | undefined => {
     let result = undefined;
-    //debugger
     others.forEach((otherElem) => {
         if (
             (otherElem as ObjectNPC).type === 'objectNPC' ||

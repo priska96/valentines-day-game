@@ -6,7 +6,7 @@ import { PlayerSummary } from './PlayerSummary';
 import { useAIOpponent, useBattleSequence } from './hooks';
 import { BattleMenu } from './BattleMenu';
 import { BattleAnnouncer } from './BattleAnnouncer';
-import { onGameEnd } from '../tile-view/slices/statusSlice';
+import { GameModeEnum, onGameEnd } from '../tile-view/slices/statusSlice';
 import { updatePlayerSummary } from '../tile-view/character/slices/characterSlice';
 import { setContents } from '../game-ui/slices/dialogSlice';
 import BattleMusic from '../images/battle.mp3';
@@ -28,7 +28,6 @@ const Battle = ({
     setContents,
     updatePlayerSummary,
 }: PropsFromRedux) => {
-    //debugger
     const [sequence, setSequence] = useState<Sequence>({ turn: -1, mode: '' });
     const { playerSummary } = character;
     const { npcSummary } = npcs[selectedOpponentIdx];
@@ -61,12 +60,12 @@ const Battle = ({
                 onGameEnd(
                     playerHealth === 0
                         ? {
-                              mode: 'world',
+                              mode: GameModeEnum.WORLD,
                               winner: npcSummary.name,
                               selectedOpponentIdx: 0,
                           }
                         : {
-                              mode: 'world',
+                              mode: GameModeEnum.WORLD,
                               winner: playerSummary.name,
                               selectedOpponentIdx: 0,
                           }
@@ -77,6 +76,7 @@ const Battle = ({
                     npcSummary,
                     playerSummary,
                     updatePlayerSummary,
+                    setContents,
                     playerHealth,
                 });
             }

@@ -42,4 +42,8 @@ export type HanldeActionAfterDialogParams = {
         FireAction,
         'objectNPC/fireAction'
     >;
+    addToInventory: ActionCreatorWithPayload<
+        AddToInventoryAction,
+        'character/addToInventory'
+    >;
 };

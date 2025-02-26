@@ -2,11 +2,11 @@ import { RootState } from '@/store';
 import { connect, ConnectedProps } from 'react-redux';
 import BackgroundMusic from '../assets/background.mp3';
 import MagicSpellSound from '../assets/magic-spell-sound.mp3';
+import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
 const GameAudio = ({ mode }: PropsFromRedux) => {
-    const currentMode = mode;
-
-    if (currentMode === 'victory-evil-queen') {
+    console.log(mode);
+    if (mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
         return (
             <audio id="audio" loop autoPlay>
                 <source src={MagicSpellSound} type="audio/mp3" />
@@ -16,13 +16,13 @@ const GameAudio = ({ mode }: PropsFromRedux) => {
 
     if (
         [
-            'start',
-            'victory-evil-queen',
-            'battle',
-            'game-over',
-            'game-over-hole',
-            'game-won',
-        ].includes(currentMode as string)
+            GameModeEnum.START,
+            GameModeEnum.VICTORY_EVIL_QUEEN,
+            GameModeEnum.BATTLE,
+            GameModeEnum.GAME_OVER,
+            GameModeEnum.GAME_OVER_HOLE,
+            GameModeEnum.GAME_WON,
+        ].includes(mode as GameModeEnum)
     ) {
         return <></>;
     }

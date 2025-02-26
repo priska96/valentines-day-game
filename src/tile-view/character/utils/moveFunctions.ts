@@ -1,8 +1,13 @@
 import { wildFightOpts } from '@/constants';
-import { OnGameEndAction } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum, OnGameEndAction } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { finishAction, doAction } from '../dialogActions';
-import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
+import {
+    DialogActionEnum,
+    DialogState,
+    initialDialogState,
+    SetContentsAction,
+} from '@/game-ui/slices/dialogSlice';
 import {
     FireAction,
     MoveAction,
@@ -18,6 +23,7 @@ import {
     CharacterState,
     UpdatePlayerPositionAction,
 } from '../slices/characterSlice';
+import { continueDialog } from './dialogFunctions';
 
 /**
  * Handles game end conditions based on character position.
@@ -37,7 +43,7 @@ export const handleGameEndConditions = (
         ((newX === 2 && newY === 8) || (newX === 6 && newY === 12))
     ) {
         onGameEnd({
-            mode: 'game-over-hole',
+            mode: GameModeEnum.GAME_OVER_HOLE,
             winner: undefined,
             selectedOpponentIdx: 0,
         });
@@ -69,18 +75,13 @@ export const handleWildFight = (
                 title: 'Warning!!',
                 text: 'A wild monster attacked you!',
                 openerId: '',
-                action: '',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
             });
             setTimeout(() => {
-                setContents({
-                    open: false,
-                    title: '',
-                    text: '',
-                    openerId: '',
-                    action: '',
-                });
+                setContents(initialDialogState);
                 onGameEnd({
-                    mode: 'battle',
+                    mode: GameModeEnum.BATTLE,
                     winner: undefined,
                     selectedOpponentIdx:
                         opponent[Math.floor(Math.random() * opponent.length)],
@@ -185,7 +186,25 @@ export const handleDialogAction = (
             fireActionObject,
             addToInventory,
         });
-    } else {
+    }
+    // else if (dialog.open && dialog.continue) {
+    //     continueDialog({
+    //         dialog,
+    //         npc,
+    //         objectNPC,
+    //         character,
+    //         setContents,
+    //         fireAction,
+    //         onGameEnd,
+    //         changeMap,
+    //         updatePlayerPosition,
+    //         updateNPC,
+    //         updateObject,
+    //         fireActionObject,
+    //         addToInventory,
+    //     });
+    // }
+    else {
         doAction({
             map,
             character,

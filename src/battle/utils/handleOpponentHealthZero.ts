@@ -1,4 +1,4 @@
-import { setContents } from '@/game-ui/slices/dialogSlice';
+import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import {
     CharSummary,
     UpdatePlayerSummaryAction,
@@ -14,6 +14,10 @@ interface HandleOpponentHealthZeroProps {
         UpdatePlayerSummaryAction,
         'character/updatePlayerSummary'
     >;
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >;
     playerHealth: number;
 }
 
@@ -21,6 +25,7 @@ export const handleOpponentHealthZero = ({
     npcSummary,
     playerSummary,
     updatePlayerSummary,
+    setContents,
     playerHealth,
 }: HandleOpponentHealthZeroProps) => {
     switch (npcSummary.name) {

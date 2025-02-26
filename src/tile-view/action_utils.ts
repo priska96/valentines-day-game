@@ -1,16 +1,22 @@
 import { dialogs } from './dialog_utils';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
+    AddToInventoryAction,
     CharacterState,
     UpdatePlayerPositionAction,
 } from './character/slices/characterSlice';
 import { FireAction, UpdateNPCAction } from './npc/slices/npcSlice';
 import { UpdateObjectAction } from './objectNPC/slices/objectSlice';
-import { OnGameEndAction } from './slices/statusSlice';
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
+import { GameModeEnum, OnGameEndAction } from './slices/statusSlice';
+import {
+    DialogActionEnum,
+    initialDialogState,
+    SetContentsAction,
+} from '@/game-ui/slices/dialogSlice';
+import { dragonSword } from './character/slices/inventory';
 
 export const goToSky = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -22,14 +28,8 @@ export const goToSky = (
     >,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
-    if (action === 'go-to-sky') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.GO_TO_SKY) {
+        setContents(initialDialogState);
 
         changeMap('sky');
 
@@ -47,7 +47,7 @@ export const goToSky = (
 };
 
 export const enterDungeon = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -63,14 +63,8 @@ export const enterDungeon = (
         'objectNPC/updateObject'
     >
 ) => {
-    if (action === 'enter-dungeon') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.ENTER_DUNGEON) {
+        setContents(initialDialogState);
         changeMap('evilKing');
         updateObject({
             idx: [5, 6],
@@ -97,7 +91,7 @@ export const enterDungeon = (
 };
 
 export const battleEvilKing = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -105,16 +99,10 @@ export const battleEvilKing = (
     >,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'battle-evil-king') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.BATTLE_EVIL_KING) {
+        setContents(initialDialogState);
         onGameEnd({
-            mode: 'battle',
+            mode: GameModeEnum.BATTLE,
             winner: undefined,
             selectedOpponentIdx: otherThingIdx,
         });
@@ -124,7 +112,7 @@ export const battleEvilKing = (
 };
 
 export const gameOver = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -132,16 +120,10 @@ export const gameOver = (
     >,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'game-over') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.GAME_OVER) {
+        setContents(initialDialogState);
         onGameEnd({
-            mode: 'game-over',
+            mode: GameModeEnum.GAME_OVER,
             winner: 'Evil King',
             selectedOpponentIdx: otherThingIdx,
         });
@@ -151,7 +133,7 @@ export const gameOver = (
 };
 
 export const victory = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -164,14 +146,8 @@ export const victory = (
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'victory') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.VICOTRY) {
+        setContents(initialDialogState);
         fireActionObject({ idx: 5 }); // open door top
         fireActionObject({ idx: 6 }); // open door bottom
 
@@ -183,7 +159,7 @@ export const victory = (
             },
         });
         onGameEnd({
-            mode: 'get-out',
+            mode: GameModeEnum.GET_OUT,
             winner: 'Jihoon',
             selectedOpponentIdx: otherThingIdx,
         });
@@ -193,7 +169,7 @@ export const victory = (
 };
 
 export const exitDungeon = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -205,14 +181,8 @@ export const exitDungeon = (
     >,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
-    if (action === 'exit-dungeon') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.EXIT_DUNGEON) {
+        setContents(initialDialogState);
         changeMap('dungeonPath');
         updateNPC({
             idx: [2],
@@ -235,7 +205,7 @@ export const exitDungeon = (
     return false;
 };
 export const leaveDungeon = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -248,19 +218,13 @@ export const leaveDungeon = (
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'leave-dungeon') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.LEAVE_DUNGEON) {
+        setContents(initialDialogState);
 
         changeMap('skyBroken');
 
         onGameEnd({
-            mode: 'get-out',
+            mode: GameModeEnum.GET_OUT,
             winner: 'Jihoon',
             selectedOpponentIdx: 0,
         });
@@ -293,7 +257,7 @@ export const leaveDungeon = (
 };
 
 export const goBackToGround = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -306,16 +270,14 @@ export const goBackToGround = (
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'go-to-ground') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.GO_TO_GROUND) {
+        setContents(initialDialogState);
         changeMap('forest');
-        onGameEnd({ mode: 'newChapter', winner: '', selectedOpponentIdx: 0 });
+        onGameEnd({
+            mode: GameModeEnum.NEW_CHAPTER,
+            winner: '',
+            selectedOpponentIdx: 0,
+        });
         updateNPC({
             idx: [0],
             updates: {
@@ -350,7 +312,7 @@ export const goBackToGround = (
 };
 
 export const followHeroHome = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
@@ -358,14 +320,8 @@ export const followHeroHome = (
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     character: CharacterState
 ) => {
-    if (action === 'follow-hero-home') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.FOLLOW_HERO_HOME) {
+        setContents(initialDialogState);
         updateNPC({
             idx: [2],
             updates: {
@@ -414,23 +370,26 @@ export const goToForest2 = (
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
     changeMap('forest2');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 15,
-                y: 0,
-                step: 0,
-                dir: 0,
-                stopMoving: false,
-                map: ['forest2'],
-                followHero: true,
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 15,
+                    y: 0,
+                    step: 0,
+                    dir: 0,
+                    map: ['forest2'],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 15, y: 1, step: 0, dir: 0 });
 };
 
@@ -440,23 +399,26 @@ export const goToForest2From3 = (
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
     changeMap('forest2');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 5,
-                y: 15,
-                step: 0,
-                dir: 3,
-                stopMoving: false,
-                map: ['forest2'],
-                followHero: true,
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 5,
+                    y: 15,
+                    step: 0,
+                    dir: 3,
+                    map: ['forest2'],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 5, y: 14, step: 0, dir: 3 });
 };
 
@@ -466,23 +428,26 @@ export const goToForest3 = (
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
     changeMap('forest3');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 15,
-                y: 0,
-                step: 0,
-                dir: 0,
-                stopMoving: false,
-                map: ['forest3'],
-                followHero: true,
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 15,
+                    y: 0,
+                    step: 0,
+                    dir: 0,
+                    map: ['forest3'],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 15, y: 1, step: 0, dir: 0 });
 };
 
@@ -495,24 +460,28 @@ export const goToForest3From4 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap = mode !== 'victory-evil-queen' ? 'forest3' : 'forest3Melted';
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest3' : 'forest3Melted';
     changeMap(newMap);
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 16,
-                y: 10,
-                step: 0,
-                dir: 1,
-                stopMoving: false,
-                map: [newMap],
-                followHero: true,
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 16,
+                    y: 10,
+                    step: 0,
+                    dir: 1,
+                    map: [newMap],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 15, y: 10, step: 0, dir: 1 });
 };
+
 export const goToForest4 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
@@ -522,24 +491,58 @@ export const goToForest4 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap = mode !== 'victory-evil-queen' ? 'forest4' : 'forest4Melted';
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest4' : 'forest4Melted';
     changeMap(newMap);
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 0,
-                y: 10,
-                step: 0,
-                dir: 2,
-                stopMoving: false,
-                map: [newMap],
-                followHero: true,
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 0,
+                    y: 10,
+                    step: 0,
+                    dir: 2,
+                    map: [newMap],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 1, y: 10, step: 1, dir: 2 });
 };
+export const goToForest4FromPiscesTown = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: string | undefined
+) => {
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest4' : 'forest4Melted';
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 0,
+                    y: 10,
+                    step: 0,
+                    dir: 2,
+                    map: [newMap],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 15, y: 1, step: 1, dir: 0 });
+};
+
 export const goToPiscesTown = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
@@ -550,81 +553,145 @@ export const goToPiscesTown = (
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
-    >
+    >,
+    mode: string | undefined
 ) => {
-    changeMap('piscesTown');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 14,
-                y: 15,
-                step: 0,
-                dir: 3,
-                stopMoving: false,
-                map: ['piscesTown'],
-                followHero: true,
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
+            ? 'piscesTown'
+            : 'piscesTownMelted';
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 14,
+                    y: 15,
+                    step: 0,
+                    dir: 3,
+                    map: [newMap],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 14, y: 14, step: 1, dir: 3 });
-    setTimeout(() => {
-        setContents(
-            dialogs.piscesTown['npc-2'].enterTown.content ??
-                ({} as SetContentsAction)
-        );
-    }, 500);
+    if (princessOnMap) {
+        setTimeout(() => {
+            setContents(
+                dialogs.piscesTown['npc-2'].enterTown.content ??
+                    ({} as SetContentsAction)
+            );
+        }, 500);
+    }
 };
+
 export const goToPiscesTown2 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
-    changeMap('piscesTown2');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 0,
-                y: 7,
-                step: 0,
-                dir: 2,
-                stopMoving: false,
-                map: ['piscesTown2'],
-                followHero: true,
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
+            ? 'piscesTown2'
+            : 'piscesTown2Melted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 0,
+                    y: 7,
+                    step: 0,
+                    dir: 2,
+                    map: [newMap],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 1, y: 7, step: 1, dir: 2 });
 };
+
 export const goToPiscesTownFrom2 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
-    >
+    >,
+    mode: string | undefined
 ) => {
-    changeMap('piscesTown');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 16,
-                y: 7,
-                step: 1,
-                dir: 1,
-                stopMoving: false,
-                map: ['piscesTown'],
-                followHero: true,
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
+            ? 'piscesTown'
+            : 'piscesTownMelted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 16,
+                    y: 7,
+                    step: 1,
+                    dir: 1,
+                    map: [newMap],
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 15, y: 7, step: 1, dir: 1 });
 };
+
+export const goToPiscesTown2From3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: string | undefined
+) => {
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
+            ? 'piscesTown2'
+            : 'piscesTown2Melted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 16,
+                    y: 16,
+                    step: 1,
+                    dir: 1,
+                    map: [newMap],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 8, y: 1, step: 1, dir: 0 });
+};
+
 export const goToPiscesTown3 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
@@ -635,50 +702,55 @@ export const goToPiscesTown3 = (
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
-    >
+    >,
+    mode: string | undefined
 ) => {
-    changeMap('piscesTown3');
-    updateNPC({
-        idx: [4, 3, 2],
-        updates: {
-            'data-4': { x: 7, y: 10, map: ['piscesTown3'] },
-            'data-3': { x: 9, y: 10, map: ['piscesTown3'] },
-            'data-2': {
-                x: 8,
-                y: 15,
-                step: 1,
-                dir: 3,
-                stopMoving: true,
-                map: ['piscesTown3'],
-                followHero: false,
+    const newMap =
+        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
+            ? 'piscesTown3'
+            : 'piscesTown3Melted';
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    if (princessOnMap) {
+        updateNPC({
+            idx: [4, 3, 2],
+            updates: {
+                'data-4': { x: 7, y: 10, map: ['piscesTown3'] },
+                'data-3': { x: 9, y: 10, map: ['piscesTown3'] },
+                'data-2': {
+                    x: 8,
+                    y: 15,
+                    step: 1,
+                    dir: 3,
+                    stopMoving: true,
+                    map: [newMap],
+                    followHero: false,
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 8, y: 14, step: 1, dir: 3 });
-    setTimeout(() => {
-        setContents(
-            dialogs.piscesTown['npc-3'].beforeFight.content ??
-                ({} as SetContentsAction)
-        );
-    }, 200);
+    if (princessOnMap) {
+        setTimeout(() => {
+            setContents(
+                dialogs.piscesTown['npc-3'].beforeFight.content ??
+                    ({} as SetContentsAction)
+            );
+        }, 200);
+    }
 };
 
 export const beforeBattleEvilQueen = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
     >,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
-    if (action === 'before-battle-evil-queen') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.BEFORE_BATTLE_EVIL_QUEEN) {
+        setContents(initialDialogState);
         updateNPC({
             idx: [2],
             updates: { 'data-2': { animate: 'walk-to-dad', stopMoving: true } },
@@ -689,21 +761,15 @@ export const beforeBattleEvilQueen = (
 };
 
 export const beforeBattleEvilQueen2 = (
-    action: string,
+    action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
     >,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
-    if (action === 'before-battle-evil-queen2') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.BEFORE_BATTLE_EVIL_QUEEN2) {
+        setContents(initialDialogState);
         updateNPC({
             idx: [2, 1],
             updates: {
@@ -726,7 +792,7 @@ export const beforeBattleEvilQueen2 = (
 };
 
 export const battleEvilQueen = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -734,16 +800,10 @@ export const battleEvilQueen = (
     >,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'battle-evil-queen') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.BATTLE_EVIL_QUEEN) {
+        setContents(initialDialogState);
         onGameEnd({
-            mode: 'battle',
+            mode: GameModeEnum.BATTLE,
             winner: undefined,
             selectedOpponentIdx: otherThingIdx,
         });
@@ -753,7 +813,7 @@ export const battleEvilQueen = (
 };
 
 export const victoryEvilQueen = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -762,23 +822,26 @@ export const victoryEvilQueen = (
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'victory-evil-queen') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.VICTORY_EVIL_QUEEN) {
+        setContents(initialDialogState);
         updateNPC({
             idx: [3, 1],
             updates: {
                 'data-3': { dead: true, stopMoving: true },
-                'data-1': { x: 10, y: 12, dead: true, stopMoving: true },
+                'data-1': {
+                    x: 10,
+                    y: 12,
+                    dead: true,
+                    stopMoving: true,
+                    animate: '',
+                },
+                'data-2': {
+                    animate: '',
+                },
             },
         });
         onGameEnd({
-            mode: 'victory-evil-queen',
+            mode: GameModeEnum.VICTORY_EVIL_QUEEN,
             winner: 'Jihoon',
             selectedOpponentIdx: otherThingIdx,
         });
@@ -788,7 +851,7 @@ export const victoryEvilQueen = (
 };
 
 export const gameOverEvilQueen = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -796,16 +859,10 @@ export const gameOverEvilQueen = (
     >,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'game-over-evil-queen') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.GAME_OVER_EVIL_QUEEN) {
+        setContents(initialDialogState);
         onGameEnd({
-            mode: 'game-over',
+            mode: GameModeEnum.GAME_OVER,
             winner: 'Evil Queen',
             selectedOpponentIdx: otherThingIdx,
         });
@@ -813,8 +870,9 @@ export const gameOverEvilQueen = (
     }
     return false;
 };
+
 export const gameWonEvilQueen = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -822,16 +880,10 @@ export const gameWonEvilQueen = (
     >,
     onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
 ) => {
-    if (action === 'game-won-evil-queen') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.GAME_WON_EVIL_QUEEN) {
+        setContents(initialDialogState);
         onGameEnd({
-            mode: 'game-won',
+            mode: GameModeEnum.GAME_WON,
             winner: 'Jihoon',
             selectedOpponentIdx: otherThingIdx,
         });
@@ -840,8 +892,53 @@ export const gameWonEvilQueen = (
     return false;
 };
 
+export const getReward = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >
+) => {
+    if (action === DialogActionEnum.REWARDED_KING) {
+        setContents(
+            dialogs.piscesTown['npc-4'].getReward.content ??
+                ({} as SetContentsAction)
+        );
+        return true;
+    }
+    return false;
+};
+export const receiveSword = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    addToInventory: ActionCreatorWithPayload<
+        AddToInventoryAction,
+        'character/addToInventory'
+    >,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number
+) => {
+    if (action === DialogActionEnum.RECEIVE_SWORD) {
+        setContents(initialDialogState);
+        addToInventory({ item: dragonSword });
+        onGameEnd({
+            mode: GameModeEnum.CHAPTER3,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
 export const spellBroken = (
-    action: string,
+    action: DialogActionEnum,
     otherThingIdx: number,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
@@ -854,14 +951,8 @@ export const spellBroken = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
-    if (action === 'spell-broken') {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+    if (action === DialogActionEnum.SPELL_BROKEN) {
+        setContents(initialDialogState);
         changeMap('piscesTown3Melted');
         updateNPC({
             idx: [6, 5, 4, 3, 2, 1],

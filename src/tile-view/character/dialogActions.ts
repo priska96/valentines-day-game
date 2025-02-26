@@ -22,10 +22,14 @@ import {
     gameOverEvilQueen,
     victoryEvilQueen,
     spellBroken,
+    getReward,
     followHeroHome,
     goToForest,
     goToForest2From3,
     goToForest3From4,
+    goToForest4FromPiscesTown,
+    goToPiscesTown2From3,
+    receiveSword,
 } from '../action_utils';
 import { dialogs } from '../dialog_utils';
 import { fullyGeared, whoIsOnMap } from '../utils';
@@ -46,11 +50,13 @@ import {
     UpdateNPCAction,
 } from '../npc/slices/npcSlice';
 import {
+    DialogActionEnum,
     DialogState,
+    initialDialogState,
     SetContentsAction,
 } from '../../game-ui/slices/dialogSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { OnGameEndAction } from '../slices/statusSlice';
+import { GameModeEnum, OnGameEndAction } from '../slices/statusSlice';
 import { FinishActionParams } from './types/FinishActionParams';
 import { HanldeActionAfterDialogParams } from './types/HanldeActionAfterDialogParams';
 import { InteractWithNPCParams } from './types/InteractWithNPCParams';
@@ -75,7 +81,7 @@ export const finishAction = ({
     const openerId = dialog.openerId;
     const otherThingIdx = parseInt(openerId.split('-')[1]);
 
-    handleActionAfterDialogDone({
+    const res = handleActionAfterDialogDone({
         dialog,
         character,
         otherThingIdx,
@@ -86,7 +92,9 @@ export const finishAction = ({
         updateNPC,
         updateObject,
         fireActionObject,
+        addToInventory,
     });
+    if (res.success) return;
 
     if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
         interactWithNPC({ setContents, npc, otherThingIdx, fireAction });
@@ -100,17 +108,11 @@ export const finishAction = ({
             addToInventory,
         });
     } else {
-        setContents({
-            open: false,
-            title: '',
-            text: '',
-            openerId: '',
-            action: '',
-        });
+        setContents(initialDialogState);
     }
 };
 
-const handleActionAfterDialogDone = ({
+export const handleActionAfterDialogDone = ({
     dialog,
     character,
     otherThingIdx,
@@ -121,7 +123,8 @@ const handleActionAfterDialogDone = ({
     updateNPC,
     updateObject,
     fireActionObject,
-}: HanldeActionAfterDialogParams) => {
+    addToInventory,
+}: HanldeActionAfterDialogParams): { success: boolean } => {
     if (
         enterDungeon(
             dialog.action,
@@ -132,7 +135,7 @@ const handleActionAfterDialogDone = ({
             updateObject
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         goToSky(
             dialog.action,
@@ -142,13 +145,13 @@ const handleActionAfterDialogDone = ({
             updateNPC
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         battleEvilKing(dialog.action, otherThingIdx, setContents, onGameEnd)
     ) {
-        return;
+        return { success: true };
     } else if (gameOver(dialog.action, otherThingIdx, setContents, onGameEnd)) {
-        return;
+        return { success: true };
     } else if (
         victory(
             dialog.action,
@@ -159,7 +162,7 @@ const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         leaveDungeon(
             dialog.action,
@@ -170,7 +173,7 @@ const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         exitDungeon(
             dialog.action,
@@ -180,7 +183,7 @@ const handleActionAfterDialogDone = ({
             updateNPC
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         goBackToGround(
             dialog.action,
@@ -191,23 +194,23 @@ const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         followHeroHome(dialog.action, setContents, updateNPC, character)
     ) {
-        return;
+        return { success: true };
     } else if (beforeBattleEvilQueen(dialog.action, setContents, updateNPC)) {
-        return;
+        return { success: true };
     } else if (beforeBattleEvilQueen2(dialog.action, setContents, updateNPC)) {
-        return;
+        return { success: true };
     } else if (
         battleEvilQueen(dialog.action, otherThingIdx, setContents, onGameEnd)
     ) {
-        return;
+        return { success: true };
     } else if (
         gameOverEvilQueen(dialog.action, otherThingIdx, setContents, onGameEnd)
     ) {
-        return;
+        return { success: true };
     } else if (
         victoryEvilQueen(
             dialog.action,
@@ -217,11 +220,23 @@ const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
-        return;
+        return { success: true };
     } else if (
         gameWonEvilQueen(dialog.action, otherThingIdx, setContents, onGameEnd)
     ) {
-        return;
+        return { success: true };
+    } else if (getReward(dialog.action, setContents)) {
+        return { success: true };
+    } else if (
+        receiveSword(
+            dialog.action,
+            setContents,
+            addToInventory,
+            onGameEnd,
+            otherThingIdx
+        )
+    ) {
+        return { success: true };
     } else if (
         spellBroken(
             dialog.action,
@@ -232,8 +247,9 @@ const handleActionAfterDialogDone = ({
             updateNPC
         )
     ) {
-        return;
+        return { success: true };
     }
+    return { success: false };
 };
 
 const interactWithNPC = ({
@@ -242,13 +258,7 @@ const interactWithNPC = ({
     otherThingIdx,
     fireAction,
 }: InteractWithNPCParams) => {
-    setContents({
-        open: false,
-        title: '',
-        text: '',
-        openerId: '',
-        action: '',
-    });
+    setContents(initialDialogState);
     if (!npc.npcs[otherThingIdx].dead) {
         fireAction({ idx: otherThingIdx });
     }
@@ -264,13 +274,7 @@ const interactWithObject = ({
 }: InteractWithObjectParams) => {
     const prevTitle = dialog.title;
 
-    setContents({
-        open: false,
-        title: '',
-        text: '',
-        openerId: '',
-        action: '',
-    });
+    setContents(initialDialogState);
     fireActionObject({ idx: otherThingIdx });
     if (prevTitle !== 'Nothing!')
         addToInventory({ item: objectNPC.objects[otherThingIdx] });
@@ -308,7 +312,7 @@ export const doAction = ({
     if (map === 'dungeonPath' && character.x === 12 && character.y === 14) {
         if (
             leaveDungeon(
-                'leave-dungeon',
+                DialogActionEnum.LEAVE_DUNGEON,
                 setContents,
                 changeMap,
                 updatePlayerPosition,
@@ -321,9 +325,9 @@ export const doAction = ({
     }
     //in front of forest2
     if (map === 'forest' && character.x === 15 && character.y === 15) {
-        goToForest2(changeMap, updateNPC, updatePlayerPosition);
+        goToForest2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
-    //in front of forest
+    //in front of forestFrom2
     if (map === 'forest2' && character.x === 15 && character.y === 0) {
         goToForest(changeMap, updateNPC, updatePlayerPosition);
     }
@@ -334,18 +338,25 @@ export const doAction = ({
             (character.x === 2 && character.y === 4) ||
             (character.x === 4 && character.y === 4))
     ) {
-        setContents(
-            dialogs.forest2.woodenBoard.readBoard.content ??
-                ({} as SetContentsAction)
-        );
+        if (mode === GameModeEnum.NEW_CHAPTER) {
+            setContents(
+                dialogs.forest2.woodenBoard.readBoard.content ??
+                    ({} as SetContentsAction)
+            );
+        } else {
+            setContents(
+                dialogs.forest2.woodenBoard2.readBoard.content ??
+                    ({} as SetContentsAction)
+            );
+        }
     }
     //in front of forest3
     if (map === 'forest2' && character.x === 5 && character.y === 15) {
-        goToForest3(changeMap, updateNPC, updatePlayerPosition);
+        goToForest3(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of forest2from3
     if (map === 'forest3' && character.x === 15 && character.y === 0) {
-        goToForest2From3(changeMap, updateNPC, updatePlayerPosition);
+        goToForest2From3(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of forest3from4
     if (map === 'forest4' && character.x === 0 && character.y === 10) {
@@ -355,13 +366,32 @@ export const doAction = ({
     if (map === 'forest3' && character.x === 16 && character.y === 10) {
         goToForest4(changeMap, updateNPC, updatePlayerPosition, mode);
     }
+    //in front of forest4FromPiscesTown
+    if (map === 'piscesTown' && character.x === 14 && character.y === 15) {
+        goToForest4FromPiscesTown(
+            changeMap,
+            updateNPC,
+            updatePlayerPosition,
+            mode
+        );
+    }
     //in front of pisces town
     if (map === 'forest4' && character.x === 15 && character.y === 0) {
-        goToPiscesTown(changeMap, updateNPC, updatePlayerPosition, setContents);
+        goToPiscesTown(
+            changeMap,
+            updateNPC,
+            updatePlayerPosition,
+            setContents,
+            mode
+        );
     }
     //in front of pisces town2
     if (map === 'piscesTown' && character.x === 16 && character.y === 7) {
-        goToPiscesTown2(changeMap, updateNPC, updatePlayerPosition);
+        goToPiscesTown2(changeMap, updateNPC, updatePlayerPosition, mode);
+    }
+    //in front of pisces town2 from PT3
+    if (map === 'piscesTown3' && character.x === 8 && character.y === 15) {
+        goToPiscesTown2From3(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of pisces town3
     if (map === 'piscesTown2' && character.x === 8 && character.y === 0) {
@@ -369,12 +399,13 @@ export const doAction = ({
             changeMap,
             updateNPC,
             updatePlayerPosition,
-            setContents
+            setContents,
+            mode
         );
     }
-    //in front of pisces town
+    //in front of pisces town from PT2
     if (map === 'piscesTown2' && character.x === 0 && character.y === 7) {
-        goToPiscesTownFrom2(changeMap, updateNPC, updatePlayerPosition);
+        goToPiscesTownFrom2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     const otherThing = whoIsOnMap(character.x, character.y, [
         ...npc.npcs,
@@ -388,14 +419,14 @@ export const doAction = ({
             fireAction({ idx: otherThingIdx });
         }
         if (map === 'forest') {
-            if (mode === 'newChapter') {
+            if (mode === GameModeEnum.NEW_CHAPTER) {
                 setContents(
                     dialogs.forest[otherThing.id].travelHome.content ??
                         ({} as SetContentsAction)
                 );
                 return;
             }
-            if (mode === 'world') {
+            if (mode === GameModeEnum.WORLD) {
                 if (fullyGeared(character.inventory) === 3) {
                     if (winner === undefined || winner === 'Blue Dragon') {
                         setContents(
@@ -404,7 +435,7 @@ export const doAction = ({
                         );
                         setTimeout(() => {
                             onGameEnd({
-                                mode: 'battle',
+                                mode: GameModeEnum.BATTLE,
                                 winner: undefined,
                                 selectedOpponentIdx: otherThingIdx,
                             });
@@ -448,9 +479,19 @@ export const doAction = ({
             );
             return;
         }
-        if (map === 'piscesTown3Melted') {
+        if (
+            map === 'piscesTown3Melted' &&
+            mode === GameModeEnum.VICTORY_EVIL_QUEEN
+        ) {
             setContents(
-                dialogs.piscesTown[otherThing.id].afterSpell.content ??
+                dialogs.piscesTownMelted[otherThing.id].afterSpell.content ??
+                    ({} as SetContentsAction)
+            );
+            return;
+        }
+        if (map === 'piscesTown3Melted' && mode === GameModeEnum.CHAPTER3) {
+            setContents(
+                dialogs.piscesTownMelted[otherThing.id].chapter3.content ??
                     ({} as SetContentsAction)
             );
             return;
@@ -463,7 +504,8 @@ export const doAction = ({
                 title: 'Nothing!',
                 text: `Here is nothing to take from.`,
                 openerId: otherThing.id,
-                action: '',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
             });
         } else {
             setContents({
@@ -471,7 +513,8 @@ export const doAction = ({
                 title: 'Item found!',
                 text: `You found ${(otherThing as ObjectNPC).item}!`,
                 openerId: otherThing.id,
-                action: '',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
             });
         }
     }

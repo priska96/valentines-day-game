@@ -2,7 +2,7 @@ import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import { UpdatePlayerSummaryAction } from '@/tile-view/character/slices/characterSlice';
 import { dialogs } from '@/tile-view/dialog_utils';
 import { NPCSummary } from '@/tile-view/npc/slices/npcSlice';
-import { onGameEnd } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum, onGameEnd } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 interface HandlePlayerHealthZeroProps {
@@ -39,7 +39,7 @@ export const handlePlayerHealthZero = ({
         }
         default: {
             onGameEnd({
-                mode: 'world',
+                mode: GameModeEnum.WORLD,
                 winner: npcSummary.name,
                 selectedOpponentIdx: 0,
             });

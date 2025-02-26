@@ -1,5 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export enum GameModeEnum {
+    START = 'start',
+    WORLD = 'world',
+    BATTLE = 'battle',
+    GET_OUT = 'get-out',
+    NEW_CHAPTER = 'new-chapter',
+    GAME_OVER = 'game-over',
+    GAME_OVER_HOLE = 'game-over-hole',
+    GAME_WON = 'game-won',
+    VICTORY_EVIL_QUEEN = 'victory-evil-queen',
+    SPELL_BROKEN = 'spell-broken',
+    CHAPTER3 = 'chapter3',
+}
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;
@@ -24,7 +37,7 @@ interface GameState {
         boolean,
         boolean,
     ];
-    mode: string | undefined;
+    mode: GameModeEnum | undefined;
     winner: string | undefined;
     selectedOpponentIdx: number;
     map: string;
@@ -43,7 +56,7 @@ export interface LoadObjectAction {
 }
 
 export interface OnGameEndAction {
-    mode: string | undefined;
+    mode: GameModeEnum | undefined;
     winner: string | undefined;
     selectedOpponentIdx: number;
 }
@@ -66,7 +79,7 @@ const statusSlice = createSlice({
             false,
         ],
         objectLoaded: [false, false, false, false, false, false, false],
-        mode: 'start',
+        mode: GameModeEnum.START,
         winner: 'Jihoon',
         selectedOpponentIdx: 0,
         map: 'forest',

@@ -9,7 +9,7 @@ import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { dialogs } from '../dialog_utils';
 import { TILE_SIZE } from '../maps/mapData';
 import { ObjectState } from '../objectNPC/slices/objectSlice';
-import { LoadNPCAction } from '../slices/statusSlice';
+import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';
 import { MoveAction, NPCState, NPC as NPCInterface } from './slices/npcSlice';
 
@@ -145,7 +145,7 @@ export const NPC: React.FC<NPCProps> = ({
     };
 
     useEffect(() => {
-        if (mode === 'start') {
+        if (mode === GameModeEnum.START) {
             return;
         }
         if (followHero) {

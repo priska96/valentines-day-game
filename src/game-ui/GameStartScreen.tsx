@@ -3,7 +3,7 @@ import ConnectedLoadGameButton from './LoadGameButton';
 import { RootState } from '@/store';
 import { connect, ConnectedProps } from 'react-redux';
 import styles from '../stylesApp.module.css';
-import { onGameEnd } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum, onGameEnd } from '@/tile-view/slices/statusSlice';
 
 const GameStartScreen = ({ mapImagesLoaded, onGameEnd }: PropsFromRedux) => {
     return (
@@ -14,7 +14,7 @@ const GameStartScreen = ({ mapImagesLoaded, onGameEnd }: PropsFromRedux) => {
                     className={styles.startGameButton}
                     onClick={() => {
                         onGameEnd({
-                            mode: 'world',
+                            mode: GameModeEnum.WORLD,
                             winner: undefined,
                             selectedOpponentIdx: 0,
                         });
