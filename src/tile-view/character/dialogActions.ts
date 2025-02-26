@@ -410,15 +410,27 @@ export const doAction = ({
         );
     }
     //in front of pisces town2
-    if (map === 'piscesTown' && character.x === 16 && character.y === 7) {
+    if (
+        (map === 'piscesTown' || map === 'piscesTownMelted') &&
+        character.x === 16 &&
+        character.y === 7
+    ) {
         goToPiscesTown2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of pisces town2 from PT3
-    if (map === 'piscesTown3' && character.x === 8 && character.y === 15) {
+    if (
+        (map === 'piscesTown3' || map === 'piscesTown3Melted') &&
+        character.x === 8 &&
+        character.y === 15
+    ) {
         goToPiscesTown2From3(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     //in front of pisces town3
-    if (map === 'piscesTown2' && character.x === 8 && character.y === 0) {
+    if (
+        (map === 'piscesTown2' || map === 'piscesTown2Melted') &&
+        character.x === 8 &&
+        character.y === 0
+    ) {
         goToPiscesTown3(
             changeMap,
             updateNPC,
@@ -428,7 +440,11 @@ export const doAction = ({
         );
     }
     //in front of pisces town from PT2
-    if (map === 'piscesTown2' && character.x === 0 && character.y === 7) {
+    if (
+        (map === 'piscesTown2' || map === 'piscesTown2Melted') &&
+        character.x === 0 &&
+        character.y === 7
+    ) {
         goToPiscesTownFrom2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
     const otherThing = whoIsOnMap(

@@ -14,6 +14,13 @@ export enum GameModeEnum {
     CHAPTER3 = 'chapter3',
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
 }
+
+export const MELTED_PISCESTOWN_GAME_MODES = [
+    GameModeEnum.VICTORY_EVIL_QUEEN,
+    GameModeEnum.SPELL_BROKEN,
+    GameModeEnum.CHAPTER3,
+    GameModeEnum.COLLECT_MERMAID_TEAR,
+];
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;

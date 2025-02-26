@@ -7,7 +7,11 @@ import {
 } from './character/slices/characterSlice';
 import { FireAction, UpdateNPCAction } from './npc/slices/npcSlice';
 import { UpdateObjectAction } from './objectNPC/slices/objectSlice';
-import { GameModeEnum, OnGameEndAction } from './slices/statusSlice';
+import {
+    GameModeEnum,
+    MELTED_PISCESTOWN_GAME_MODES,
+    OnGameEndAction,
+} from './slices/statusSlice';
 import {
     DialogActionEnum,
     initialDialogState,
@@ -461,8 +465,9 @@ export const goToForest3From4 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest3' : 'forest3Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'forest3'
+        : 'forest3Melted';
     changeMap(newMap);
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
@@ -492,8 +497,9 @@ export const goToForest4 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest4' : 'forest4Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'forest4'
+        : 'forest4Melted';
     changeMap(newMap);
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
@@ -522,8 +528,9 @@ export const goToForest4FromPiscesTown = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN ? 'forest4' : 'forest4Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'forest4'
+        : 'forest4Melted';
     changeMap(newMap);
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
@@ -557,10 +564,9 @@ export const goToPiscesTown = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
-            ? 'piscesTown'
-            : 'piscesTownMelted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown'
+        : 'piscesTownMelted';
     changeMap(newMap);
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
@@ -598,10 +604,9 @@ export const goToPiscesTown2 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
-            ? 'piscesTown2'
-            : 'piscesTown2Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown2'
+        : 'piscesTown2Melted';
 
     changeMap(newMap);
 
@@ -632,10 +637,9 @@ export const goToPiscesTownFrom2 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
-            ? 'piscesTown'
-            : 'piscesTownMelted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown'
+        : 'piscesTownMelted';
 
     changeMap(newMap);
 
@@ -665,12 +669,11 @@ export const goToPiscesTown2From3 = (
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
     >,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
-            ? 'piscesTown2'
-            : 'piscesTown2Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown2'
+        : 'piscesTown2Melted';
 
     changeMap(newMap);
 
@@ -706,10 +709,9 @@ export const goToPiscesTown3 = (
     >,
     mode: string | undefined
 ) => {
-    const newMap =
-        mode !== GameModeEnum.VICTORY_EVIL_QUEEN
-            ? 'piscesTown3'
-            : 'piscesTown3Melted';
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown3'
+        : 'piscesTown3Melted';
     changeMap(newMap);
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
