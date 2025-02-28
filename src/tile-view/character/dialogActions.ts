@@ -33,6 +33,12 @@ import {
     seerComesOut,
     collectMermaidTear,
     receivePotion,
+    goToHouse2,
+    goPiscesTown2FromHouse2,
+    goToHouse3,
+    goPiscesTown2FromHouse3,
+    goToHouse1,
+    goPiscesTownFromHouse1,
 } from '../action_utils';
 import { dialogs } from '../dialog_utils';
 import { fullyGeared, whoIsOnMap } from '../utils';
@@ -409,6 +415,28 @@ export const doAction = ({
             mode
         );
     }
+    //in fornt of house1
+    if (
+        map.startsWith('piscesTown') &&
+        character.x === 3 &&
+        character.y === 7
+    ) {
+        goToHouse1(changeMap, updateNPC, updatePlayerPosition, mode);
+    }
+    //in front of pisces town from house1
+    if (
+        map === 'house1' &&
+        (character.x === 6 || character.x === 7) &&
+        character.y === 15
+    ) {
+        goPiscesTownFromHouse1(
+            changeMap,
+            updateNPC,
+            updatePlayerPosition,
+            mode
+        );
+    }
+
     //in front of pisces town2
     if (
         (map === 'piscesTown' || map === 'piscesTownMelted') &&
@@ -447,6 +475,43 @@ export const doAction = ({
     ) {
         goToPiscesTownFrom2(changeMap, updateNPC, updatePlayerPosition, mode);
     }
+    //in fornt of house2
+    if (
+        map.startsWith('piscesTown2') &&
+        character.x === 3 &&
+        character.y === 7
+    ) {
+        goToHouse2(changeMap, updateNPC, updatePlayerPosition, mode);
+    }
+    //in front of pisces town2 from house2
+    if (map === 'house2' && character.x === 4 && character.y === 15) {
+        goPiscesTown2FromHouse2(
+            changeMap,
+            updateNPC,
+            updatePlayerPosition,
+            mode
+        );
+    }
+    //in fornt of house3
+    if (
+        map.startsWith('piscesTown2') &&
+        character.x === 14 &&
+        character.y === 14
+    ) {
+        goToHouse3(changeMap, updateNPC, updatePlayerPosition, mode);
+    }
+    //in front of pisces town2 from house2
+    if (map === 'house3' && character.x === 9 && character.y === 15) {
+        goPiscesTown2FromHouse3(
+            changeMap,
+            updateNPC,
+            updatePlayerPosition,
+            mode
+        );
+    }
+
+    // INTERACT WITH NPC
+
     const otherThing = whoIsOnMap(
         character.x,
         character.y,
@@ -521,7 +586,17 @@ export const doAction = ({
             );
             return;
         }
-        if (map === 'piscesTown3Melted' && mode === GameModeEnum.SPELL_BROKEN) {
+        if (
+            [
+                'piscesTownMelted',
+                'piscesTown2Melted',
+                'piscesTown3Melted',
+                'house1',
+                'house2',
+                'house3',
+            ].includes(map) &&
+            mode === GameModeEnum.SPELL_BROKEN
+        ) {
             setContents(
                 dialogs.piscesTownMelted[otherThing.id].afterSpell.content ??
                     ({} as SetContentsAction)

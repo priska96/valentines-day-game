@@ -55,12 +55,8 @@ const MapKonva: React.FC<PropsFromRedux> = ({
         });
     };
 
-    return (
-        <Group>
-            {drawLayer(LAYERS[map as keyof LayersInterface][0])}
-            {drawLayer(LAYERS[map as keyof LayersInterface][1])}
-        </Group>
-    );
+    const layers = LAYERS[map as keyof LayersInterface];
+    return <Group>{layers.map((_, idx) => drawLayer(layers[idx]))}</Group>;
 };
 
 const mapStateToProps = (state: RootState) => ({ map: state.gameStatus.map });

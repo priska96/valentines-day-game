@@ -356,7 +356,7 @@ export const citizen10 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['piscesTown2Melted'],
+    map: ['house2'],
     dead: false,
     animate: '',
     npcSummary: {

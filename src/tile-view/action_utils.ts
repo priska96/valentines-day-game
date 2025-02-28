@@ -594,6 +594,69 @@ export const goToPiscesTown = (
         }, 500);
     }
 };
+export const goToHouse1 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    changeMap('house1');
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 7,
+                    y: 15,
+                    step: 1,
+                    dir: 3,
+                    map: ['house1'],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 7, y: 14, step: 1, dir: 3 });
+};
+
+export const goPiscesTownFromHouse1 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown'
+        : 'piscesTownMelted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 3,
+                    y: 7,
+                    step: 1,
+                    dir: 0,
+                    map: [newMap],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 3, y: 8, step: 1, dir: 0 });
+};
 
 export const goToPiscesTown2 = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
@@ -742,6 +805,134 @@ export const goToPiscesTown3 = (
             );
         }, 200);
     }
+};
+
+export const goToHouse2 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    changeMap('house2');
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 4,
+                    y: 15,
+                    step: 1,
+                    dir: 3,
+                    map: ['house2'],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 4, y: 14, step: 1, dir: 3 });
+};
+
+export const goPiscesTown2FromHouse2 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown2'
+        : 'piscesTown2Melted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 3,
+                    y: 7,
+                    step: 1,
+                    dir: 0,
+                    map: [newMap],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 3, y: 8, step: 1, dir: 0 });
+};
+
+export const goToHouse3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    changeMap('house3');
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 9,
+                    y: 15,
+                    step: 1,
+                    dir: 3,
+                    map: ['house3'],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 9, y: 14, step: 1, dir: 3 });
+};
+
+export const goPiscesTown2FromHouse3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >,
+    mode: GameModeEnum | undefined
+) => {
+    const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
+        ? 'piscesTown2'
+        : 'piscesTown2Melted';
+
+    changeMap(newMap);
+
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    if (princessOnMap) {
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 15,
+                    y: 14,
+                    step: 1,
+                    dir: 1,
+                    map: [newMap],
+                },
+            },
+        });
+    }
+    updatePlayerPosition({ x: 14, y: 14, step: 1, dir: 1 });
 };
 
 export const beforeBattleEvilQueen = (

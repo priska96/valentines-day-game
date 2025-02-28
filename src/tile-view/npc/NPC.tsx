@@ -113,12 +113,15 @@ export const NPC: React.FC<NPCProps> = ({
         if (followHero) {
             return;
         }
+        if (!map.includes(currentMap)) {
+            return;
+        }
         const interval = setInterval(() => {
             moveNPC(getRandom(movesList), idx);
         }, 1500);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [x, y, stopMoving, followHero, mode]);
+    }, [x, y, stopMoving, idx, followHero, mode, map, currentMap]);
 
     return heroImg && map.includes(currentMap) ? (
         <Sprite
