@@ -416,4 +416,214 @@ export const piscesTownMelted = {
             },
         },
     },
+    'npc-11': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 1',
+                text: 'I still can’t believe the ice spell is broken. But why do these earthquakes keep happening? Could it be related?',
+                openerId: 'npc-11',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 1',
+                text: 'I still can’t believe the ice spell is broken. But why do these earthquakes keep happening? Could it be related?',
+                openerId: 'npc-11',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-12': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 2',
+                text: 'We were trapped under ice for so long… and now the ground shakes as if something is waking up beneath us.',
+                openerId: 'npc-12',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 2',
+                text: 'We were trapped under ice for so long… and now the ground shakes as if something is waking up beneath us.',
+                openerId: 'npc-12',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-13': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 3',
+                text: 'Thank you, Hero Jihoon, for saving our town. But… I fear our troubles are not over yet.',
+                openerId: 'npc-13',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 3',
+                text: 'Thank you, Hero Jihoon, for saving our town. But… I fear our troubles are not over yet.',
+                openerId: 'npc-13',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-14': {
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 4',
+                text: 'These tremors are getting worse! Are we truly safe now, or is another disaster coming?',
+                openerId: 'npc-14',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-15': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 5',
+                text: 'My family barely survived the ice spell. Now we live in fear of the ground swallowing us whole. Hero Jihoon, please help us!',
+                openerId: 'npc-15',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 5',
+                text: 'My family barely survived the ice spell. Now we live in fear of the ground swallowing us whole. Hero Jihoon, please help us!',
+                openerId: 'npc-15',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-16': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 6',
+                text: 'I heard some say the ice spell was a warning… but a warning for what? The earthquakes feel unnatural.',
+                openerId: 'npc-16',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 6',
+                text: 'I heard some say the ice spell was a warning… but a warning for what? The earthquakes feel unnatural.',
+                openerId: 'npc-16',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-17': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 7',
+                text: 'Pisces Town was frozen, and now it shakes as if the land itself is angry. What do we do now, Hero Jihoon?',
+                openerId: 'npc-17',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 7',
+                text: 'Pisces Town was frozen, and now it shakes as if the land itself is angry. What do we do now, Hero Jihoon?',
+                openerId: 'npc-17',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-18': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 8',
+                text: 'I overheard an elder speaking of an ancient force beneath Pisces Town… something that should never have been disturbed.',
+                openerId: 'npc-18',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 8',
+                text: 'I overheard an elder speaking of an ancient force beneath Pisces Town… something that should never have been disturbed.',
+                openerId: 'npc-18',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-19': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 9',
+                text: 'The shaking is growing worse. What if we are facing something even more dangerous than the ice spell?',
+                openerId: 'npc-19',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 9',
+                text: 'The shaking is growing worse. What if we are facing something even more dangerous than the ice spell?',
+                openerId: 'npc-19',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
+    'npc-20': {
+        collectMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 10',
+                text: 'There are rumors about a hidden well that leads to the mermaid city. Maybe they know something about these earthquakes…',
+                openerId: 'npc-20',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        receivedPotion: {
+            content: {
+                open: true,
+                title: 'Citizen 10',
+                text: 'There are rumors about a hidden well that leads to the mermaid city. Maybe they know something about these earthquakes…',
+                openerId: 'npc-20',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+    },
 };

@@ -342,6 +342,7 @@ export const piscesTown = [
             '0',
             '0',
             '0',
+            '0',
         ],
         [
             '0',

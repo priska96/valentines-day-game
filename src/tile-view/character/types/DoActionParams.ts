@@ -5,7 +5,7 @@ import {
     UpdateNPCAction,
 } from '@/tile-view/npc/slices/npcSlice';
 import { ObjectState } from '@/tile-view/objectNPC/slices/objectSlice';
-import { OnGameEndAction } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum, OnGameEndAction } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
     CharacterState,
@@ -18,7 +18,7 @@ export type DoActionParams = {
     npc: NPCState;
     objectNPC: ObjectState;
     winner: string | undefined;
-    mode: string | undefined;
+    mode: GameModeEnum | undefined;
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'

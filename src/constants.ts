@@ -9,6 +9,16 @@ import evilQueenDead from './assets/heroes/evil-queen_dead.png';
 import servant1 from './assets/heroes/npc5.png';
 import servant2 from './assets/heroes/npc6.png';
 import ancientSeer from './assets/heroes/npc10.png';
+import citizen1 from './assets/heroes/npc11.png';
+import citizen2 from './assets/heroes/npc12.png';
+import citizen3 from './assets/heroes/npc13.png';
+import citizen4 from './assets/heroes/npc14.png';
+import citizen5 from './assets/heroes/npc15.png';
+import citizen6 from './assets/heroes/npc16.png';
+import citizen7 from './assets/heroes/npc17.png';
+import citizen8 from './assets/heroes/npc18.png';
+import citizen9 from './assets/heroes/npc19.png';
+import citizen10 from './assets/heroes/npc20.png';
 import king from './assets/heroes/king.png';
 import objectO1 from './assets/map/PineTools.com_files/row-6-column-1.png';
 import objectO2 from './assets/map/PineTools.com_files/row-6-column-3.png';
@@ -45,6 +55,16 @@ export const NPC_IMAGE_SIZE: AssetsSingleSize = {
     'npc-8': 32,
     'npc-9': 32,
     'npc-10': 32,
+    'npc-11': 32,
+    'npc-12': 32,
+    'npc-13': 32,
+    'npc-14': 32,
+    'npc-15': 32,
+    'npc-16': 32,
+    'npc-17': 32,
+    'npc-18': 32,
+    'npc-19': 32,
+    'npc-20': 32,
 };
 
 interface AssetsSingle {
@@ -65,6 +85,16 @@ export const NPC_SPRITE: AssetsSingle = {
     'npc-8': ' ',
     'npc-9': ' ',
     'npc-10': ancientSeer,
+    'npc-11': citizen1,
+    'npc-12': citizen2,
+    'npc-13': citizen3,
+    'npc-14': citizen4,
+    'npc-15': citizen5,
+    'npc-16': citizen6,
+    'npc-17': citizen7,
+    'npc-18': citizen8,
+    'npc-19': citizen9,
+    'npc-20': citizen10,
 };
 export const EVIL_KING_DEAD = evilKingDead;
 

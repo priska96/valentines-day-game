@@ -141,7 +141,7 @@ export const handleDialogAction = (
     character: CharacterState,
     map: string,
     winner: string | undefined,
-    mode: string | undefined,
+    mode: GameModeEnum | undefined,
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'

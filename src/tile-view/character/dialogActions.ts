@@ -536,7 +536,11 @@ export const doAction = ({
             return;
         }
         if (
-            map === 'piscesTown3Melted' &&
+            [
+                'piscesTownMelted',
+                'piscesTown2Melted',
+                'piscesTown3Melted',
+            ].includes(map) &&
             mode === GameModeEnum.COLLECT_MERMAID_TEAR
         ) {
             if (character.inventory.find((item) => item.id === 'object-8')) {
