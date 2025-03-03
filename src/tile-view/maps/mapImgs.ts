@@ -21,7 +21,7 @@ import { skyBroken } from './skyBroken';
 import { underwater } from './underwater';
 import { underwater2 } from './underwater2';
 import { underwater3 } from './underwater3';
-import { wellInner } from './wellnner';
+import { wellInner } from './wellInner';
 
 export interface LayersInterface {
     forest: MapMatrix;
@@ -400,6 +400,8 @@ export const SOLID_TILES = [
     'well_tile048',
     'well_tile049',
     'well_tile050',
+    'well_tile051',
+    'well_tile052',
     'well_tile064',
     'well_tile065',
     'well_tile066',
@@ -409,6 +411,7 @@ export const SOLID_TILES = [
     'well_tile072',
     'well_tile073',
     'well_tile074',
+    'well_tile216',
     'underwater_tile008',
     'underwater_tile009',
     'underwater_tile010',

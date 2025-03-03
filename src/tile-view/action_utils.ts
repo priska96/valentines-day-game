@@ -3,6 +3,7 @@ import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
     AddToInventoryAction,
     CharacterState,
+    UpdateCharacterStateAction,
     UpdatePlayerPositionAction,
 } from './character/slices/characterSlice';
 import { FireAction, UpdateNPCAction } from './npc/slices/npcSlice';
@@ -940,10 +941,20 @@ export const goToWellInner = (
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
+    >,
+    updateCharacterState: ActionCreatorWithPayload<
+        UpdateCharacterStateAction,
+        'character/updateCharacterState'
     >
 ) => {
     changeMap('wellInner');
-    updatePlayerPosition({ x: 14, y: 14, step: 1, dir: 1 });
+    updateCharacterState({
+        x: 8,
+        y: 0,
+        step: 1,
+        dir: 1,
+        animate: 'fall-into-well',
+    });
 };
 
 export const beforeBattleEvilQueen = (

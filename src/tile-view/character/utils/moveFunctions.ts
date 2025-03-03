@@ -21,9 +21,12 @@ import {
 import {
     AddToInventoryAction,
     CharacterState,
+    UpdateCharacterStateAction,
     UpdatePlayerPositionAction,
 } from '../slices/characterSlice';
 import { continueDialog } from './dialogFunctions';
+import { TILE_SIZE } from '@/tile-view/maps/mapData';
+import { Sprite } from 'konva/lib/shapes/Sprite';
 
 /**
  * Handles game end conditions based on character position.
@@ -168,6 +171,10 @@ export const handleDialogAction = (
     addToInventory: ActionCreatorWithPayload<
         AddToInventoryAction,
         'character/addToInventory'
+    >,
+    updateCharacterState: ActionCreatorWithPayload<
+        UpdateCharacterStateAction,
+        'character/updateCharacterState'
     >
 ) => {
     if (dialog.open) {
@@ -218,6 +225,50 @@ export const handleDialogAction = (
             changeMap,
             updatePlayerPosition,
             updateNPC,
+            updateCharacterState,
+        });
+    }
+};
+
+interface AnimateProps {
+    spriteRef: React.RefObject<Sprite | null>;
+    animate: string;
+    updateCharacterState: ActionCreatorWithPayload<
+        UpdateCharacterStateAction,
+        'character/updateCharacterState'
+    >;
+}
+
+export const animateFallIntoWell = ({
+    spriteRef,
+    animate,
+    updateCharacterState,
+}: AnimateProps) => {
+    if (spriteRef && spriteRef.current && animate === 'fall-into-well') {
+        const ref = spriteRef.current!;
+        console.log(
+            ref._getTransform(),
+            ref.rotation(),
+            ref.absolutePosition()
+        );
+        spriteRef.current.to({
+            x: 8 * TILE_SIZE,
+            y: 10 * TILE_SIZE,
+            duration: 1,
+            onUpdate: () => {
+                spriteRef.current!.rotate(45);
+            },
+            onFinish: () => {
+                setTimeout(() => {
+                    spriteRef.current!.rotate(-ref.rotation());
+                    console.log(
+                        ref._getTransform(),
+                        ref.rotation(),
+                        ref.absolutePosition()
+                    );
+                    updateCharacterState({ animate: '', x: 8, y: 10 });
+                }, 200);
+            },
         });
     }
 };

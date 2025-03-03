@@ -6,13 +6,22 @@ import { CharacterState } from './character/slices/characterSlice';
 
 export const isSolidTile = (x: number, y: number, map: string) => {
     const currentMapLayers = LAYERS[map as keyof LayersInterface];
-    for (const layer of currentMapLayers) {
-        if (SOLID_TILES.includes(layer[y][x])) {
-            // console.log('isSolidTile', true)
-            return true;
+    let isSolidTile = false;
+    for (let i = 0; i <= currentMapLayers.length - 1; i++) {
+        const layer = currentMapLayers[i];
+        const tile = layer[y][x];
+        console.log('isSolidTile', layer[y][x]);
+        if (SOLID_TILES.includes(tile)) {
+            console.log('isSolidTile', true);
+            isSolidTile = true;
+        } else if (i > 0 - 1 && tile === '0') {
+            continue;
+        } else {
+            isSolidTile = false;
         }
     }
-    return false;
+    console.log('isSolidTile', isSolidTile);
+    return isSolidTile;
 };
 
 export const isMapEdge = (x: number, y: number): boolean => {

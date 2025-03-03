@@ -14,6 +14,8 @@ export interface CharacterState {
     playerSummary: CharSummary;
     portrait: string; // Assuming JihoonPortrait is a string path
     inventory: Array<ObjectNPC>; // You may want to replace 'any' with a specific type for items
+
+    animate: string;
 }
 
 export interface CharSummary {
@@ -42,6 +44,8 @@ export interface UpdatePlayerPositionAction {
 export interface UpdatePlayerSummaryAction {
     updates: Partial<CharSummary>;
 }
+
+export type UpdateCharacterStateAction = Partial<CharacterState>;
 
 interface KeyDirections {
     s: number;
@@ -89,6 +93,7 @@ const characterSlice = createSlice({
         },
         portrait: JihoonPortrait,
         inventory: [],
+        animate: '',
     } as CharacterState,
     reducers: {
         move(state, action: PayloadAction<MoveAction>) {
@@ -122,8 +127,11 @@ const characterSlice = createSlice({
                 ...action.payload.updates,
             };
         },
-        updateCharacterState(_, action: PayloadAction<CharacterState>) {
-            return action.payload;
+        updateCharacterState(
+            state,
+            action: PayloadAction<UpdateCharacterStateAction>
+        ) {
+            return (state = { ...state, ...action.payload });
         },
     },
 });

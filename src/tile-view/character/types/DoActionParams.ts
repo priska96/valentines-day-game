@@ -9,6 +9,7 @@ import { GameModeEnum, OnGameEndAction } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
     CharacterState,
+    UpdateCharacterStateAction,
     UpdatePlayerPositionAction,
 } from '../slices/characterSlice';
 
@@ -34,4 +35,8 @@ export type DoActionParams = {
         'character/updatePlayerPosition'
     >;
     updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
+    updateCharacterState: ActionCreatorWithPayload<
+        UpdateCharacterStateAction,
+        'character/updateCharacterState'
+    >;
 };

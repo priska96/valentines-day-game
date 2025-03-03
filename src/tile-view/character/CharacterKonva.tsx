@@ -6,6 +6,7 @@ import { RootState } from '../../store';
 import {
     addToInventory,
     move,
+    updateCharacterState,
     updatePlayerPosition,
 } from './slices/characterSlice';
 import { changeMap, loadCharacter, onGameEnd } from '../slices/statusSlice';
@@ -21,6 +22,7 @@ import {
 } from '../objectNPC/slices/objectSlice';
 import { Sprite as SpriteClass } from 'konva/lib/shapes/Sprite';
 import {
+    animateFallIntoWell,
     handleDialogAction,
     handleGameEndConditions,
     handleNPCFollow,
@@ -38,6 +40,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
     playerSummary,
     inventory,
     portrait,
+    animate,
     npc,
     objectNPC,
     map,
@@ -56,6 +59,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
     fireActionObject,
     addToInventory,
     moveNPC,
+    updateCharacterState,
 }: PropsFromRedux) => {
     const spriteRef = useRef<SpriteClass>(null);
 
@@ -65,12 +69,23 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        animateFallIntoWell({
+            spriteRef,
+            animate,
+            updateCharacterState,
+        });
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [animate]);
     /**
      * Handles character movement based on keyboard input.
      * @param e - The keyboard event.
      */
     const handleMovement = (e: KeyboardEvent) => {
+        if (animate !== '') {
+            return;
+        }
         const key = e.key;
         e.preventDefault();
 
@@ -86,7 +101,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             if (!collusion) {
                 move({ x: xDir, y: yDir, dirKey: key });
                 handleGameEndConditions(x + xDir, y + yDir, map, onGameEnd);
-                //handleWildFight(map, mode, setContents, onGameEnd);
+                //handleWildFight(map, mode, setContents, onGameEnd); //TODO: put back in
                 handleNPCFollow(xDir, yDir, key, npc, moveNPC);
             } else {
                 move({ x: 0, y: 0, dirKey: key });
@@ -105,6 +120,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
                 playerSummary,
                 inventory,
                 portrait,
+                animate,
             };
             handleDialogAction(
                 dialog,
@@ -122,19 +138,9 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
                 updateNPC,
                 updateObject,
                 fireActionObject,
-                addToInventory
+                addToInventory,
+                updateCharacterState
             );
-        }
-
-        if (key === 'm') {
-            changeMap('sky');
-            updateNPC({
-                idx: [2, 1],
-                updates: {
-                    'data-1': { x: 8, y: 3, stopMoving: true },
-                    'data-2': { x: 3, y: 13 },
-                },
-            });
         }
     };
 
@@ -146,6 +152,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
         step,
         dir,
         dialog,
+        animate,
     ]);
 
     useEffect(() => {
@@ -253,6 +260,7 @@ const mapDispatch = {
     fireActionObject,
     addToInventory,
     moveNPC,
+    updateCharacterState,
 };
 
 const connector = connect(mapStateToProps, mapDispatch);

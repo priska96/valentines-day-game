@@ -262,6 +262,7 @@ import meltedDoor from '../../assets/map/PineTools.com_files/tile065.png';
 import meltedHouseWall from '../../assets/map/PineTools.com_files/tile034.png';
 import { INTERIOR_TILE_IMAGES, INTERIOR_WALL_TILE_IMAGES } from './interior';
 import { UNDERWATER_TILE_IMAGES } from './underwaterTiles';
+import { WELL_TILE_IMAGES } from './wellInnerTiles';
 
 export const TILE_SIZE = 32;
 export const MAP_DIMENSIONS = {
@@ -548,6 +549,7 @@ export const MAP_TILE_IMAGES2: AssetsSingle = {
     m034: meltedHouseWall,
     ...INTERIOR_TILE_IMAGES,
     ...INTERIOR_WALL_TILE_IMAGES,
+    ...WELL_TILE_IMAGES,
     ...UNDERWATER_TILE_IMAGES,
 };
 export type MapMatrixRow = Array<string[]>;

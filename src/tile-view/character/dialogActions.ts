@@ -321,6 +321,7 @@ export const doAction = ({
     changeMap,
     updatePlayerPosition,
     updateNPC,
+    updateCharacterState,
 }: DoActionParams) => {
     //in front of dungeon entrance
     if (map === 'sky' && character.x === 5 && character.y === 7) {
@@ -516,7 +517,7 @@ export const doAction = ({
         ((character.x === 8 && character.y === 8) ||
             (character.x === 8 && character.y === 10))
     ) {
-        goToWellInner(changeMap, updatePlayerPosition);
+        goToWellInner(changeMap, updatePlayerPosition, updateCharacterState);
     }
 
     // INTERACT WITH NPC
