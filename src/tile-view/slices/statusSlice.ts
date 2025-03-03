@@ -13,6 +13,7 @@ export enum GameModeEnum {
     SPELL_BROKEN = 'spell-broken',
     CHAPTER3 = 'chapter3',
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
+    GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
 }
 
 export const MELTED_PISCESTOWN_GAME_MODES = [
@@ -20,6 +21,7 @@ export const MELTED_PISCESTOWN_GAME_MODES = [
     GameModeEnum.SPELL_BROKEN,
     GameModeEnum.CHAPTER3,
     GameModeEnum.COLLECT_MERMAID_TEAR,
+    GameModeEnum.GO_TO_MERMAID_CITY,
 ];
 interface GameState {
     mapLoaded: boolean;

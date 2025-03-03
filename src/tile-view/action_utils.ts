@@ -935,6 +935,17 @@ export const goPiscesTown2FromHouse3 = (
     updatePlayerPosition({ x: 14, y: 14, step: 1, dir: 1 });
 };
 
+export const goToWellInner = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('wellInner');
+    updatePlayerPosition({ x: 14, y: 14, step: 1, dir: 1 });
+};
+
 export const beforeBattleEvilQueen = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
@@ -1260,6 +1271,21 @@ export const receivePotion = (
     addToInventory: ActionCreatorWithPayload<
         AddToInventoryAction,
         'character/addToInventory'
+    >
+) => {
+    if (action === DialogActionEnum.RECEIVE_POTION) {
+        setContents(initialDialogState);
+        addToInventory({ item: underWaterPotion });
+
+        return true;
+    }
+    return false;
+};
+export const goToMermaidCity = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
     >,
     onGameEnd: ActionCreatorWithPayload<
         OnGameEndAction,
@@ -1267,10 +1293,14 @@ export const receivePotion = (
     >,
     otherThingIdx: number
 ) => {
-    if (action === DialogActionEnum.RECEIVE_POTION) {
+    if (action === DialogActionEnum.GO_TO_MERMAID_CITY) {
         setContents(initialDialogState);
-        addToInventory({ item: underWaterPotion });
 
+        onGameEnd({
+            mode: GameModeEnum.GO_TO_MERMAID_CITY,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
         return true;
     }
     return false;

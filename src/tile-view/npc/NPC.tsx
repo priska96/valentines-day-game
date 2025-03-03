@@ -6,7 +6,6 @@ import { useRef, useEffect } from 'react';
 import { Sprite } from 'react-konva';
 import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
-import { dialogs } from '../dialog_utils';
 import { TILE_SIZE } from '../maps/mapData';
 import { ObjectState } from '../objectNPC/slices/objectSlice';
 import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
@@ -79,7 +78,6 @@ export const NPC: React.FC<NPCProps> = ({
 
     useEffect(() => {
         if (heroImg && map.includes(currentMap)) {
-            console.log('loadNPC', idx, heroImg);
             loadNPC({ idx: idx, val: true });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

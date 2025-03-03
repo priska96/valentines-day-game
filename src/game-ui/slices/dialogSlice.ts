@@ -24,6 +24,7 @@ export enum DialogActionEnum {
     SEER_COMES_OUT = 'seer-comes-out',
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
     RECEIVE_POTION = 'receive-potion',
+    GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
     DEFAULT = '',
 }
 export interface DialogState {

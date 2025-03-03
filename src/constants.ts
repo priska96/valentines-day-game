@@ -8,6 +8,7 @@ import evilQueen from './assets/heroes/evil-queen.png';
 import evilQueenDead from './assets/heroes/evil-queen_dead.png';
 import servant1 from './assets/heroes/npc5.png';
 import servant2 from './assets/heroes/npc6.png';
+import king from './assets/heroes/king.png';
 import ancientSeer from './assets/heroes/npc10.png';
 import citizen1 from './assets/heroes/npc11.png';
 import citizen2 from './assets/heroes/npc12.png';
@@ -19,7 +20,18 @@ import citizen7 from './assets/heroes/npc17.png';
 import citizen8 from './assets/heroes/npc18.png';
 import citizen9 from './assets/heroes/npc19.png';
 import citizen10 from './assets/heroes/npc20.png';
-import king from './assets/heroes/king.png';
+import whiteFish from './assets/heroes/whiteFish.png';
+import blueFish from './assets/heroes/blueFish.png';
+import greenFish from './assets/heroes/greenFish.png';
+import beigeFish from './assets/heroes/beigeFish.png';
+import redFish from './assets/heroes/redFish.png';
+import merman1 from './assets/heroes/npc26.png';
+import mermaid1 from './assets/heroes/npc27.png';
+import merman2 from './assets/heroes/npc28.png';
+import mermaid2 from './assets/heroes/npc29.png';
+import mermaidQueen from './assets/heroes/npc30.png';
+import seaMonster1 from './assets/heroes/seaMonster1.png';
+import seaMonster2 from './assets/heroes/seaMonster2.png';
 import objectO1 from './assets/map/PineTools.com_files/row-6-column-1.png';
 import objectO2 from './assets/map/PineTools.com_files/row-6-column-3.png';
 import object11 from './assets/map/PineTools.com_files/row-6-column-1.png';
@@ -65,6 +77,18 @@ export const NPC_IMAGE_SIZE: AssetsSingleSize = {
     'npc-18': 32,
     'npc-19': 32,
     'npc-20': 32,
+    'npc-21': 32,
+    'npc-22': 32,
+    'npc-23': 32,
+    'npc-24': 32,
+    'npc-25': 32,
+    'npc-26': 56,
+    'npc-27': 56,
+    'npc-28': 56,
+    'npc-29': 56,
+    'npc-30': 48,
+    'npc-31': 32,
+    'npc-32': 32,
 };
 
 interface AssetsSingle {
@@ -95,6 +119,18 @@ export const NPC_SPRITE: AssetsSingle = {
     'npc-18': citizen8,
     'npc-19': citizen9,
     'npc-20': citizen10,
+    'npc-21': whiteFish,
+    'npc-22': blueFish,
+    'npc-23': greenFish,
+    'npc-24': beigeFish,
+    'npc-25': redFish,
+    'npc-26': merman1,
+    'npc-27': mermaid1,
+    'npc-28': merman2,
+    'npc-29': mermaid2,
+    'npc-30': mermaidQueen,
+    'npc-31': seaMonster1,
+    'npc-32': seaMonster2,
 };
 export const EVIL_KING_DEAD = evilKingDead;
 

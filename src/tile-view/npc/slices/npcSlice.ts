@@ -16,6 +16,20 @@ import {
     servant2,
 } from './npcs/piscesTown';
 import { blueDragon, evilKing } from './npcs/forest';
+import {
+    beigeFish,
+    blueFish,
+    greenFish,
+    mermaid1,
+    mermaid2,
+    mermaidQueen,
+    merman1,
+    merman2,
+    redFish,
+    seaMonster1,
+    seaMonster2,
+    whiteFish,
+} from './npcs/underwater';
 interface KeyDirections {
     s: number;
     a: number;
@@ -182,6 +196,18 @@ const npcSlice = createSlice({
             citizen3,
             citizen4,
             citizen5,
+            whiteFish,
+            blueFish,
+            greenFish,
+            beigeFish,
+            redFish,
+            merman1,
+            mermaid1,
+            merman2,
+            mermaid2,
+            mermaidQueen,
+            seaMonster1,
+            seaMonster2,
         ],
     } as NPCState,
     reducers: {
@@ -207,7 +233,6 @@ const npcSlice = createSlice({
                     ...state.npcs[index],
                     ...action.payload.updates[`data-${index}`],
                 };
-                console.log('state.npcs[10]', state.npcs[10]);
             });
         },
         updateNPCState(_, action: PayloadAction<NPCState>) {

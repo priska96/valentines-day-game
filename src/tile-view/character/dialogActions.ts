@@ -39,6 +39,8 @@ import {
     goPiscesTown2FromHouse3,
     goToHouse1,
     goPiscesTownFromHouse1,
+    goToMermaidCity,
+    goToWellInner,
 } from '../action_utils';
 import { dialogs } from '../dialog_utils';
 import { fullyGeared, whoIsOnMap } from '../utils';
@@ -268,14 +270,10 @@ export const handleActionAfterDialogDone = ({
         )
     ) {
         return { success: true };
+    } else if (receivePotion(dialog.action, setContents, addToInventory)) {
+        return { success: true };
     } else if (
-        receivePotion(
-            dialog.action,
-            setContents,
-            addToInventory,
-            onGameEnd,
-            otherThingIdx
-        )
+        goToMermaidCity(dialog.action, setContents, onGameEnd, otherThingIdx)
     ) {
         return { success: true };
     }
@@ -510,6 +508,17 @@ export const doAction = ({
         );
     }
 
+    //in front of well
+    if (
+        mode === GameModeEnum.GO_TO_MERMAID_CITY &&
+        map === 'piscesTown2Melted' &&
+        character.inventory.find((item) => item.id === 'object-8') &&
+        ((character.x === 8 && character.y === 8) ||
+            (character.x === 8 && character.y === 10))
+    ) {
+        goToWellInner(changeMap, updatePlayerPosition);
+    }
+
     // INTERACT WITH NPC
 
     const otherThing = whoIsOnMap(
@@ -603,7 +612,17 @@ export const doAction = ({
             );
             return;
         }
-        if (map === 'piscesTown3Melted' && mode === GameModeEnum.CHAPTER3) {
+        if (
+            [
+                'piscesTownMelted',
+                'piscesTown2Melted',
+                'piscesTown3Melted',
+                'house1',
+                'house2',
+                'house3',
+            ].includes(map) &&
+            mode === GameModeEnum.CHAPTER3
+        ) {
             setContents(
                 dialogs.piscesTownMelted[otherThing.id].chapter3.content ??
                     ({} as SetContentsAction)
@@ -615,6 +634,9 @@ export const doAction = ({
                 'piscesTownMelted',
                 'piscesTown2Melted',
                 'piscesTown3Melted',
+                'house1',
+                'house2',
+                'house3',
             ].includes(map) &&
             mode === GameModeEnum.COLLECT_MERMAID_TEAR
         ) {

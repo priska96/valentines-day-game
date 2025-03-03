@@ -37,13 +37,6 @@ export const ObjectNPC: React.FC<ObjectNPCProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadObject, map, idx, objectImg, currentMap]);
 
-    console.log(
-        'objectImg',
-        objectImg,
-        map,
-        currentMap,
-        map.includes(currentMap)
-    );
     return objectImg && map.includes(currentMap) ? (
         <Sprite
             key={idx}
