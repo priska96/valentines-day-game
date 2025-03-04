@@ -10,6 +10,8 @@ export const dragonSword = {
     map: ['piscesTown3Melted'],
     tookItem: true,
     healing: 0,
+    action: '',
+    inUse: false,
 } as ObjectNPC;
 
 export const underWaterPotion = {
@@ -22,4 +24,6 @@ export const underWaterPotion = {
     map: ['piscesTown3Melted'],
     tookItem: true,
     healing: 0,
+    action: 'use-underwater-potion',
+    inUse: false,
 } as ObjectNPC;

@@ -10,6 +10,8 @@ export interface ObjectNPC {
     map: string[];
     tookItem: boolean;
     healing: number;
+    action: string;
+    inUse: boolean;
 }
 
 export interface ObjectState {
@@ -44,6 +46,8 @@ const objectSlice = createSlice({
                 map: ['forest'],
                 tookItem: false,
                 healing: 0,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-1',
@@ -55,6 +59,8 @@ const objectSlice = createSlice({
                 map: ['forest'],
                 tookItem: false,
                 healing: 0,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-2',
@@ -66,6 +72,8 @@ const objectSlice = createSlice({
                 map: ['forest'],
                 tookItem: false,
                 healing: 20,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-3',
@@ -77,6 +85,8 @@ const objectSlice = createSlice({
                 map: ['forest'],
                 tookItem: false,
                 healing: 30,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-4',
@@ -88,6 +98,8 @@ const objectSlice = createSlice({
                 map: ['forest'],
                 tookItem: false,
                 healing: 0,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-5',
@@ -99,6 +111,8 @@ const objectSlice = createSlice({
                 map: ['evilKing'],
                 tookItem: false,
                 healing: 0,
+                action: '',
+                inUse: false,
             },
             {
                 id: 'object-6',
@@ -110,6 +124,8 @@ const objectSlice = createSlice({
                 map: ['evilKing'],
                 tookItem: false,
                 healing: 0,
+                action: '',
+                inUse: false,
             },
         ],
     } as ObjectState,
