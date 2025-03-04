@@ -1,108 +1,66 @@
-import { NPC_IMAGE_SIZE } from '@/constants';
+import { Autotile_IMAGE_SIZE } from '@/constants';
 import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import Konva from 'konva';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Sprite } from 'react-konva';
 import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
-import { ObjectState } from '../objectNPC/slices/objectSlice';
-import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
+import { GameModeEnum, LoadAutotileAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';
-import { MoveAction, NPCState, NPC as NPCInterface } from './slices/npcSlice';
 import {
-    animateFallDownEvilKing,
-    animateSeerComesOut,
-    animateWalkToDad,
-} from './utils/moveNPCFunctions';
+    MoveAction,
+    AutotileState,
+    Autotile as AutotileInterface,
+} from './slices/autotileSlice';
 
-interface NPCProps extends NPCInterface {
+interface AutotileProps extends AutotileInterface {
     idx: number;
-    loadNPC: ActionCreatorWithPayload<LoadNPCAction, 'gameStatus/loadNPC'>;
-    move: ActionCreatorWithPayload<MoveAction, 'npc/move'>;
+    loadAutotile: ActionCreatorWithPayload<
+        LoadAutotileAction,
+        'gameStatus/loadAutotile'
+    >;
+    move: ActionCreatorWithPayload<MoveAction, 'autotile/move'>;
     setContents: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
     >;
     currentMap: string;
     character: CharacterState;
-    objectNPC: ObjectState;
-    allNPC: NPCState;
     mode: string | undefined;
 }
 
-export const NPC: React.FC<NPCProps> = ({
+export const Autotile: React.FC<AutotileProps> = ({
     id,
     x,
     y,
     step = 0,
     dir = 0,
     stopMoving,
-    heroImg,
-    followHero,
-    animate,
+    autotileImg,
     idx,
-    loadNPC,
+    loadAutotile,
     move,
-    setContents,
     map,
-    character,
-    objectNPC,
     currentMap,
-    allNPC,
     mode,
-}: NPCProps) => {
-    const currentImgSize = NPC_IMAGE_SIZE[id];
+}: AutotileProps) => {
+    const currentImgSize = Autotile_IMAGE_SIZE[id];
     const spriteRef = useRef<Konva.Sprite>(null);
+    const [movesListIdx, setMovesListIdx] = useState(0);
 
     useEffect(() => {
-        animateFallDownEvilKing({
-            spriteRef,
-            animate,
-            setContents,
-        });
-
-        animateWalkToDad({
-            spriteRef,
-            animate,
-            setContents,
-        });
-        animateSeerComesOut({
-            spriteRef,
-            animate,
-            setContents,
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [animate]);
-
-    useEffect(() => {
-        if (heroImg && map.includes(currentMap)) {
-            loadNPC({ idx: idx, val: true });
+        if (autotileImg && map.includes(currentMap)) {
+            loadAutotile({ idx: idx, val: true });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [heroImg, map, idx, currentMap]);
+    }, [autotileImg, map, idx, currentMap]);
 
-    const moveNPC = (keyString: string, idx: number) => {
+    const moveAutotile = (keyString: string, idx: number) => {
         if (stopMoving) return;
         if (MOVE_DIRECTIONS[keyString as keyof MoveDirectionsInterface]) {
-            const [xDir, yDir] =
-                MOVE_DIRECTIONS[keyString as keyof MoveDirectionsInterface];
-            const collusion = checkMapCollision(
-                x + xDir,
-                y + yDir,
-                [
-                    character,
-                    ...objectNPC.objects,
-                    ...allNPC.npcs.filter((npc) => npc.id !== id),
-                ],
-                currentMap
-            );
-            if (!collusion) {
-                move({ x: xDir, y: yDir, dirKey: keyString, idx });
-            } else {
-                move({ x: 0, y: 0, dirKey: keyString, idx });
-            }
+            move({ x: 0, y: 0, dirKey: keyString, idx });
         }
     };
 
@@ -110,20 +68,18 @@ export const NPC: React.FC<NPCProps> = ({
         if (mode === GameModeEnum.START) {
             return;
         }
-        if (followHero) {
-            return;
-        }
         if (!map.includes(currentMap)) {
             return;
         }
         const interval = setInterval(() => {
-            moveNPC(getRandom(movesList), idx);
-        }, 1500);
+            moveAutotile(movesList[movesListIdx], idx);
+            setMovesListIdx((prev) => (prev + 1 === 4 ? 0 : prev + 1));
+        }, 1000);
         return () => clearInterval(interval);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [x, y, stopMoving, idx, followHero, mode, map, currentMap]);
+    }, [movesListIdx, stopMoving, idx, mode, map, currentMap]);
 
-    return heroImg && map.includes(currentMap) ? (
+    return autotileImg && map.includes(currentMap) ? (
         <Sprite
             key={idx}
             ref={spriteRef}
@@ -190,7 +146,7 @@ export const NPC: React.FC<NPCProps> = ({
             }}
             frameRate={3}
             frameIndex={step}
-            image={document.querySelector(heroImg) as HTMLImageElement}
+            image={document.querySelector(autotileImg) as HTMLImageElement}
         />
     ) : null;
 };

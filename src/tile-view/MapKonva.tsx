@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { MAP_DIMENSIONS, MapMatrixRow, TILE_SIZE } from './maps/mapData';
 import { LAYERS, LayersInterface } from './maps/mapImgs';
-import { loadMap } from './slices/statusSlice';
+import { GameModeEnum, loadMap, onGameEnd } from './slices/statusSlice';
 import { RootState } from '../store';
 
 import { Image, Group } from 'react-konva';
+import { Group as GroupClass } from 'konva/lib/Group';
 
 const MapKonva: React.FC<PropsFromRedux> = ({
     loadMap,
     map,
+    mode,
+    onGameEnd,
 }: PropsFromRedux) => {
+    const mapRef = useRef<GroupClass>(null);
     const { COLS, ROWS } = MAP_DIMENSIONS;
 
     useEffect(() => {
@@ -23,6 +27,31 @@ const MapKonva: React.FC<PropsFromRedux> = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (mode === GameModeEnum.WHIRLPOOL) {
+            mapRef.current?.to({
+                duration: 3,
+                onUpdate: () => {
+                    mapRef.current
+                        ?.getChildren()
+                        .forEach((child) => child.rotate(5));
+                    console.log('props updated');
+                },
+                onFinish: () => {
+                    console.log('finished');
+                    mapRef.current
+                        ?.getChildren()
+                        .forEach((child) => child.rotate(-child.rotation()));
+                    onGameEnd({
+                        mode: GameModeEnum.GO_TO_MERMAID_CITY,
+                        winner: undefined,
+                        selectedOpponentIdx: 0,
+                    });
+                },
+            });
+        }
+    }, [mode]);
 
     const drawLayer = (grid: MapMatrixRow) => {
         console.log('draw map');
@@ -56,11 +85,18 @@ const MapKonva: React.FC<PropsFromRedux> = ({
     };
 
     const layers = LAYERS[map as keyof LayersInterface];
-    return <Group>{layers.map((_, idx) => drawLayer(layers[idx]))}</Group>;
+    return (
+        <Group ref={mapRef}>
+            {layers.map((_, idx) => drawLayer(layers[idx]))}
+        </Group>
+    );
 };
 
-const mapStateToProps = (state: RootState) => ({ map: state.gameStatus.map });
-const mapDispatch = { loadMap };
+const mapStateToProps = (state: RootState) => ({
+    map: state.gameStatus.map,
+    mode: state.gameStatus.mode,
+});
+const mapDispatch = { loadMap, onGameEnd };
 const connector = connect(mapStateToProps, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;

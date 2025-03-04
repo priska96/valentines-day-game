@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import characterReducer from '../tile-view/character/slices/characterSlice';
 import npcReducer from '../tile-view/npc/slices/npcSlice';
+import autotileReducer from '../tile-view/autotile/slices/autotileSlice';
 import objectReducer from '../tile-view/objectNPC/slices/objectSlice';
 import mapImagesReducer from '../tile-view/slices/mapImagesSlice';
 import statusReducer from '../tile-view/slices/statusSlice';
@@ -13,4 +14,5 @@ export default combineReducers({
     npc: npcReducer,
     objectNPC: objectReducer,
     dialog: dialogReducer,
+    autotile: autotileReducer,
 });

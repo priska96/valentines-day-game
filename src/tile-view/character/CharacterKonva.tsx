@@ -43,6 +43,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
     animate,
     npc,
     objectNPC,
+    autotile,
     map,
     dialog,
     winner,
@@ -95,7 +96,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             const collusion = checkMapCollision(
                 x + xDir,
                 y + yDir,
-                [...npc.npcs, ...objectNPC.objects],
+                [...npc.npcs, ...objectNPC.objects, ...autotile.autotiles],
                 map
             );
             if (!collusion) {
@@ -126,6 +127,7 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
                 dialog,
                 npc,
                 objectNPC,
+                autotile,
                 character,
                 map,
                 winner,
@@ -245,6 +247,7 @@ const mapStateToProps = (state: RootState) => ({
     mode: state.gameStatus.mode,
     winner: state.gameStatus.winner,
     dialog: state.dialog,
+    autotile: state.autotile,
 });
 
 const mapDispatch = {

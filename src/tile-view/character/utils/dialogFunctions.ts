@@ -1,4 +1,4 @@
-import { handleActionAfterDialogDone } from '../dialogActions';
+import { handleActionAfterDialogDone } from './finishAction';
 import { FinishActionParams } from '../types/FinishActionParams';
 
 export const continueDialog = ({

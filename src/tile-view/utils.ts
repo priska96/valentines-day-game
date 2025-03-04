@@ -3,6 +3,7 @@ import { LAYERS, LayersInterface, SOLID_TILES } from './maps/mapImgs';
 import { NPC } from './npc/slices/npcSlice';
 import { ObjectNPC } from './objectNPC/slices/objectSlice';
 import { CharacterState } from './character/slices/characterSlice';
+import { Autotile, AutotileState } from './autotile/slices/autotileSlice';
 
 export const isSolidTile = (x: number, y: number, map: string) => {
     const currentMapLayers = LAYERS[map as keyof LayersInterface];
@@ -10,9 +11,7 @@ export const isSolidTile = (x: number, y: number, map: string) => {
     for (let i = 0; i <= currentMapLayers.length - 1; i++) {
         const layer = currentMapLayers[i];
         const tile = layer[y][x];
-        console.log('isSolidTile', layer[y][x]);
         if (SOLID_TILES.includes(tile)) {
-            console.log('isSolidTile', true);
             isSolidTile = true;
         } else if (i > 0 - 1 && tile === '0') {
             continue;
@@ -20,7 +19,6 @@ export const isSolidTile = (x: number, y: number, map: string) => {
             isSolidTile = false;
         }
     }
-    console.log('isSolidTile', isSolidTile);
     return isSolidTile;
 };
 
@@ -33,7 +31,7 @@ export const isMapEdge = (x: number, y: number): boolean => {
 export const othersIsOnMap = (
     x: number,
     y: number,
-    others: (CharacterState | NPC | ObjectNPC)[],
+    others: (CharacterState | NPC | ObjectNPC | Autotile)[],
     map: string
 ): boolean => {
     let result = false;
@@ -42,13 +40,13 @@ export const othersIsOnMap = (
             result = true;
             if (
                 otherElem.type !== 'hero' &&
-                (otherElem as NPC | ObjectNPC).map.includes(map)
+                (otherElem as NPC | ObjectNPC | Autotile).map.includes(map)
             ) {
                 result = true;
             }
             if (
                 otherElem.type !== 'hero' &&
-                !(otherElem as NPC | ObjectNPC).map.includes(map)
+                !(otherElem as NPC | ObjectNPC | Autotile).map.includes(map)
             ) {
                 result = false;
             }
@@ -60,7 +58,7 @@ export const othersIsOnMap = (
 export const whoIsOnMap = (
     x: number,
     y: number,
-    others: (CharacterState | NPC | ObjectNPC)[],
+    others: (CharacterState | NPC | ObjectNPC | Autotile)[],
     map: string
 ): (NPC | ObjectNPC) | undefined => {
     let result = undefined;
@@ -69,7 +67,7 @@ export const whoIsOnMap = (
             if (otherElem.type === 'character') {
                 return false;
             }
-            if ((otherElem as ObjectNPC | NPC).map.includes(map)) {
+            if ((otherElem as ObjectNPC | NPC | Autotile).map.includes(map)) {
                 return true;
             }
             return false;
@@ -77,16 +75,17 @@ export const whoIsOnMap = (
         .forEach((otherElem) => {
             if (
                 (otherElem as ObjectNPC).type === 'objectNPC' ||
-                (otherElem as NPC).type === 'npc'
+                (otherElem as NPC).type === 'npc' ||
+                (otherElem as Autotile).type === 'autotile'
             ) {
                 if (otherElem.x === x && otherElem.y === y - 1) {
-                    result = otherElem as NPC | ObjectNPC;
+                    result = otherElem as NPC | ObjectNPC | Autotile;
                 } else if (otherElem.x === x - 1 && otherElem.y === y) {
-                    result = otherElem as NPC | ObjectNPC;
+                    result = otherElem as NPC | ObjectNPC | Autotile;
                 } else if (otherElem.x === x && otherElem.y === y + 1) {
-                    result = otherElem as NPC | ObjectNPC;
+                    result = otherElem as NPC | ObjectNPC | Autotile;
                 } else if (otherElem.x === x + 1 && otherElem.y === y) {
-                    result = otherElem as NPC | ObjectNPC;
+                    result = otherElem as NPC | ObjectNPC | Autotile;
                 }
             }
         });
@@ -97,7 +96,7 @@ export const whoIsOnMap = (
 export const checkMapCollision = (
     x: number,
     y: number,
-    others: (CharacterState | NPC | ObjectNPC)[],
+    others: (CharacterState | NPC | ObjectNPC | Autotile)[],
     map: string
 ) => {
     return (
@@ -125,4 +124,4 @@ export const getRandom = (movesList: string[]) => {
     return movesList[Math.floor(Math.random() * movesList.length)];
 };
 
-export const movesList = ['w', 's', 'a', 'd'];
+export const movesList = ['s', 'a', 'd', 'w'];

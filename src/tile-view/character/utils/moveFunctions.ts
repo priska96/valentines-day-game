@@ -1,7 +1,7 @@
 import { wildFightOpts } from '@/constants';
 import { GameModeEnum, OnGameEndAction } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { finishAction, doAction } from '../dialogActions';
+import { finishAction } from './finishAction';
 import {
     DialogActionEnum,
     DialogState,
@@ -27,6 +27,8 @@ import {
 import { continueDialog } from './dialogFunctions';
 import { TILE_SIZE } from '@/tile-view/maps/mapData';
 import { Sprite } from 'konva/lib/shapes/Sprite';
+import { AutotileState } from '@/tile-view/autotile/slices/autotileSlice';
+import { doAction } from './doAction/doAction';
 
 /**
  * Handles game end conditions based on character position.
@@ -141,6 +143,7 @@ export const handleDialogAction = (
     dialog: DialogState,
     npc: NPCState,
     objectNPC: ObjectState,
+    autotile: AutotileState,
     character: CharacterState,
     map: string,
     winner: string | undefined,
@@ -217,6 +220,7 @@ export const handleDialogAction = (
             character,
             npc,
             objectNPC,
+            autotile,
             winner,
             mode,
             setContents,

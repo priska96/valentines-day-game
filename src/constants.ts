@@ -46,6 +46,7 @@ import object51 from './assets/map/evil/row-15-column-4.png';
 import object52 from './assets/map/evil/row-15-column-5.png';
 import object61 from './assets/map/evil/row-16-column-4.png';
 import object62 from './assets/map/evil/row-16-column-5.png';
+import whirlpoolAutotile from './assets/map/well-inner/whirlpoolAutotile.png';
 
 export const HEROES_SPRITE_NAKED = jihoonNaked;
 export const HEROES_SPRITE = jihoon;
@@ -174,3 +175,11 @@ export const wildFightOpts = [
     false,
     false,
 ];
+
+export const Autotile_SPRITE: AssetsSingle = {
+    'autotile-0': whirlpoolAutotile,
+};
+
+export const Autotile_IMAGE_SIZE: AssetsSingleSize = {
+    'autotile-0': 48,
+};

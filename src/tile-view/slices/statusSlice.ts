@@ -14,6 +14,7 @@ export enum GameModeEnum {
     CHAPTER3 = 'chapter3',
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
     GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
+    WHIRLPOOL = 'whirlpool',
 }
 
 export const MELTED_PISCESTOWN_GAME_MODES = [
@@ -26,32 +27,14 @@ export const MELTED_PISCESTOWN_GAME_MODES = [
 interface GameState {
     mapLoaded: boolean;
     characterLoaded: boolean;
-    npcLoaded: [
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-    ];
-    objectLoaded: [
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-        boolean,
-    ];
+    npcLoaded: boolean[];
+    objectLoaded: boolean[];
+    autotileLoaded: boolean[];
     mode: GameModeEnum | undefined;
     winner: string | undefined;
     selectedOpponentIdx: number;
     map: string;
-    backgroundImg: string | null;
+    backgroundImg: (string | null)[];
     backgroundImgLoaded: boolean;
 }
 
@@ -63,6 +46,21 @@ export interface LoadNPCAction {
 export interface LoadObjectAction {
     idx: number;
     val: boolean;
+}
+
+export interface LoadAutotileAction {
+    idx: number;
+    val: boolean;
+}
+
+export interface LoadBackgroundAction {
+    idx: number;
+    val: boolean;
+}
+
+export interface BufferBackgroundImgAction {
+    idx: number;
+    backgroundImg: null | string;
 }
 
 export interface OnGameEndAction {
@@ -89,11 +87,12 @@ const statusSlice = createSlice({
             false,
         ],
         objectLoaded: [false, false, false, false, false, false, false],
+        autotileLoaded: [false],
         mode: GameModeEnum.START,
         winner: 'Jihoon',
         selectedOpponentIdx: 0,
         map: 'forest',
-        backgroundImg: null,
+        backgroundImg: [],
         backgroundImgLoaded: false,
     } as GameState,
     reducers: {
@@ -109,6 +108,10 @@ const statusSlice = createSlice({
         loadObject(state, action: PayloadAction<LoadObjectAction>) {
             state.objectLoaded[action.payload.idx] = action.payload.val;
         },
+        loadAutotile(state, action: PayloadAction<LoadAutotileAction>) {
+            console.log('loadAutotile', state.autotileLoaded);
+            state.autotileLoaded[action.payload.idx] = action.payload.val;
+        },
         onGameEnd(state, action: PayloadAction<OnGameEndAction>) {
             state.mode = action.payload.mode;
             state.winner = action.payload.winner;
@@ -117,8 +120,12 @@ const statusSlice = createSlice({
         changeMap(state, action: PayloadAction<string>) {
             state.map = action.payload;
         },
-        bufferBackgroundImage(state, action: PayloadAction<string>) {
-            state.backgroundImg = action.payload;
+        bufferBackgroundImage(
+            state,
+            action: PayloadAction<BufferBackgroundImgAction>
+        ) {
+            const { idx, backgroundImg } = action.payload;
+            state.backgroundImg[idx] = backgroundImg;
         },
         loadBackground(state, action: PayloadAction<boolean>) {
             state.backgroundImgLoaded = action.payload;
@@ -133,6 +140,7 @@ export const {
     loadMap,
     loadCharacter,
     loadNPC,
+    loadAutotile,
     loadObject,
     onGameEnd,
     changeMap,

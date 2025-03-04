@@ -9,6 +9,8 @@ import { Stage, Layer, Image } from 'react-konva';
 import { connect, ConnectedProps } from 'react-redux';
 import { Grid } from './Grid';
 import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import AutotileKonva from '@/tile-view/autotile/AutotileKonva';
+import { useEffect, useState } from 'react';
 
 const GameStage = ({
     mode,
@@ -17,7 +19,18 @@ const GameStage = ({
 }: PropsFromRedux) => {
     const currentMode = mode;
     const { COLS, ROWS } = MAP_DIMENSIONS;
+    const [bgImg, setBgImg] = useState<string | null>(backgroundImg[0]);
 
+    useEffect(() => {
+        if (
+            mode &&
+            [GameModeEnum.GO_TO_MERMAID_CITY, GameModeEnum.WHIRLPOOL].includes(
+                mode
+            )
+        ) {
+            setBgImg(backgroundImg[1]);
+        }
+    }, [mode, backgroundImg]);
     if (
         Object.keys(mapImagesLoaded).length <
         Object.keys(MAP_TILE_IMAGES2).length - 1
@@ -26,13 +39,13 @@ const GameStage = ({
     }
     return (
         <Stage width={COLS * 32} height={ROWS * 32}>
-            <Layer name={'skyBackground'}>
+            <Layer name={'backgrounds'}>
                 <Image
                     x={0}
                     y={0}
                     image={
                         document.querySelector(
-                            backgroundImg as string
+                            bgImg as string
                         ) as CanvasImageSource
                     }
                 />
@@ -44,6 +57,7 @@ const GameStage = ({
             </Layer>
             <NPCKonva />
             <ObjectNPCKonva />
+            <AutotileKonva />
             {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ? (
                 <ExplosionKonva />
             ) : null}

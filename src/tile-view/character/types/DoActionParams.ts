@@ -12,12 +12,14 @@ import {
     UpdateCharacterStateAction,
     UpdatePlayerPositionAction,
 } from '../slices/characterSlice';
+import { AutotileState } from '@/tile-view/autotile/slices/autotileSlice';
 
 export type DoActionParams = {
     map: string;
     character: CharacterState;
     npc: NPCState;
     objectNPC: ObjectState;
+    autotile: AutotileState;
     winner: string | undefined;
     mode: GameModeEnum | undefined;
     setContents: ActionCreatorWithPayload<

@@ -15,6 +15,7 @@ import GameStartScreen from './game-ui/GameStartScreen';
 import GameAudio from './game-ui/GameAudio';
 import GameEndScreen from './game-ui/GameEndScreen';
 import { GameModeEnum } from './tile-view/slices/statusSlice';
+import AutotileBuffer from './tile-view/autotile/AutotileBuffer';
 
 function App({ mode }: PropsFromRedux) {
     const currentMode = mode;
@@ -30,6 +31,7 @@ function App({ mode }: PropsFromRedux) {
                 <CharacterBuffer />
                 <NPCBuffer />
                 <ObjectNPCBuffer />
+                <AutotileBuffer />
                 <BackgroundView />
                 <GameStage />
             </>

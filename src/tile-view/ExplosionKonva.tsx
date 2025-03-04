@@ -116,7 +116,6 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
 const mapStateToProps = (state: RootState) => ({
     mode: state.gameStatus.mode,
     mapImagesLoaded: state.mapImagesLoaded,
-    backgroundImg: state.gameStatus.backgroundImg,
 });
 const mapDispatch = { onGameEnd, setContents };
 

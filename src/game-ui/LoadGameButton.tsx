@@ -7,6 +7,7 @@ import { updateCharacterState } from '../tile-view/character/slices/characterSli
 import { updateDialogState } from './slices/dialogSlice';
 import styles from '../stylesApp.module.css';
 import { RootState } from '@/store';
+import { updateAutotileState } from '@/tile-view/autotile/slices/autotileSlice';
 
 const LoadGameButton = ({
     updateStatusState,
@@ -14,6 +15,7 @@ const LoadGameButton = ({
     updateNPCState,
     updateCharacterState,
     updateDialogState,
+    updateAutotileState,
 }: PropsFromRedux) => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
@@ -32,6 +34,7 @@ const LoadGameButton = ({
                 dispatch(updateNPCState(importedState.npc));
                 dispatch(updateCharacterState(importedState.character));
                 dispatch(updateDialogState(importedState.dialog));
+                dispatch(updateAutotileState(importedState.autotile));
                 alert('State loaded successfully!');
             } catch (error) {
                 alert('Invalid JSON file.');
@@ -67,6 +70,7 @@ const mapDispatch = {
     updateNPCState,
     updateCharacterState,
     updateDialogState,
+    updateAutotileState,
 };
 
 const connector = connect(null, mapDispatch);
