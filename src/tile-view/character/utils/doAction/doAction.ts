@@ -5,6 +5,7 @@ import { doActionWithNPC } from './doActionWithNPC';
 import { doActionWithOpbjectNPC } from './doActionWithObjectNPC';
 import { hanldeTeleportationsForPiscesTownMap } from './teleportActions/piscesTownMap';
 import { doActionWithAutotile } from './doActionWithAutotile';
+import { hanldeTeleportationsForUnderwaterMap } from './teleportActions/underwaterMaps';
 
 export const doAction = ({
     map,
@@ -54,6 +55,19 @@ export const doAction = ({
         });
 
         if (res1.success) return;
+        const res2 = hanldeTeleportationsForUnderwaterMap({
+            character,
+            map,
+            setContents,
+            updateNPC,
+            updatePlayerPosition,
+            changeMap,
+            mode,
+            onGameEnd,
+            updateCharacterState,
+        });
+
+        if (res2.success) return;
         return;
     }
 
@@ -84,6 +98,8 @@ export const doAction = ({
         winner,
         character,
         onGameEnd,
+        updatePlayerPosition,
+        changeMap,
     });
     if (res4.success) {
         return;

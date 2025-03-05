@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Layer } from 'react-konva';
+import { Group, Layer } from 'react-konva';
 import { move } from './slices/autotileSlice';
 import { loadAutotile } from '../slices/statusSlice';
 import { RootState } from '../../store';
@@ -9,7 +9,7 @@ import { Autotile } from './Autotile';
 
 const AutotileKonva = (props: PropsFromRedux) => {
     return (
-        <Layer>
+        <Group name="autotile">
             {props.autotiles.map((elem, idx) => (
                 <Autotile
                     key={idx}
@@ -23,7 +23,7 @@ const AutotileKonva = (props: PropsFromRedux) => {
                     setContents={props.setContents}
                 />
             ))}
-        </Layer>
+        </Group>
     );
 };
 const mapStateToProps = (state: RootState) => ({

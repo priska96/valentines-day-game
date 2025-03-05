@@ -957,6 +957,49 @@ export const goToWellInner = (
     });
 };
 
+export const goToUnderwater2FromUnderwater = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('underwater2');
+    updatePlayerPosition({ x: 7, y: 15, step: 1, dir: 3 });
+};
+export const goToUnderwaterFromUnderwater2 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('underwater');
+    updatePlayerPosition({ x: 7, y: 0, step: 1, dir: 0 });
+};
+
+export const goToUnderwater3FromUnderwater2 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('underwater3');
+    updatePlayerPosition({ x: 0, y: 9, step: 1, dir: 2 });
+};
+
+export const goToUnderwater2FromUnderwater3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('underwater2');
+    updatePlayerPosition({ x: 16, y: 8, step: 1, dir: 1 });
+};
+
 export const beforeBattleEvilQueen = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<

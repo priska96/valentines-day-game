@@ -36,6 +36,8 @@ interface GameState {
     map: string;
     backgroundImg: (string | null)[];
     backgroundImgLoaded: boolean;
+    textureImg: (string | null)[];
+    textureImgLoaded: boolean;
 }
 
 export interface LoadNPCAction {
@@ -61,6 +63,16 @@ export interface LoadBackgroundAction {
 export interface BufferBackgroundImgAction {
     idx: number;
     backgroundImg: null | string;
+}
+
+export interface LoadTextureAction {
+    idx: number;
+    val: boolean;
+}
+
+export interface BufferTextureImgAction {
+    idx: number;
+    textureImg: null | string;
 }
 
 export interface OnGameEndAction {
@@ -94,6 +106,8 @@ const statusSlice = createSlice({
         map: 'forest',
         backgroundImg: [],
         backgroundImgLoaded: false,
+        textureImg: [],
+        textureImgLoaded: false,
     } as GameState,
     reducers: {
         loadMap(state, action: PayloadAction<boolean>) {
@@ -130,6 +144,16 @@ const statusSlice = createSlice({
         loadBackground(state, action: PayloadAction<boolean>) {
             state.backgroundImgLoaded = action.payload;
         },
+        loadTexture(state, action: PayloadAction<boolean>) {
+            state.textureImgLoaded = action.payload;
+        },
+        bufferTextureImage(
+            state,
+            action: PayloadAction<BufferTextureImgAction>
+        ) {
+            const { idx, textureImg } = action.payload;
+            state.textureImg[idx] = textureImg;
+        },
         updateStatusState(_, action: PayloadAction<GameState>) {
             return action.payload;
         },
@@ -146,6 +170,8 @@ export const {
     changeMap,
     bufferBackgroundImage,
     loadBackground,
+    bufferTextureImage,
+    loadTexture,
     updateStatusState,
 } = statusSlice.actions;
 

@@ -13,6 +13,8 @@ export const doActionWithAutotile = ({
     winner,
     character,
     onGameEnd,
+    updatePlayerPosition,
+    changeMap,
 }: { otherThing: ObjectNPC | NPC | Autotile } & Pick<
     DoActionParams,
     | 'setContents'
@@ -22,6 +24,8 @@ export const doActionWithAutotile = ({
     | 'winner'
     | 'character'
     | 'onGameEnd'
+    | 'updatePlayerPosition'
+    | 'changeMap'
 >) => {
     const res = { success: false };
     if (otherThing.type === 'autotile') {
@@ -35,6 +39,11 @@ export const doActionWithAutotile = ({
                         winner: undefined,
                         selectedOpponentIdx: otherThingIdx,
                     });
+                    setTimeout(() => {
+                        changeMap('underwater');
+
+                        updatePlayerPosition({ x: 7, y: 12, step: 0, dir: 3 });
+                    }, 3000);
                     res.success = true;
                     return res;
                 }

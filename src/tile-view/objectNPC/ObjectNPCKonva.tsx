@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Layer } from 'react-konva';
+import { Group, Layer } from 'react-konva';
 
 import { loadObject } from '../slices/statusSlice';
 import { RootState } from '../../store';
@@ -8,7 +8,7 @@ import { ObjectNPC } from './ObjectNPC';
 
 const ObjectNPCKonva = (props: PropsFromRedux) => {
     return (
-        <Layer>
+        <Group name="object-npc">
             {props.objects.map((elem, idx) => (
                 <ObjectNPC
                     key={idx}
@@ -18,7 +18,7 @@ const ObjectNPCKonva = (props: PropsFromRedux) => {
                     currentMap={props.currentMap}
                 />
             ))}
-        </Layer>
+        </Group>
     );
 };
 
