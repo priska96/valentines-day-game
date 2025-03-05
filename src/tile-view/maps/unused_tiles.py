@@ -1,11 +1,11 @@
 import re
 
 # File paths
-underwater_tiles_file = "wellInnerTiles.ts"
-underwater_files = ["wellInner.ts"]
+underwater_tiles_file = "underwaterTiles.ts"
+underwater_files = ["underwater.ts", "underwater2.ts", "underwater3.ts", "underwater4.ts"]
 
 def extract_tile_keys(filename):
-    """Extract tile keys from the WELL_TILE_IMAGES object in wellInnerTiles.ts."""
+    """Extract tile keys from the UNDERWATER_TILE_IMAGES object in underwaterTiles.ts."""
     tile_keys = set()
     
     try:
@@ -13,12 +13,12 @@ def extract_tile_keys(filename):
             content = file.read()
 
             # Match everything inside the UNDERWATER_TILE_IMAGES object
-            match = re.search(r'WELL_TILE_IMAGES\s*:\s*\{[^}]+\}\s*=\s*\{([^}]+)\}', content, re.DOTALL)
+            match = re.search(r'UNDERWATER_TILE_IMAGES\s*:\s*\{[^}]+\}\s*=\s*\{([^}]+)\}', content, re.DOTALL)
             if match:
                 tile_content = match.group(1)
 
                 # Extract individual keys (identifiers without key-value assignment)
-                keys = re.findall(r'\b(well_tile\d+)\b', tile_content)
+                keys = re.findall(r'\b(underwater_tile\d+)\b', tile_content)
                 tile_keys.update(keys)
 
     except FileNotFoundError:
@@ -28,9 +28,9 @@ def extract_tile_keys(filename):
 
 
 def extract_used_tiles(filenames):
-    """Extract all tile keys used in the wellInnner map files."""
+    """Extract all tile keys used in the underwater map files."""
     used_tiles = set()
-    tile_pattern = re.compile(r"'(well_tile\d+)'")
+    tile_pattern = re.compile(r"'(underwater_tile\d+)'")
 
     for filename in filenames:
         try:

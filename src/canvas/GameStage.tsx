@@ -50,6 +50,7 @@ const GameStage = ({
                             bgImg as string
                         ) as CanvasImageSource
                     }
+                    scale={{ x: 0.7, y: 0.7 }}
                 />
                 <MapKonva />
                 <Grid />

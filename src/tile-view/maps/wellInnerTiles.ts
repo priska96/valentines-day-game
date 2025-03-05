@@ -20,41 +20,41 @@ import well_tile016 from '../../assets/map/well-inner/tile016.png';
 import well_tile018 from '../../assets/map/well-inner/tile018.png';
 import well_tile019 from '../../assets/map/well-inner/tile019.png';
 import well_tile020 from '../../assets/map/well-inner/tile020.png';
-// import well_tile021 from '../../assets/map/well-inner/tile021.png';
-// import well_tile022 from '../../assets/map/well-inner/tile022.png';
-// import well_tile023 from '../../assets/map/well-inner/tile023.png';
+import well_tile021 from '../../assets/map/well-inner/tile021.png';
+import well_tile022 from '../../assets/map/well-inner/tile022.png';
+import well_tile023 from '../../assets/map/well-inner/tile023.png';
 import well_tile024 from '../../assets/map/well-inner/tile024.png';
 import well_tile025 from '../../assets/map/well-inner/tile025.png';
 import well_tile026 from '../../assets/map/well-inner/tile026.png';
 import well_tile027 from '../../assets/map/well-inner/tile027.png';
 import well_tile028 from '../../assets/map/well-inner/tile028.png';
-// import well_tile029 from '../../assets/map/well-inner/tile029.png';
+import well_tile029 from '../../assets/map/well-inner/tile029.png';
 import well_tile030 from '../../assets/map/well-inner/tile030.png';
-// import well_tile031 from '../../assets/map/well-inner/tile031.png';
+import well_tile031 from '../../assets/map/well-inner/tile031.png';
 // import well_tile032 from '../../assets/map/well-inner/tile032.png';
 // import well_tile033 from '../../assets/map/well-inner/tile033.png';
 // import well_tile034 from '../../assets/map/well-inner/tile034.png';
-// import well_tile035 from '../../assets/map/well-inner/tile035.png';
-// import well_tile036 from '../../assets/map/well-inner/tile036.png';
+import well_tile035 from '../../assets/map/well-inner/tile035.png';
+import well_tile036 from '../../assets/map/well-inner/tile036.png';
 import well_tile037 from '../../assets/map/well-inner/tile037.png';
 import well_tile038 from '../../assets/map/well-inner/tile038.png';
 import well_tile039 from '../../assets/map/well-inner/tile039.png';
 import well_tile040 from '../../assets/map/well-inner/tile040.png';
 import well_tile041 from '../../assets/map/well-inner/tile041.png';
 import well_tile042 from '../../assets/map/well-inner/tile042.png';
-// import well_tile043 from '../../assets/map/well-inner/tile043.png';
-// import well_tile044 from '../../assets/map/well-inner/tile044.png';
-// import well_tile045 from '../../assets/map/well-inner/tile045.png';
-// import well_tile046 from '../../assets/map/well-inner/tile046.png';
-// import well_tile047 from '../../assets/map/well-inner/tile047.png';
-// import well_tile048 from '../../assets/map/well-inner/tile048.png';
+import well_tile043 from '../../assets/map/well-inner/tile043.png';
+import well_tile044 from '../../assets/map/well-inner/tile044.png';
+import well_tile045 from '../../assets/map/well-inner/tile045.png';
+import well_tile046 from '../../assets/map/well-inner/tile046.png';
+import well_tile047 from '../../assets/map/well-inner/tile047.png';
+import well_tile048 from '../../assets/map/well-inner/tile048.png';
 import well_tile049 from '../../assets/map/well-inner/tile049.png';
 // import well_tile050 from '../../assets/map/well-inner/tile050.png';
 import well_tile051 from '../../assets/map/well-inner/tile051.png';
 import well_tile052 from '../../assets/map/well-inner/tile052.png';
-// import well_tile053 from '../../assets/map/well-inner/tile053.png';
-// import well_tile054 from '../../assets/map/well-inner/tile054.png';
-// import well_tile055 from '../../assets/map/well-inner/tile055.png';
+import well_tile053 from '../../assets/map/well-inner/tile053.png';
+import well_tile054 from '../../assets/map/well-inner/tile054.png';
+import well_tile055 from '../../assets/map/well-inner/tile055.png';
 import well_tile056 from '../../assets/map/well-inner/tile056.png';
 import well_tile057 from '../../assets/map/well-inner/tile057.png';
 import well_tile058 from '../../assets/map/well-inner/tile058.png';
@@ -62,19 +62,19 @@ import well_tile059 from '../../assets/map/well-inner/tile059.png';
 import well_tile060 from '../../assets/map/well-inner/tile060.png';
 // import well_tile061 from '../../assets/map/well-inner/tile061.png';
 // import well_tile062 from '../../assets/map/well-inner/tile062.png';
-// import well_tile063 from '../../assets/map/well-inner/tile063.png';
+import well_tile063 from '../../assets/map/well-inner/tile063.png';
 import well_tile064 from '../../assets/map/well-inner/tile064.png';
 import well_tile065 from '../../assets/map/well-inner/tile065.png';
 import well_tile066 from '../../assets/map/well-inner/tile066.png';
-// import well_tile067 from '../../assets/map/well-inner/tile067.png';
+import well_tile067 from '../../assets/map/well-inner/tile067.png';
 // import well_tile068 from '../../assets/map/well-inner/tile068.png';
 // import well_tile069 from '../../assets/map/well-inner/tile069.png';
 // import well_tile070 from '../../assets/map/well-inner/tile070.png';
-// import well_tile071 from '../../assets/map/well-inner/tile071.png';
+import well_tile071 from '../../assets/map/well-inner/tile071.png';
 import well_tile072 from '../../assets/map/well-inner/tile072.png';
 import well_tile073 from '../../assets/map/well-inner/tile073.png';
 import well_tile074 from '../../assets/map/well-inner/tile074.png';
-// import well_tile075 from '../../assets/map/well-inner/tile075.png';
+import well_tile075 from '../../assets/map/well-inner/tile075.png';
 // import well_tile076 from '../../assets/map/well-inner/tile076.png';
 // import well_tile077 from '../../assets/map/well-inner/tile077.png';
 // import well_tile078 from '../../assets/map/well-inner/tile078.png';
@@ -266,41 +266,41 @@ export const WELL_TILE_IMAGES: { [key: string]: string } = {
     well_tile018,
     well_tile019,
     well_tile020,
-    // well_tile021,
-    // well_tile022,
-    // well_tile023,
+    well_tile021,
+    well_tile022,
+    well_tile023,
     well_tile024,
     well_tile025,
     well_tile026,
     well_tile027,
     well_tile028,
-    // well_tile029,
+    well_tile029,
     well_tile030,
-    // well_tile031,
+    well_tile031,
     // well_tile032,
     // well_tile033,
     // well_tile034,
-    // well_tile035,
-    // well_tile036,
+    well_tile035,
+    well_tile036,
     well_tile037,
     well_tile038,
     well_tile039,
     well_tile040,
     well_tile041,
     well_tile042,
-    // well_tile043,
-    // well_tile044,
-    // well_tile045,
-    // well_tile046,
-    // well_tile047,
-    // well_tile048,
+    well_tile043,
+    well_tile044,
+    well_tile045,
+    well_tile046,
+    well_tile047,
+    well_tile048,
     well_tile049,
     // well_tile050,
     well_tile051,
     well_tile052,
-    // well_tile053,
-    // well_tile054,
-    // well_tile055,
+    well_tile053,
+    well_tile054,
+    well_tile055,
     well_tile056,
     well_tile057,
     well_tile058,
@@ -308,19 +308,19 @@ export const WELL_TILE_IMAGES: { [key: string]: string } = {
     well_tile060,
     // well_tile061,
     // well_tile062,
-    // well_tile063,
+    well_tile063,
     well_tile064,
     well_tile065,
     well_tile066,
-    // well_tile067,
+    well_tile067,
     // well_tile068,
     // well_tile069,
     // well_tile070,
-    // well_tile071,
+    well_tile071,
     well_tile072,
     well_tile073,
     well_tile074,
-    // well_tile075,
+    well_tile075,
     // well_tile076,
     // well_tile077,
     // well_tile078,

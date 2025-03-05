@@ -21,6 +21,7 @@ import { skyBroken } from './skyBroken';
 import { underwater } from './underwater';
 import { underwater2 } from './underwater2';
 import { underwater3 } from './underwater3';
+import { underwater4 } from './underwater4';
 import { wellInner } from './wellInner';
 
 export interface LayersInterface {
@@ -47,6 +48,7 @@ export interface LayersInterface {
     underwater: MapMatrix;
     underwater2: MapMatrix;
     underwater3: MapMatrix;
+    underwater4: MapMatrix;
 }
 
 export const LAYERS: LayersInterface = {
@@ -73,6 +75,7 @@ export const LAYERS: LayersInterface = {
     underwater,
     underwater2,
     underwater3,
+    underwater4,
 };
 
 export const SOLID_TILES = [
@@ -567,4 +570,47 @@ export const SOLID_TILES = [
     'underwater_tile146',
     'underwater_tile138',
     'underwater_tile122',
+    'underwater_tile085',
+    'underwater_tile084',
+    'underwater_tile092',
+    'underwater_tile093',
+    'underwater_tile094',
+    'underwater_tile095',
+    'underwater_tile076',
+    'underwater_tile077',
+    'underwater_tile078',
+    'underwater_tile079',
+    'underwater_tile108',
+    'underwater_tile109',
+    'underwater_tile110',
+    'underwater_tile111',
+    'underwater_tile080',
+    'underwater_tile081',
+    'underwater_tile082',
+    'underwater_tile083',
+    'underwater_tile206',
+    'underwater_tile207',
+    'underwater_tile190',
+    'underwater_tile191',
+    'underwater_tile061',
+    'underwater_tile060',
+    'underwater_tile060',
+    'underwater_tile061',
+    'underwater_tile166',
+    'underwater_tile167',
+    'underwater_tile182',
+    'underwater_tile183',
+    'underwater_tile090',
+    'underwater_tile089',
+    'underwater_tile074',
+    'underwater_tile104',
+    'underwater_tile068',
+    'underwater_tile052',
+    'underwater_tile071',
+    'underwater_tile055',
+    'underwater_tile038',
+    'underwater_tile102',
+    'underwater_tile086',
+    'underwater_tile032',
+    'underwater_tile016',
 ];

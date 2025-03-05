@@ -1000,6 +1000,17 @@ export const goToUnderwater2FromUnderwater3 = (
     updatePlayerPosition({ x: 16, y: 8, step: 1, dir: 1 });
 };
 
+export const goToUnderwater4FromUnderwater3 = (
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    changeMap('underwater4');
+    updatePlayerPosition({ x: 0, y: 10, step: 1, dir: 1 });
+};
+
 export const beforeBattleEvilQueen = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
