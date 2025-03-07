@@ -1,13 +1,6 @@
 import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import {
-    NPCState,
-    FireAction,
-    UpdateNPCAction,
-} from '@/tile-view/npc/slices/npcSlice';
-import {
-    ObjectState,
-    UpdateObjectAction,
-} from '@/tile-view/objectNPC/slices/objectSlice';
+import { FireAction, UpdateNPCAction } from '@/tile-view/npc/slices/npcSlice';
+import { UpdateObjectAction } from '@/tile-view/objectNPC/slices/objectSlice';
 import { OnGameEndAction } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {

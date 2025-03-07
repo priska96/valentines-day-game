@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Layer } from 'react-konva';
-import { move } from './slices/npcSlice';
+import { move, updateNPC } from './slices/npcSlice';
 import { loadNPC } from '../slices/statusSlice';
 import { RootState } from '../../store';
 import { setContents } from '../../game-ui/slices/dialogSlice';
@@ -23,6 +23,7 @@ const NPCKonva = (props: PropsFromRedux) => {
                     setContents={props.setContents}
                     allNPC={props.allNPC}
                     mode={props.mode}
+                    updateNPC={props.updateNPC}
                 />
             ))}
         </Layer>
@@ -37,7 +38,7 @@ const mapStateToProps = (state: RootState) => ({
     allNPC: state.npc,
 });
 
-const mapDispatch = { loadNPC, move, setContents };
+const mapDispatch = { loadNPC, move, setContents, updateNPC };
 
 const connector = connect(mapStateToProps, mapDispatch);
 

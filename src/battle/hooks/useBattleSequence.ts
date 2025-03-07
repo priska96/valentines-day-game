@@ -14,9 +14,9 @@ export const useBattleSequence = (
     const [turn, setTurn] = useState(0);
     const [inSequence, setInSequence] = useState(false);
 
-    const [playerHealth, setPlayerHealth] = useState(playerSummary.maxHealth);
+    const [playerHealth, setPlayerHealth] = useState(playerSummary.health);
     const [opponentHealth, setOpponentHealth] = useState(
-        npcSummary.maxHealth ?? 0
+        npcSummary.health ?? 0
     );
 
     const [announcerMessage, setAnnouncerMessage] = useState('');

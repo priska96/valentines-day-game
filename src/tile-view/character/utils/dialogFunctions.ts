@@ -3,11 +3,8 @@ import { FinishActionParams } from '../types/FinishActionParams';
 
 export const continueDialog = ({
     dialog,
-    npc,
-    objectNPC,
     character,
     setContents,
-    fireAction,
     onGameEnd,
     changeMap,
     updatePlayerPosition,

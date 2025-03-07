@@ -24,7 +24,6 @@ import {
     UpdateCharacterStateAction,
     UpdatePlayerPositionAction,
 } from '../slices/characterSlice';
-import { continueDialog } from './dialogFunctions';
 import { TILE_SIZE } from '@/tile-view/maps/mapData';
 import { Sprite } from 'konva/lib/shapes/Sprite';
 import { AutotileState } from '@/tile-view/autotile/slices/autotileSlice';
@@ -250,11 +249,6 @@ export const animateFallIntoWell = ({
 }: AnimateProps) => {
     if (spriteRef && spriteRef.current && animate === 'fall-into-well') {
         const ref = spriteRef.current!;
-        console.log(
-            ref._getTransform(),
-            ref.rotation(),
-            ref.absolutePosition()
-        );
         spriteRef.current.to({
             x: 8 * TILE_SIZE,
             y: 10 * TILE_SIZE,

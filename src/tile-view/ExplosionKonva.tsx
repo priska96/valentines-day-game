@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { Group, Layer } from 'react-konva';
+import { Group } from 'react-konva';
 import { useEffect, useRef } from 'react';
 import { MAP_DIMENSIONS, TILE_SIZE } from './maps/mapData';
 import { Ring, Satellite } from './Explosion';
@@ -93,8 +93,8 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
         }, 4000);
         setTimeout(() => {
             setContents(
-                dialogs.piscesTown['npc-2'].spellBroken.content ??
-                    ({} as SetContentsAction)
+                (dialogs.piscesTown['npc-2'].spellBroken
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
             onGameEnd({
                 mode: GameModeEnum.SPELL_BROKEN,

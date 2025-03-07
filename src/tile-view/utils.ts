@@ -3,7 +3,7 @@ import { LAYERS, LayersInterface, SOLID_TILES } from './maps/mapImgs';
 import { NPC } from './npc/slices/npcSlice';
 import { ObjectNPC } from './objectNPC/slices/objectSlice';
 import { CharacterState } from './character/slices/characterSlice';
-import { Autotile, AutotileState } from './autotile/slices/autotileSlice';
+import { Autotile } from './autotile/slices/autotileSlice';
 
 export const isSolidTile = (x: number, y: number, map: string) => {
     const currentMapLayers = LAYERS[map as keyof LayersInterface];

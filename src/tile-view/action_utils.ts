@@ -1,4 +1,4 @@
-import { dialogs } from './dialog_utils';
+import { dialogs, NestedDialog } from './dialog_utils';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
     AddToInventoryAction,
@@ -18,8 +18,11 @@ import {
     initialDialogState,
     SetContentsAction,
 } from '@/game-ui/slices/dialogSlice';
-import { dragonSword, underWaterPotion } from './character/slices/inventory';
-import { wait } from '@/battle/shared/helpers';
+import {
+    dragonSword,
+    mermaidTear,
+    underWaterPotion,
+} from './character/slices/inventory';
 
 export const goToSky = (
     action: DialogActionEnum,
@@ -87,8 +90,8 @@ export const enterDungeon = (
 
         setTimeout(() => {
             setContents(
-                dialogs.evilKing['npc-1'].beforeFight.content ??
-                    ({} as SetContentsAction)
+                (dialogs.evilKing['npc-1'].beforeFight
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         }, 200);
         return true;
@@ -253,8 +256,8 @@ export const leaveDungeon = (
 
         setTimeout(() => {
             setContents(
-                dialogs.sky['npc-0'].leftDungeon.content ??
-                    ({} as SetContentsAction)
+                (dialogs.sky['npc-0'].leftDungeon
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         }, 1000);
         return true;
@@ -589,8 +592,8 @@ export const goToPiscesTown = (
     if (princessOnMap) {
         setTimeout(() => {
             setContents(
-                dialogs.piscesTown['npc-2'].enterTown.content ??
-                    ({} as SetContentsAction)
+                (dialogs.piscesTown['npc-2'].enterTown
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         }, 500);
     }
@@ -801,8 +804,8 @@ export const goToPiscesTown3 = (
     if (princessOnMap) {
         setTimeout(() => {
             setContents(
-                dialogs.piscesTown['npc-3'].beforeFight.content ??
-                    ({} as SetContentsAction)
+                (dialogs.piscesTown['npc-3'].beforeFight
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         }, 200);
     }
@@ -938,15 +941,20 @@ export const goPiscesTown2FromHouse3 = (
 
 export const goToWellInner = (
     changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+
     updateCharacterState: ActionCreatorWithPayload<
         UpdateCharacterStateAction,
         'character/updateCharacterState'
-    >
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
+    updateNPC({
+        idx: [1, 3],
+        updates: {
+            'data-1': { map: [] },
+            'data-3': { map: [] },
+        },
+    });
     changeMap('wellInner');
     updateCharacterState({
         x: 8,
@@ -1005,10 +1013,22 @@ export const goToUnderwater4FromUnderwater3 = (
     updatePlayerPosition: ActionCreatorWithPayload<
         UpdatePlayerPositionAction,
         'character/updatePlayerPosition'
+    >,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
     >
 ) => {
     changeMap('underwater4');
     updatePlayerPosition({ x: 0, y: 10, step: 1, dir: 1 });
+    setTimeout(() => {
+        setContents(
+            ((
+                dialogs.underwater['npc-29'].beforeFight
+                    .underwater4 as NestedDialog
+            ).content as SetContentsAction) ?? ({} as SetContentsAction)
+        );
+    }, 200);
 };
 
 export const beforeBattleEvilQueen = (
@@ -1171,13 +1191,14 @@ export const getReward = (
 ) => {
     if (action === DialogActionEnum.REWARDED_KING) {
         setContents(
-            dialogs.piscesTownMelted['npc-4'].getReward.content ??
-                ({} as SetContentsAction)
+            (dialogs.piscesTownMelted['npc-4'].getReward
+                .content as SetContentsAction) ?? ({} as SetContentsAction)
         );
         return true;
     }
     return false;
 };
+
 export const receiveSword = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
@@ -1252,12 +1273,7 @@ export const seerComesOut = (
         SetContentsAction,
         'dialog/setContents'
     >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
-    otherThingIdx: number
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
 ) => {
     if (action === DialogActionEnum.SEER_COMES_OUT) {
         setContents(initialDialogState);
@@ -1309,19 +1325,22 @@ export const collectMermaidTear = (
             winner: '',
             selectedOpponentIdx: otherThingIdx,
         });
-        wait(1000).then(() => {
+
+        setTimeout(() => {
             setContents(
-                dialogs.piscesTownMelted['npc-2'].collectMermaidTear.content ??
-                    ({} as SetContentsAction)
+                (dialogs.piscesTownMelted['npc-2'].collectMermaidTear
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
-        });
-        wait(8000).then(() => {
+        }, 1000);
+
+        setTimeout(() => {
             onGameEnd({
                 mode: GameModeEnum.COLLECT_MERMAID_TEAR,
                 winner: '',
                 selectedOpponentIdx: otherThingIdx,
             });
-        });
+        }, 8000);
+
         return true;
     }
     return false;
@@ -1346,6 +1365,7 @@ export const receivePotion = (
     }
     return false;
 };
+
 export const goToMermaidCity = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
@@ -1365,6 +1385,179 @@ export const goToMermaidCity = (
             mode: GameModeEnum.GO_TO_MERMAID_CITY,
             winner: '',
             selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
+export const battleSeaMonster1 = (
+    action: DialogActionEnum,
+    otherThingIdx: number,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+) => {
+    if (action === DialogActionEnum.SEA_MONSTER1_BATTLE) {
+        setContents(initialDialogState);
+        onGameEnd({
+            mode: GameModeEnum.BATTLE,
+            winner: undefined,
+            selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
+export const battleSeaMonster2 = (
+    action: DialogActionEnum,
+    otherThingIdx: number,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+) => {
+    if (action === DialogActionEnum.SEA_MONSTER2_BATTLE) {
+        setContents(initialDialogState);
+        onGameEnd({
+            mode: GameModeEnum.BATTLE,
+            winner: undefined,
+            selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
+export const victorySeaMonsters = (
+    action: DialogActionEnum,
+    otherThingIdx: number,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+) => {
+    if (action === DialogActionEnum.VICTORY_SEA_MONSTERS) {
+        setContents(initialDialogState);
+        updateNPC({
+            idx: [3, 1],
+            updates: {
+                'data-31': { dead: true, stopMoving: true },
+                'data-32': {
+                    dead: true,
+                    stopMoving: true,
+                },
+            },
+        });
+        onGameEnd({
+            mode: GameModeEnum.VICTORY_SEA_MONSTERS,
+            winner: undefined,
+            selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
+export const getMermaidTear = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >
+) => {
+    if (action === DialogActionEnum.GET_MERMAID_TEAR) {
+        setContents(
+            ((
+                dialogs.underwater['npc-30'].receiveMermaidTear
+                    .underwater4 as NestedDialog
+            ).content as SetContentsAction) ?? ({} as SetContentsAction)
+        );
+        return true;
+    }
+    return false;
+};
+
+export const receiveMermaidTear = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    addToInventory: ActionCreatorWithPayload<
+        AddToInventoryAction,
+        'character/addToInventory'
+    >,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number,
+    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    updatePlayerPosition: ActionCreatorWithPayload<
+        UpdatePlayerPositionAction,
+        'character/updatePlayerPosition'
+    >
+) => {
+    if (action === DialogActionEnum.RECEIVE_MERMAID_TEAR) {
+        setContents(initialDialogState);
+        addToInventory({ item: mermaidTear });
+        onGameEnd({
+            mode: GameModeEnum.WHIRLPOOL,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
+        setTimeout(() => {
+            onGameEnd({
+                mode: GameModeEnum.DELIVER_MERMAID_TEAR,
+                winner: '',
+                selectedOpponentIdx: otherThingIdx,
+            });
+            changeMap('piscesTown2Melted');
+            updatePlayerPosition({ x: 8, y: 8, step: 1, dir: 1 });
+        }, 5000);
+
+        return true;
+    }
+    return false;
+};
+
+export const seerRestoresBalance = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    onGameEnd: ActionCreatorWithPayload<
+        OnGameEndAction,
+        'gameStatus/onGameEnd'
+    >,
+    otherThingIdx: number
+) => {
+    if (action === DialogActionEnum.RESTORE_BALANCE) {
+        setContents(initialDialogState);
+        onGameEnd({
+            mode: GameModeEnum.RESTORE_BALANCE,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
+        updateNPC({
+            idx: [10],
+            updates: {
+                'data-10': {
+                    animate: 'seer-goes-back',
+                },
+            },
         });
         return true;
     }

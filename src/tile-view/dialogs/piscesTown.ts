@@ -1,5 +1,4 @@
 import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
-import { collectMermaidTear } from '../action_utils';
 
 export const piscesTown = {
     'npc-1': {
@@ -7,7 +6,7 @@ export const piscesTown = {
             content: {
                 open: true,
                 title: 'Evil King',
-                text: '... ..',
+                text: '...',
                 openerId: 'npc-1',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -172,6 +171,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Evil King',
+                text: '.....',
+                openerId: 'npc-1',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-2': {
         afterSpell: {
@@ -209,6 +218,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'Princess Priska',
                 text: 'Hero Jihoon, I believe in you. I hope you can find a way to restore the balance of power in Pisces Town. I feel we are running out of time.',
+                openerId: 'npc-2',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: 'Thank the stars, you made it back! I knew you would, Hero Jihoon! You truly are my hero!!',
                 openerId: 'npc-2',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -299,6 +318,26 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'King of Pisces Town',
+                text: "The Tears of the Mermaids... I never thought I'd see them in my lifetime. You have done the impossible, Hero Jihoon.",
+                openerId: 'npc-4',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        restoreBalance: {
+            content: {
+                open: true,
+                title: 'King of Pisces Town',
+                text: "Let's restore the balance of power in Pisces Town!!",
+                openerId: 'npc-4',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-5': {
         afterSpell: {
@@ -341,6 +380,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Servant 1',
+                text: 'You are back and proof that the impossible can be done. Thank you, Hero Jihoon!',
+                openerId: 'npc-5',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-6': {
         afterSpell: {
@@ -367,7 +416,7 @@ export const piscesTownMelted = {
             content: {
                 open: true,
                 title: 'Servant 2',
-                text: 'I wonder how you can find mermaids. I thought they were just a myth.',
+                text: 'Good luck on your journey, Hero Jihoon. We are counting on you!',
                 openerId: 'npc-6',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -377,7 +426,17 @@ export const piscesTownMelted = {
             content: {
                 open: true,
                 title: 'Servant 2',
-                text: 'I wonder how you can find mermaids. I thought they were just a myth.',
+                text: 'Good luck on your journey, Hero Jihoon. We are counting on you!',
+                openerId: 'npc-6',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Servant 2',
+                text: 'I knew you would return victorious, Hero Jihoon. Thank you for saving us!',
                 openerId: 'npc-6',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -412,6 +471,16 @@ export const piscesTownMelted = {
                 text: 'Come back to me when you have collected all the tears.',
                 openerId: 'npc-10',
                 action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Ancient Seer',
+                text: 'Hero Jihoon, have you truly obtained the Tears of the Mermaids? This is the key to restoring Pisces Town!',
+                openerId: 'npc-10',
+                action: DialogActionEnum.RESTORE_BALANCE,
                 continue: false,
             },
         },
@@ -452,6 +521,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'Citizen 1',
                 text: "I still can't believe the ice spell is broken. But why do these earthquakes keep happening? Could it be related?",
+                openerId: 'npc-11',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 1',
+                text: 'You made it back! We have been praying for your safe return, Hero Jihoon. Did you find what we need?',
                 openerId: 'npc-11',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -499,6 +578,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 2',
+                text: "Our hero has returned! You really are the chosen one, aren't you? We knew you wouldn't abandon us!",
+                openerId: 'npc-12',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-13': {
         afterSpell: {
@@ -541,6 +630,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaiTear: {
+            content: {
+                open: true,
+                title: 'Citizen 8',
+                text: 'You’re safe! Oh, thank goodness! Pisces Town wouldn’t be the same without you, Hero Jihoon!',
+                openerId: 'npc-18',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-14': {
         afterSpell: {
@@ -578,6 +677,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'Citizen 4',
                 text: 'These tremors are getting worse! Are we truly safe now, or is another disaster coming?',
+                openerId: 'npc-14',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 4',
+                text: 'You’re safe! Oh, thank goodness! Pisces Town wouldn’t be the same without you, Hero Jihoon!',
                 openerId: 'npc-14',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -625,6 +734,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 5',
+                text: "You're back! I had a feeling you'd return victorious, Hero Jihoon. We never lost faith in you!",
+                openerId: 'npc-15',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-16': {
         afterSpell: {
@@ -662,6 +781,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'Citizen 6',
                 text: 'I heard some say the ice spell was a warning...  but a warning for what? The earthquakes feel unnatural.',
+                openerId: 'npc-16',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 6',
+                text: "The ice has held us captive for too long...But if you have truly found the mermaids' tears, we may yet be free from these earthquakes!",
                 openerId: 'npc-16',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -709,6 +838,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 7',
+                text: "I've prayed every night for a miracle... and now, Hero Jihoon, you stand before us with the answer. Thank you!",
+                openerId: 'npc-17',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-18': {
         afterSpell: {
@@ -751,6 +890,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 8',
+                text: "Hero Jihoon! You've returned! Does this mean there is still hope for us?",
+                openerId: 'npc-18',
+                action: DialogActionEnum.DEFAULT,
+                continue: false,
+            },
+        },
     },
     'npc-19': {
         afterSpell: {
@@ -781,6 +930,16 @@ export const piscesTownMelted = {
                 openerId: 'npc-19',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
+            },
+            deliverMermaidTear: {
+                content: {
+                    open: true,
+                    title: 'Citizen 9',
+                    text: "The water in the well... it's shimmering! Could it be because of the Mermaid's Tears? Please, tell us you've found them, Hero Jihoon!",
+                    openerId: 'npc-19',
+                    action: DialogActionEnum.DEFAULT,
+                    continue: false,
+                },
             },
         },
         receivedPotion: {
@@ -832,6 +991,16 @@ export const piscesTownMelted = {
                 text: 'There are rumors about a hidden well that leads to the mermaid city. Maybe they know something about these earthquakes…',
                 openerId: 'npc-20',
                 action: DialogActionEnum.GO_TO_MERMAID_CITY,
+                continue: false,
+            },
+        },
+        deliverMermaidTear: {
+            content: {
+                open: true,
+                title: 'Citizen 10',
+                text: 'If the mermaids have entrusted you with their sacred tears, then perhaps we truly can break this spell!',
+                openerId: 'npc-20',
+                action: DialogActionEnum.DEFAULT,
                 continue: false,
             },
         },

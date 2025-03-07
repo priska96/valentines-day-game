@@ -5,13 +5,6 @@ import {
     gameOver,
     //gameWon,
     goBackToGround,
-    goToForest2,
-    goToForest3,
-    goToForest4,
-    goToPiscesTown,
-    goToPiscesTown2,
-    goToPiscesTown3,
-    goToPiscesTownFrom2,
     goToSky,
     leaveDungeon,
     victory,
@@ -24,55 +17,23 @@ import {
     spellBroken,
     getReward,
     followHeroHome,
-    goToForest,
-    goToForest2From3,
-    goToForest3From4,
-    goToForest4FromPiscesTown,
-    goToPiscesTown2From3,
     receiveSword,
     seerComesOut,
     collectMermaidTear,
     receivePotion,
-    goToHouse2,
-    goPiscesTown2FromHouse2,
-    goToHouse3,
-    goPiscesTown2FromHouse3,
-    goToHouse1,
-    goPiscesTownFromHouse1,
     goToMermaidCity,
-    goToWellInner,
+    battleSeaMonster1,
+    battleSeaMonster2,
+    victorySeaMonsters,
+    getMermaidTear,
+    receiveMermaidTear,
+    seerRestoresBalance,
 } from '../../action_utils';
-import { dialogs } from '../../dialog_utils';
-import { fullyGeared, whoIsOnMap } from '../../utils';
-import {
-    ObjectNPC,
-    ObjectState,
-    UpdateObjectAction,
-} from '../../objectNPC/slices/objectSlice';
-import {
-    AddToInventoryAction,
-    CharacterState,
-    UpdatePlayerPositionAction,
-} from '../slices/characterSlice';
-import {
-    FireAction,
-    NPC,
-    NPCState,
-    UpdateNPCAction,
-} from '../../npc/slices/npcSlice';
-import {
-    DialogActionEnum,
-    DialogState,
-    initialDialogState,
-    SetContentsAction,
-} from '../../../game-ui/slices/dialogSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { GameModeEnum, OnGameEndAction } from '../../slices/statusSlice';
+import { initialDialogState } from '../../../game-ui/slices/dialogSlice';
 import { FinishActionParams } from '../types/FinishActionParams';
 import { HanldeActionAfterDialogParams } from '../types/HanldeActionAfterDialogParams';
 import { InteractWithNPCParams } from '../types/InteractWithNPCParams';
 import { InteractWithObjectParams } from '../types/InteractWithObjectParams';
-import { DoActionParams } from '../types/DoActionParams';
 
 export const finishAction = ({
     dialog,
@@ -279,6 +240,46 @@ export const handleActionAfterDialogDone = ({
         return { success: true };
     } else if (
         goToMermaidCity(dialog.action, setContents, onGameEnd, otherThingIdx)
+    ) {
+        return { success: true };
+    } else if (battleSeaMonster1(dialog.action, 31, setContents, onGameEnd)) {
+        return { success: true };
+    } else if (
+        battleSeaMonster2(dialog.action, otherThingIdx, setContents, onGameEnd)
+    ) {
+        return { success: true };
+    } else if (
+        victorySeaMonsters(
+            dialog.action,
+            otherThingIdx,
+            setContents,
+            onGameEnd,
+            updateNPC
+        )
+    ) {
+        return { success: true };
+    } else if (getMermaidTear(dialog.action, setContents)) {
+        return { success: true };
+    } else if (
+        receiveMermaidTear(
+            dialog.action,
+            setContents,
+            addToInventory,
+            onGameEnd,
+            otherThingIdx,
+            changeMap,
+            updatePlayerPosition
+        )
+    ) {
+        return { success: true };
+    } else if (
+        seerRestoresBalance(
+            dialog.action,
+            setContents,
+            updateNPC,
+            onGameEnd,
+            otherThingIdx
+        )
     ) {
         return { success: true };
     }

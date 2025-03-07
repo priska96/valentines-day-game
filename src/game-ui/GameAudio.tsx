@@ -4,7 +4,7 @@ import BackgroundMusic from '../assets/background.mp3';
 import MagicSpellSound from '../assets/magic-spell-sound.mp3';
 import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
-const GameAudio = ({ mode }: { mode?: GameModeEnum }) => {
+const GameAudio = ({ mode }: PropsFromRedux) => {
     console.log(mode);
 
     const source =
@@ -39,4 +39,4 @@ const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default GameAudio; //connector(GameAudio);
+export default connector(GameAudio);

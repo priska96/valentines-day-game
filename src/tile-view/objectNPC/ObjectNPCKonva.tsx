@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Group, Layer } from 'react-konva';
+import { Group } from 'react-konva';
 
 import { loadObject } from '../slices/statusSlice';
 import { RootState } from '../../store';

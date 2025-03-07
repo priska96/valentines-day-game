@@ -8,6 +8,7 @@ export enum GameModeEnum {
     NEW_CHAPTER = 'new-chapter',
     GAME_OVER = 'game-over',
     GAME_OVER_HOLE = 'game-over-hole',
+    GAME_OVER_UNDERWATER = 'game-over-underwater',
     GAME_WON = 'game-won',
     VICTORY_EVIL_QUEEN = 'victory-evil-queen',
     SPELL_BROKEN = 'spell-broken',
@@ -15,6 +16,9 @@ export enum GameModeEnum {
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
     GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
     WHIRLPOOL = 'whirlpool',
+    VICTORY_SEA_MONSTERS = 'victory-sea-monsters',
+    DELIVER_MERMAID_TEAR = 'deliver-mermaid-tear',
+    RESTORE_BALANCE = 'restore-balance',
 }
 
 export const MELTED_PISCESTOWN_GAME_MODES = [
@@ -23,6 +27,10 @@ export const MELTED_PISCESTOWN_GAME_MODES = [
     GameModeEnum.CHAPTER3,
     GameModeEnum.COLLECT_MERMAID_TEAR,
     GameModeEnum.GO_TO_MERMAID_CITY,
+    GameModeEnum.WHIRLPOOL,
+    GameModeEnum.VICTORY_SEA_MONSTERS,
+    GameModeEnum.DELIVER_MERMAID_TEAR,
+    GameModeEnum.RESTORE_BALANCE,
 ];
 interface GameState {
     mapLoaded: boolean;

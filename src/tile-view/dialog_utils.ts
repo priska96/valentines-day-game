@@ -3,6 +3,7 @@ import { forest, forest2 } from './dialogs/forest';
 import { sky, skyBroken } from './dialogs/sky';
 import { evilKing } from './dialogs/evilKing';
 import { piscesTown, piscesTownMelted } from './dialogs/piscesTown';
+import { underwater } from './dialogs/underwater';
 
 interface DialogsInterface {
     forest: ForestDialog;
@@ -12,6 +13,7 @@ interface DialogsInterface {
     sky: SkyDialog;
     skyBroken: SkyDialog;
     evilKing: EvilKingDialog;
+    underwater: UnderwaterDialog;
 }
 interface ForestDialog {
     [npcKey: string]: DialogContentsInterface;
@@ -23,15 +25,17 @@ interface EvilKingDialog {
     [npcKey: string]: DialogContentsInterface;
 }
 
-interface DialogContentsInterface {
+export interface UnderwaterDialog {
+    [npcKey: string]: DialogContentsInterface;
+}
+
+export interface DialogContentsInterface {
     [beforeAfterKey: string]: {
-        content?: DialogState;
-        beforeGear?: { content: DialogState };
-        afterGear?: { content: DialogState };
-        lost?: { content: DialogState };
-        won?: { content: DialogState };
-        goToSky?: { content: DialogState };
+        [content: string]: DialogState | NestedDialog;
     };
+}
+export interface NestedDialog {
+    content: DialogState | NestedDialog;
 }
 
 export const dialogs: DialogsInterface = {
@@ -42,4 +46,5 @@ export const dialogs: DialogsInterface = {
     sky,
     skyBroken,
     evilKing,
+    underwater,
 };

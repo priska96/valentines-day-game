@@ -4,7 +4,7 @@ import { Rect, Group } from 'react-konva';
 import { connect, ConnectedProps } from 'react-redux';
 import { MAP_DIMENSIONS } from './maps/mapData';
 
-const TextureKonva = ({ map, mode, textureImg }: PropsFromRedux) => {
+const TextureKonva = ({ map, textureImg }: PropsFromRedux) => {
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [xY, setXY] = useState({ x: 0, y: 0 });
 
@@ -63,7 +63,6 @@ const TextureKonva = ({ map, mode, textureImg }: PropsFromRedux) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-    mode: state.gameStatus.mode,
     map: state.gameStatus.map,
     textureImg: state.gameStatus.textureImg,
 });

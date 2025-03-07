@@ -6,14 +6,11 @@ import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 
 export const doActionWithAutotile = ({
     otherThing,
-    setContents,
-    fireAction,
     map,
     mode,
-    winner,
-    character,
     onGameEnd,
     updatePlayerPosition,
+    character,
     changeMap,
 }: { otherThing: ObjectNPC | NPC | Autotile } & Pick<
     DoActionParams,
@@ -31,6 +28,10 @@ export const doActionWithAutotile = ({
     if (otherThing.type === 'autotile') {
         const otherThingIdx = parseInt(otherThing.id.split('-')[1]);
         if (map === 'wellInner') {
+            console.log(
+                'wellInner',
+                character.inventory.filter((item) => item.id === 'object-8')
+            );
             if (mode === GameModeEnum.GO_TO_MERMAID_CITY) {
                 // whirlpool
                 if (otherThingIdx === 0) {
@@ -43,7 +44,24 @@ export const doActionWithAutotile = ({
                         changeMap('underwater');
 
                         updatePlayerPosition({ x: 7, y: 12, step: 0, dir: 3 });
-                    }, 3000);
+                    }, 4000);
+
+                    const underwaterPotion = character.inventory.filter(
+                        (item) => item.id === 'object-8'
+                    );
+                    if (
+                        underwaterPotion &&
+                        underwaterPotion.length > 0 &&
+                        !underwaterPotion[0].inUse
+                    ) {
+                        setTimeout(() => {
+                            onGameEnd({
+                                mode: GameModeEnum.GAME_OVER_UNDERWATER,
+                                winner: undefined,
+                                selectedOpponentIdx: otherThingIdx,
+                            });
+                        }, 9000);
+                    }
                     res.success = true;
                     return res;
                 }

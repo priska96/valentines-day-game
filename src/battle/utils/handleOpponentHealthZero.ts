@@ -1,9 +1,9 @@
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
+import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import {
     CharSummary,
     UpdatePlayerSummaryAction,
 } from '@/tile-view/character/slices/characterSlice';
-import { dialogs } from '@/tile-view/dialog_utils';
+import { dialogs, NestedDialog } from '@/tile-view/dialog_utils';
 import { NPCSummary } from '@/tile-view/npc/slices/npcSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
@@ -42,7 +42,10 @@ export const handleOpponentHealthZero = ({
                 },
             });
             setTimeout(() => {
-                setContents(dialogs.forest['npc-0'].afterFight.won!.content);
+                setContents(
+                    (dialogs.forest['npc-0'].afterFight.won as NestedDialog)
+                        .content as DialogState
+                );
             }, 500);
             break;
         }
@@ -59,7 +62,10 @@ export const handleOpponentHealthZero = ({
                 },
             });
             setTimeout(() => {
-                setContents(dialogs.evilKing['npc-1'].afterFight.won!.content);
+                setContents(
+                    (dialogs.evilKing['npc-1'].afterFight.won as NestedDialog)
+                        .content as DialogState
+                );
             }, 500);
             break;
         }
@@ -77,7 +83,41 @@ export const handleOpponentHealthZero = ({
             });
             setTimeout(() => {
                 setContents(
-                    dialogs.piscesTown['npc-3'].afterFight.won!.content
+                    (dialogs.piscesTown['npc-3'].afterFight.won as NestedDialog)
+                        .content as DialogState
+                );
+            }, 500);
+            break;
+        }
+        case 'Sea Monster 1': {
+            setTimeout(() => {
+                setContents(
+                    (
+                        dialogs.underwater['npc-32'].beforeFight
+                            .underwater4 as NestedDialog
+                    ).content as DialogState
+                );
+            }, 500);
+            break;
+        }
+        case 'Sea Monster 2': {
+            updatePlayerSummary({
+                updates: {
+                    level: 25,
+                    health: playerHealth,
+                    maxHealth: 850,
+                    attack: 170,
+                    magic: 95,
+                    defense: 100,
+                    magicDefense: 95,
+                },
+            });
+            setTimeout(() => {
+                setContents(
+                    (
+                        dialogs.underwater['npc-32'].afterFight
+                            .underwater4 as NestedDialog
+                    ).content as DialogState
                 );
             }, 500);
             break;

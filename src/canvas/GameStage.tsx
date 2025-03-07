@@ -5,7 +5,7 @@ import MapKonva from '@/tile-view/MapKonva';
 import { MAP_DIMENSIONS, MAP_TILE_IMAGES2 } from '@/tile-view/maps/mapData';
 import NPCKonva from '@/tile-view/npc/NPCKonva';
 import ObjectNPCKonva from '@/tile-view/objectNPC/ObjectNPCKonva';
-import { Stage, Layer, Image, Rect } from 'react-konva';
+import { Stage, Layer, Image } from 'react-konva';
 import { connect, ConnectedProps } from 'react-redux';
 import { Grid } from './Grid';
 import { GameModeEnum } from '@/tile-view/slices/statusSlice';
@@ -17,7 +17,6 @@ const GameStage = ({
     mode,
     mapImagesLoaded,
     backgroundImg,
-    textureImg,
 }: PropsFromRedux) => {
     const currentMode = mode;
     const { COLS, ROWS } = MAP_DIMENSIONS;

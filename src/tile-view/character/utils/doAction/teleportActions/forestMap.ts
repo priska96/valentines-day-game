@@ -36,11 +36,11 @@ export const hanldeTeleportationsForForestMap = ({
     | 'updatePlayerPosition'
     | 'onGameEnd'
 >) => {
-    let res = { success: false };
+    const res = { success: false };
     //in front of dungeon entrance
     if (map === 'sky' && character.x === 5 && character.y === 7) {
         setContents(
-            dialogs.sky['npc-0'].enterDungeon.content ??
+            (dialogs.sky['npc-0'].enterDungeon.content as SetContentsAction) ??
                 ({} as SetContentsAction)
         );
         res.success = true;
@@ -49,8 +49,8 @@ export const hanldeTeleportationsForForestMap = ({
     //in front of dungeon exit
     if (map === 'evilKing' && character.x === 12 && character.y === 14) {
         setContents(
-            dialogs.evilKing['npc-2'].exitDungeon.content ??
-                ({} as SetContentsAction)
+            (dialogs.evilKing['npc-2'].exitDungeon
+                .content as SetContentsAction) ?? ({} as SetContentsAction)
         );
         res.success = true;
         return res;
@@ -93,13 +93,13 @@ export const hanldeTeleportationsForForestMap = ({
     ) {
         if (mode === GameModeEnum.NEW_CHAPTER) {
             setContents(
-                dialogs.forest2.woodenBoard.readBoard.content ??
-                    ({} as SetContentsAction)
+                (dialogs.forest2.woodenBoard.readBoard
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         } else {
             setContents(
-                dialogs.forest2.woodenBoard2.readBoard.content ??
-                    ({} as SetContentsAction)
+                (dialogs.forest2.woodenBoard2.readBoard
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
             );
         }
         res.success = false;

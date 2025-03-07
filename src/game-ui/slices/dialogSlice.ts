@@ -25,6 +25,12 @@ export enum DialogActionEnum {
     COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
     RECEIVE_POTION = 'receive-potion',
     GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
+    SEA_MONSTER1_BATTLE = 'sea-monster1-battle',
+    SEA_MONSTER2_BATTLE = 'sea-monster2-battle',
+    VICTORY_SEA_MONSTERS = 'victory-sea-monsters',
+    GET_MERMAID_TEAR = 'get-mermaid-tear',
+    RECEIVE_MERMAID_TEAR = 'receive-mermaid-tear',
+    RESTORE_BALANCE = 'restore-balance',
     DEFAULT = '',
 }
 export interface DialogState {

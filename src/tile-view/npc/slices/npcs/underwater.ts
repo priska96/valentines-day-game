@@ -3,7 +3,7 @@ import SeaMonster2Fight from '../../../../images/heroes/seaMonster2_fight.png';
 
 export const whiteFish = {
     id: 'npc-21',
-    x: 13,
+    x: 4,
     y: 8,
     step: 0,
     dir: 0,
@@ -25,8 +25,8 @@ export const whiteFish = {
 };
 export const blueFish = {
     id: 'npc-22',
-    x: 13,
-    y: 8,
+    x: 2,
+    y: 2,
     step: 0,
     dir: 0,
     followHero: false,
@@ -69,8 +69,8 @@ export const greenFish = {
 };
 export const beigeFish = {
     id: 'npc-24',
-    x: 13,
-    y: 8,
+    x: 8,
+    y: 14,
     step: 0,
     dir: 0,
     followHero: false,
@@ -92,7 +92,7 @@ export const beigeFish = {
 export const redFish = {
     id: 'npc-25',
     x: 13,
-    y: 8,
+    y: 10,
     step: 0,
     dir: 0,
     followHero: false,
@@ -114,8 +114,8 @@ export const redFish = {
 
 export const merman1 = {
     id: 'npc-26',
-    x: 13,
-    y: 8,
+    x: 6,
+    y: 14,
     step: 0,
     dir: 0,
     followHero: false,
@@ -123,7 +123,7 @@ export const merman1 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['underwater', 'underwater2', 'underwater3'],
+    map: ['underwater'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -145,7 +145,7 @@ export const mermaid1 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['underwater', 'underwater2', 'underwater3'],
+    map: ['underwater', 'underwater4'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -158,8 +158,8 @@ export const mermaid1 = {
 };
 export const merman2 = {
     id: 'npc-28',
-    x: 13,
-    y: 8,
+    x: 7,
+    y: 14,
     step: 0,
     dir: 0,
     followHero: false,
@@ -167,7 +167,7 @@ export const merman2 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['underwater', 'underwater2', 'underwater3'],
+    map: ['underwater2', 'underwater4'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -180,7 +180,7 @@ export const merman2 = {
 };
 export const mermaid2 = {
     id: 'npc-29',
-    x: 13,
+    x: 2,
     y: 8,
     step: 0,
     dir: 0,
@@ -189,7 +189,7 @@ export const mermaid2 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['underwater', 'underwater2', 'underwater3'],
+    map: ['underwater', 'underwater4'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -202,7 +202,7 @@ export const mermaid2 = {
 };
 export const mermaidQueen = {
     id: 'npc-30',
-    x: 13,
+    x: 8,
     y: 8,
     step: 0,
     dir: 0,
@@ -211,7 +211,7 @@ export const mermaidQueen = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['underwater3'],
+    map: ['underwater4'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -225,8 +225,8 @@ export const mermaidQueen = {
 
 export const seaMonster1 = {
     id: 'npc-31',
-    x: 0,
-    y: 0,
+    x: 9,
+    y: 9,
     step: 0,
     dir: 1,
     followHero: false,
@@ -252,8 +252,8 @@ export const seaMonster1 = {
 };
 export const seaMonster2 = {
     id: 'npc-32',
-    x: 0,
-    y: 0,
+    x: 10,
+    y: 8,
     step: 0,
     dir: 1,
     followHero: false,
@@ -261,7 +261,7 @@ export const seaMonster2 = {
     heroImg: null,
     stopMoving: true,
     type: 'npc',
-    map: ['underwater3'],
+    map: ['underwater4'],
     dead: false,
     animate: '',
     npcSummary: {

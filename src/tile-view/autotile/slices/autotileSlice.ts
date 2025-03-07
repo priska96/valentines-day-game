@@ -1,7 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import RabbitFight from '../../../images/heroes/rabbit_fight.png';
-import RabbitSkeletonFight from '../../../images/heroes/bones_rabbit_fight.png';
-import SkeletonFight from '../../../images/heroes/skeleton_fight.png';
 
 interface KeyDirections {
     s: number;

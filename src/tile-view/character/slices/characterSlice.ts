@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import JihoonFight from '../../../images/heroes/jihoon_fight.png';
 import JihoonPortrait from '../../../images/heroes/jihoon_portrait.png';
 import { ObjectNPC } from '../../objectNPC/slices/objectSlice';
-import { use } from 'react';
 
 export interface CharacterState {
     x: number;
@@ -70,7 +69,7 @@ export interface BufferImageAction {
     heroImg: null | string;
 }
 
-export interface UseInventoryItemAction {
+export interface updateInventoryItemInUseAction {
     id: string;
 }
 
@@ -113,7 +112,10 @@ const characterSlice = createSlice({
         addToInventory(state, action: PayloadAction<AddToInventoryAction>) {
             state.inventory.push(action.payload.item);
         },
-        useInventoryItem(state, action: PayloadAction<UseInventoryItemAction>) {
+        updateInventoryItemInUse(
+            state,
+            action: PayloadAction<updateInventoryItemInUseAction>
+        ) {
             state.inventory = state.inventory.map((item) =>
                 item.id === action.payload.id
                     ? { ...item, inUse: !item.inUse }
@@ -154,7 +156,7 @@ export const {
     updatePlayerPosition,
     updatePlayerSummary,
     updateCharacterState,
-    useInventoryItem,
+    updateInventoryItemInUse,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;

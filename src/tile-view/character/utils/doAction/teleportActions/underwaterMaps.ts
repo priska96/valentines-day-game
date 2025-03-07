@@ -10,12 +10,9 @@ import { DoActionParams } from '@/tile-view/character/types/DoActionParams';
 export const hanldeTeleportationsForUnderwaterMap = ({
     character,
     map,
-    setContents,
-    mode,
     changeMap,
-    updateNPC,
     updatePlayerPosition,
-    updateCharacterState,
+    setContents,
 }: Pick<
     DoActionParams,
     | 'character'
@@ -60,7 +57,11 @@ export const hanldeTeleportationsForUnderwaterMap = ({
     }
     //in front of underwater4 from underwater3
     if (map === 'underwater3' && character.x === 16 && character.y === 10) {
-        goToUnderwater4FromUnderwater3(changeMap, updatePlayerPosition);
+        goToUnderwater4FromUnderwater3(
+            changeMap,
+            updatePlayerPosition,
+            setContents
+        );
         res.success = true;
         return res;
     }

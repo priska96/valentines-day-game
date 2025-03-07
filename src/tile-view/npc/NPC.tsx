@@ -10,9 +10,15 @@ import { TILE_SIZE } from '../maps/mapData';
 import { ObjectState } from '../objectNPC/slices/objectSlice';
 import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';
-import { MoveAction, NPCState, NPC as NPCInterface } from './slices/npcSlice';
+import {
+    MoveAction,
+    NPCState,
+    NPC as NPCInterface,
+    UpdateNPCAction,
+} from './slices/npcSlice';
 import {
     animateFallDownEvilKing,
+    animateGoesBack,
     animateSeerComesOut,
     animateWalkToDad,
 } from './utils/moveNPCFunctions';
@@ -30,6 +36,7 @@ interface NPCProps extends NPCInterface {
     objectNPC: ObjectState;
     allNPC: NPCState;
     mode: string | undefined;
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
 }
 
 export const NPC: React.FC<NPCProps> = ({
@@ -52,6 +59,7 @@ export const NPC: React.FC<NPCProps> = ({
     currentMap,
     allNPC,
     mode,
+    updateNPC,
 }: NPCProps) => {
     const currentImgSize = NPC_IMAGE_SIZE[id];
     const spriteRef = useRef<Konva.Sprite>(null);
@@ -72,6 +80,11 @@ export const NPC: React.FC<NPCProps> = ({
             spriteRef,
             animate,
             setContents,
+        });
+        animateGoesBack({
+            spriteRef,
+            animate,
+            updateNPC,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [animate]);
@@ -107,7 +120,7 @@ export const NPC: React.FC<NPCProps> = ({
     };
 
     useEffect(() => {
-        if (mode === GameModeEnum.START) {
+        if (mode === GameModeEnum.START || mode === GameModeEnum.BATTLE) {
             return;
         }
         if (followHero) {

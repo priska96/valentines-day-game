@@ -8,10 +8,9 @@ import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
 import { GameModeEnum, LoadAutotileAction } from '../slices/statusSlice';
-import { checkMapCollision, getRandom, movesList } from '../utils';
+import { movesList } from '../utils';
 import {
     MoveAction,
-    AutotileState,
     Autotile as AutotileInterface,
 } from './slices/autotileSlice';
 

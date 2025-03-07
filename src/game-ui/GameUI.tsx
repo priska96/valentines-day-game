@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
     updatePlayerSummary,
-    useInventoryItem,
+    updateInventoryItemInUse,
 } from '../tile-view/character/slices/characterSlice';
 import { RootState } from '../store';
 import SaveGameButton from './SaveGameButton';
@@ -11,7 +11,7 @@ import { ObjectNPC } from '@/tile-view/objectNPC/slices/objectSlice';
 const GameUI: React.FC<PropsFromRedux> = ({
     character,
     updatePlayerSummary,
-    useInventoryItem,
+    updateInventoryItemInUse,
 }: PropsFromRedux) => {
     const { heroClass, playerSummary, portrait, inventory } = character;
 
@@ -29,7 +29,7 @@ const GameUI: React.FC<PropsFromRedux> = ({
         }
         if (item.action !== '') {
             console.log(item.action);
-            useInventoryItem({ id: item.id });
+            updateInventoryItemInUse({ id: item.id });
         }
     };
 
@@ -78,7 +78,10 @@ const GameUI: React.FC<PropsFromRedux> = ({
 const mapStateToProps = ({ character }: RootState) => ({
     character: character,
 });
-const mapDispatch = { updatePlayerSummary, useInventoryItem };
+const mapDispatch = {
+    updatePlayerSummary,
+    updateInventoryItemInUse: updateInventoryItemInUse,
+};
 const connector = connect(mapStateToProps, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;

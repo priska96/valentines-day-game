@@ -23,6 +23,16 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                 </div>
             </div>
         );
+    } else if (mode === GameModeEnum.GAME_OVER_UNDERWATER) {
+        return (
+            <div className={styles.gameOverContainer}>
+                <div className={styles.gameOver}>
+                    Game Over <br />
+                    <br />
+                    the Hero died being unable to breath under water...
+                </div>
+            </div>
+        );
     } else if (mode === GameModeEnum.GAME_WON) {
         return (
             <div className={styles.gameOverContainer}>

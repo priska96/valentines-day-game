@@ -172,7 +172,7 @@ export const hanldeTeleportationsForPiscesTownMap = ({
         ((character.x === 8 && character.y === 8) ||
             (character.x === 8 && character.y === 10))
     ) {
-        goToWellInner(changeMap, updatePlayerPosition, updateCharacterState);
+        goToWellInner(changeMap, updateCharacterState, updateNPC);
         res.success = true;
         return res;
     }

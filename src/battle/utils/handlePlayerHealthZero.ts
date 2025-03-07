@@ -1,6 +1,6 @@
 import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import { UpdatePlayerSummaryAction } from '@/tile-view/character/slices/characterSlice';
-import { dialogs } from '@/tile-view/dialog_utils';
+import { dialogs, NestedDialog } from '@/tile-view/dialog_utils';
 import { NPCSummary } from '@/tile-view/npc/slices/npcSlice';
 import { GameModeEnum, onGameEnd } from '@/tile-view/slices/statusSlice';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
@@ -26,15 +26,24 @@ export const handlePlayerHealthZero = ({
 }: HandlePlayerHealthZeroProps) => {
     switch (npcSummary.name) {
         case 'Blue Dragon': {
-            setContents(dialogs.forest['npc-0'].afterFight.lost!.content);
+            setContents(
+                (dialogs.forest['npc-0'].afterFight.lost as NestedDialog)
+                    .content as SetContentsAction
+            );
             break;
         }
         case 'Evil King': {
-            setContents(dialogs.evilKing['npc-1'].afterFight.lost!.content);
+            setContents(
+                (dialogs.evilKing['npc-1'].afterFight.lost as NestedDialog)
+                    .content as SetContentsAction
+            );
             break;
         }
         case 'Evil Queen': {
-            setContents(dialogs.piscesTown['npc-3'].afterFight.lost!.content);
+            setContents(
+                (dialogs.piscesTown['npc-3'].afterFight.lost as NestedDialog)
+                    .content as SetContentsAction
+            );
             break;
         }
         default: {

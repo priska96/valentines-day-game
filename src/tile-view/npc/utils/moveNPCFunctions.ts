@@ -3,14 +3,16 @@ import { dialogs } from '@/tile-view/dialog_utils';
 import { TILE_SIZE } from '@/tile-view/maps/mapData';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { Sprite } from 'konva/lib/shapes/Sprite';
+import { UpdateNPCAction } from '../slices/npcSlice';
 
 interface AnimateProps {
     spriteRef: React.RefObject<Sprite | null>;
     animate: string;
-    setContents: ActionCreatorWithPayload<
+    setContents?: ActionCreatorWithPayload<
         SetContentsAction,
         'dialog/setContents'
     >;
+    updateNPC?: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
 }
 
 export const animateFallDownEvilKing = ({
@@ -28,10 +30,13 @@ export const animateFallDownEvilKing = ({
             },
             onFinish: () =>
                 setTimeout(() => {
-                    setContents(
-                        dialogs.piscesTown['npc-3'].evilKingFellDown.content ??
-                            ({} as SetContentsAction)
-                    );
+                    if (setContents) {
+                        setContents(
+                            (dialogs.piscesTown['npc-3'].evilKingFellDown
+                                .content as SetContentsAction) ??
+                                ({} as SetContentsAction)
+                        );
+                    }
                 }, 200),
         });
     }
@@ -68,10 +73,13 @@ export const animateWalkToDad = ({
                             },
                             onFinish: () => {
                                 spriteRef.current!.stop();
-                                setContents(
-                                    dialogs.piscesTown['npc-2'].beforeFight
-                                        .content ?? ({} as SetContentsAction)
-                                );
+                                if (setContents) {
+                                    setContents(
+                                        (dialogs.piscesTown['npc-2'].beforeFight
+                                            .content as SetContentsAction) ??
+                                            ({} as SetContentsAction)
+                                    );
+                                }
                             },
                         });
                     },
@@ -97,10 +105,53 @@ export const animateSeerComesOut = ({
             onFinish: () => {
                 spriteRef.current!.stop();
                 setTimeout(() => {
-                    setContents(
-                        dialogs.piscesTownMelted['npc-10'].chapter3.content ??
-                            ({} as SetContentsAction)
-                    );
+                    if (setContents) {
+                        setContents(
+                            (dialogs.piscesTownMelted['npc-10'].chapter3
+                                .content as SetContentsAction) ??
+                                ({} as SetContentsAction)
+                        );
+                    }
+                }, 200);
+            },
+        });
+    }
+};
+
+export const animateGoesBack = ({
+    spriteRef,
+    animate,
+    updateNPC,
+    setContents,
+}: AnimateProps) => {
+    if (spriteRef && spriteRef.current && animate === 'seer-comes-out') {
+        spriteRef.current.to({
+            x: 8 * TILE_SIZE,
+            y: 8 * TILE_SIZE,
+            duration: 0.3,
+            onUpdate: () => {
+                spriteRef.current!.start();
+            },
+            onFinish: () => {
+                spriteRef.current!.stop();
+                setTimeout(() => {
+                    if (updateNPC) {
+                        updateNPC({
+                            idx: [10],
+                            updates: {
+                                'data-10': {
+                                    map: [],
+                                },
+                            },
+                        });
+                    }
+                    if (setContents) {
+                        setContents(
+                            (dialogs.piscesTownMelted['npc-4'].restoreBalance
+                                .content as SetContentsAction) ??
+                                ({} as SetContentsAction)
+                        );
+                    }
                 }, 200);
             },
         });
