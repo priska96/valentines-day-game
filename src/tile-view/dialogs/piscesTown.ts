@@ -1,4 +1,5 @@
 import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
+import { balanceRestored } from '../action_utils';
 
 export const piscesTown = {
     'npc-1': {
@@ -233,6 +234,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        gameWonBalanceRestored: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: "I can't thank you enough, Hero Jihoon. You saved Pisces Town and restored the balance of power. Take this as your reward.",
+                openerId: 'npc-2',
+                action: DialogActionEnum.CHAPTER3_REWARD,
+                continue: false,
+            },
+        },
     },
 
     'npc-3': {
@@ -333,6 +344,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'King of Pisces Town',
                 text: "Let's restore the balance of power in Pisces Town!!",
+                openerId: 'npc-4',
+                action: DialogActionEnum.RESTORE_BALANCE,
+                continue: false,
+            },
+        },
+        gameWonBalanceRestored: {
+            content: {
+                open: true,
+                title: 'King of Pisces Town',
+                text: 'Hero Jihoon you will forever be remembered as the hero of Pisces Town. You saved us all.',
                 openerId: 'npc-4',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,

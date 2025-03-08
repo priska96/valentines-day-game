@@ -216,15 +216,7 @@ export const handleActionAfterDialogDone = ({
         return { success: true };
     } else if (spellBroken(dialog.action, setContents, changeMap, updateNPC)) {
         return { success: true };
-    } else if (
-        seerComesOut(
-            dialog.action,
-            setContents,
-            updateNPC,
-            onGameEnd,
-            otherThingIdx
-        )
-    ) {
+    } else if (seerComesOut(dialog.action, setContents, updateNPC)) {
         return { success: true };
     } else if (
         collectMermaidTear(

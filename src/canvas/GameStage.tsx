@@ -61,7 +61,8 @@ const GameStage = ({
             <Layer>
                 <ObjectNPCKonva />
                 <AutotileKonva />
-                {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ? (
+                {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ||
+                currentMode === GameModeEnum.EXPLOSION ? (
                     <ExplosionKonva />
                 ) : null}
                 <TextureKonva />

@@ -85,6 +85,7 @@ export const NPC: React.FC<NPCProps> = ({
             spriteRef,
             animate,
             updateNPC,
+            setContents,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [animate]);

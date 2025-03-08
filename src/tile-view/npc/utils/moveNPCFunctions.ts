@@ -124,7 +124,7 @@ export const animateGoesBack = ({
     updateNPC,
     setContents,
 }: AnimateProps) => {
-    if (spriteRef && spriteRef.current && animate === 'seer-comes-out') {
+    if (spriteRef && spriteRef.current && animate === 'seer-goes-back') {
         spriteRef.current.to({
             x: 8 * TILE_SIZE,
             y: 8 * TILE_SIZE,

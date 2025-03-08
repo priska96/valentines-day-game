@@ -31,6 +31,8 @@ export enum DialogActionEnum {
     GET_MERMAID_TEAR = 'get-mermaid-tear',
     RECEIVE_MERMAID_TEAR = 'receive-mermaid-tear',
     RESTORE_BALANCE = 'restore-balance',
+    BALANCE_RESTORED = 'balance-restored',
+    CHAPTER3_REWARD = 'chapter3-reward',
     DEFAULT = '',
 }
 export interface DialogState {

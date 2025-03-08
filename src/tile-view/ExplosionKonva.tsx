@@ -9,7 +9,7 @@ import { setContents, SetContentsAction } from '../game-ui/slices/dialogSlice';
 import { connect, ConnectedProps } from 'react-redux';
 import { dialogs } from './dialog_utils';
 
-const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
+const ExplosionKonva = ({ onGameEnd, setContents, mode }: PropsFromRedux) => {
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const spriteRef = useRef<Konva.Layer>(null);
 
@@ -92,15 +92,24 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
             animate();
         }, 4000);
         setTimeout(() => {
-            setContents(
-                (dialogs.piscesTown['npc-2'].spellBroken
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
-            );
-            onGameEnd({
-                mode: GameModeEnum.SPELL_BROKEN,
-                winner: 'Jihoon',
-                selectedOpponentIdx: 0,
-            });
+            if (mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
+                setContents(
+                    (dialogs.piscesTown['npc-2'].spellBroken
+                        .content as SetContentsAction) ??
+                        ({} as SetContentsAction)
+                );
+                onGameEnd({
+                    mode: GameModeEnum.SPELL_BROKEN,
+                    winner: 'Jihoon',
+                    selectedOpponentIdx: 0,
+                });
+            } else if (GameModeEnum.RESTORE_BALANCE) {
+                onGameEnd({
+                    mode: GameModeEnum.BALANCE_RESTORED,
+                    winner: 'Jihoon',
+                    selectedOpponentIdx: 0,
+                });
+            }
         }, 6000);
     }
 

@@ -75,6 +75,33 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                 </div>
             </div>
         );
+    } else if (mode === GameModeEnum.GAME_WON_CHAPTER3_REWARD) {
+        return (
+            <div className={styles.gameOverContainer}>
+                <div className={styles.gameOver}>
+                    Victory!!
+                    <br />
+                    You finished the game!
+                </div>
+                <div className={styles.startGameButtonContainer}>
+                    <span
+                        className={styles.startGameButton}
+                        onClick={() => {
+                            setContents({
+                                open: true,
+                                title: 'Thanks for playing the last game!',
+                                text: Reward,
+                                openerId: '',
+                                action: DialogActionEnum.PHOTO,
+                                continue: false,
+                            });
+                        }}
+                    >
+                        Open Letter
+                    </span>
+                </div>
+            </div>
+        );
     }
     return <></>;
 };

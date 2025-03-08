@@ -1555,9 +1555,52 @@ export const seerRestoresBalance = (
             idx: [10],
             updates: {
                 'data-10': {
+                    dir: 3,
                     animate: 'seer-goes-back',
                 },
             },
+        });
+        return true;
+    }
+    return false;
+};
+
+export const balanceRestored = (
+    action: DialogActionEnum,
+    otherThingIdx: number,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+) => {
+    if (action === DialogActionEnum.BALANCE_RESTORED) {
+        setContents(initialDialogState);
+        onGameEnd({
+            mode: GameModeEnum.EXPLOSION,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
+        });
+        return true;
+    }
+    return false;
+};
+
+export const chapter3GetReward = (
+    action: DialogActionEnum,
+    otherThingIdx: number,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+) => {
+    if (action === DialogActionEnum.CHAPTER3_REWARD) {
+        setContents(initialDialogState);
+        onGameEnd({
+            mode: GameModeEnum.GAME_WON_CHAPTER3_REWARD,
+            winner: '',
+            selectedOpponentIdx: otherThingIdx,
         });
         return true;
     }
