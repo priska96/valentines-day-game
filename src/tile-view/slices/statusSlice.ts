@@ -133,6 +133,7 @@ const statusSlice = createSlice({
             false,
             false,
             false,
+            false,
         ],
         objectLoaded: [false, false, false, false, false, false, false],
         autotileLoaded: [false],
