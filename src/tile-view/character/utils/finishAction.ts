@@ -30,6 +30,7 @@ import {
     seerRestoresBalance,
     balanceRestored,
     chapter3GetReward,
+    followHeroOutOfDungeon,
 } from '../../action_utils';
 import { initialDialogState } from '../../../game-ui/slices/dialogSlice';
 import { FinishActionParams } from '../types/FinishActionParams';
@@ -152,6 +153,8 @@ export const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
+        return { success: true };
+    } else if (followHeroOutOfDungeon(dialog.action, setContents, updateNPC)) {
         return { success: true };
     } else if (
         exitDungeon(

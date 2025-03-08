@@ -52,7 +52,7 @@ export const evilKing = {
                 title: 'Princess Priska',
                 text: "Thank you my Hero for defeating the Evil King. Now let's get out of here! The dungeon seems to be falling apart",
                 openerId: 'npc-2',
-                action: DialogActionEnum.DEFAULT,
+                action: DialogActionEnum.FOLLOW_HERO,
                 continue: false,
             },
         },

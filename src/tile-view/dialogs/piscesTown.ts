@@ -468,7 +468,7 @@ export const piscesTownMelted = {
             content: {
                 open: true,
                 title: 'Ancient Seer',
-                text: 'My King!! Due to the ice spell the crystals that maintained the balance of power in Pisces Town were cracked. The only way to restore the balance is to gather tears of the fairies to fill the cracks.',
+                text: 'My King!! Due to the ice spell the crystals that maintained the balance of power in Pisces Town were cracked. The only way to restore the balance is to gather tears of the mermaids to fill the cracks.',
                 openerId: 'npc-10',
                 action: DialogActionEnum.COLLECT_MERMAID_TEAR,
                 continue: false,

@@ -177,6 +177,30 @@ export const victory = (
     return false;
 };
 
+export const followHeroOutOfDungeon = (
+    action: DialogActionEnum,
+    setContents: ActionCreatorWithPayload<
+        SetContentsAction,
+        'dialog/setContents'
+    >,
+    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+) => {
+    if (action === DialogActionEnum.FOLLOW_HERO) {
+        setContents(initialDialogState);
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    followHero: true,
+                    stopMoving: false,
+                },
+            },
+        });
+        return true;
+    }
+    return false;
+};
+
 export const exitDungeon = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<
@@ -201,8 +225,6 @@ export const exitDungeon = (
                     y: 3,
                     step: 0,
                     dir: 0,
-                    followHero: true,
-                    stopMoving: false,
                     map: ['sky', 'evilKing', 'dungeonPath'],
                 },
             },
@@ -213,6 +235,7 @@ export const exitDungeon = (
     }
     return false;
 };
+
 export const leaveDungeon = (
     action: DialogActionEnum,
     setContents: ActionCreatorWithPayload<

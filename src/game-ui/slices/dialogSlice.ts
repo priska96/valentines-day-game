@@ -8,6 +8,7 @@ export enum DialogActionEnum {
     ENTER_DUNGEON = 'enter-dungeon',
     BATTLE_EVIL_KING = 'battle-evil-king',
     GAME_OVER = 'game-over',
+    FOLLOW_HERO = 'follow-hero',
     EXIT_DUNGEON = 'exit-dungeon',
     LEAVE_DUNGEON = 'leave-dungeon',
     GO_TO_GROUND = 'go-to-ground',
