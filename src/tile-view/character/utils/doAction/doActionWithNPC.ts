@@ -212,6 +212,24 @@ export const doActionWithNPC = ({
             res.success = true;
             return res;
         }
+        if (
+            [
+                'piscesTownMelted',
+                'piscesTown2Melted',
+                'piscesTown3Melted',
+                'house1',
+                'house2',
+                'house3',
+            ].includes(map) &&
+            mode === GameModeEnum.BALANCE_RESTORED
+        ) {
+            setContents(
+                (dialogs.piscesTownMelted[otherThing.id].balanceRestored
+                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+            );
+            res.success = true;
+            return res;
+        }
     }
     return res;
 };

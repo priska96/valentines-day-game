@@ -22,6 +22,7 @@ const GameStage = ({
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [bgImg, setBgImg] = useState<string | null>(backgroundImg[0]);
     useEffect(() => {
+        console.log('mode', mode, backgroundImg);
         if (
             mode &&
             [GameModeEnum.GO_TO_MERMAID_CITY, GameModeEnum.WHIRLPOOL].includes(
@@ -29,6 +30,8 @@ const GameStage = ({
             )
         ) {
             setBgImg(backgroundImg[1]);
+        } else {
+            setBgImg(backgroundImg[0]);
         }
     }, [mode, backgroundImg]);
 
@@ -61,12 +64,12 @@ const GameStage = ({
             <Layer>
                 <ObjectNPCKonva />
                 <AutotileKonva />
-                {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ||
-                currentMode === GameModeEnum.EXPLOSION ? (
-                    <ExplosionKonva />
-                ) : null}
                 <TextureKonva />
             </Layer>
+            {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ||
+            currentMode === GameModeEnum.EXPLOSION ? (
+                <ExplosionKonva />
+            ) : null}
         </Stage>
     );
 };

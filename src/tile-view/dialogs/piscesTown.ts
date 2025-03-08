@@ -1,5 +1,4 @@
 import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
-import { balanceRestored } from '../action_utils';
 
 export const piscesTown = {
     'npc-1': {
@@ -234,7 +233,7 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
-        gameWonBalanceRestored: {
+        balanceRestored: {
             content: {
                 open: true,
                 title: 'Princess Priska',
@@ -345,11 +344,11 @@ export const piscesTownMelted = {
                 title: 'King of Pisces Town',
                 text: "Let's restore the balance of power in Pisces Town!!",
                 openerId: 'npc-4',
-                action: DialogActionEnum.RESTORE_BALANCE,
+                action: DialogActionEnum.BALANCE_RESTORED,
                 continue: false,
             },
         },
-        gameWonBalanceRestored: {
+        balanceRestored: {
             content: {
                 open: true,
                 title: 'King of Pisces Town',

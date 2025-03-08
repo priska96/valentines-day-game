@@ -8,12 +8,15 @@ import { RootState } from '../store';
 const BackgroundView: React.FC<PropsFromRedux> = ({
     backgroundImg,
     bufferBackgroundImage,
+    loadBackground,
 }: PropsFromRedux) => {
     const imgRef = useRef<HTMLImageElement>(null);
     const imgRef2 = useRef<HTMLImageElement>(null);
 
+    console.log('backgroundImg', backgroundImg);
     useEffect(() => {
         if (backgroundImg.length === 2) {
+            console.log('loadBackground');
             loadBackground(true);
         }
     }, [backgroundImg]);
@@ -54,7 +57,7 @@ const mapStateToProps = (state: RootState) => ({
     backgroundImg: state.gameStatus.backgroundImg,
 });
 
-const mapDispatch = { bufferBackgroundImage };
+const mapDispatch = { bufferBackgroundImage, loadBackground };
 const connector = connect(mapStateToProps, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;

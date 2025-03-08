@@ -69,7 +69,8 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             loadCharacter(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [heroImg]);
+
     useEffect(() => {
         animateFallIntoWell({
             spriteRef,

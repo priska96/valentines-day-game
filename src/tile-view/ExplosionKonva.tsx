@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { Group } from 'react-konva';
+import { Layer } from 'react-konva';
 import { useEffect, useRef } from 'react';
 import { MAP_DIMENSIONS, TILE_SIZE } from './maps/mapData';
 import { Ring, Satellite } from './Explosion';
@@ -119,7 +119,7 @@ const ExplosionKonva = ({ onGameEnd, setContents, mode }: PropsFromRedux) => {
         }
     }, [spriteRef]);
 
-    return <Group name="explosion" ref={spriteRef}></Group>;
+    return <Layer name="explosion" ref={spriteRef}></Layer>;
 };
 
 const mapStateToProps = (state: RootState) => ({

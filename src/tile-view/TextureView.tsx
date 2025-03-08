@@ -8,6 +8,7 @@ import { RootState } from '../store';
 const TextureView: React.FC<PropsFromRedux> = ({
     textureImg,
     bufferTextureImage,
+    loadTexture,
 }: PropsFromRedux) => {
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -53,7 +54,7 @@ const mapStateToProps = (state: RootState) => ({
     textureImg: state.gameStatus.textureImg,
 });
 
-const mapDispatch = { bufferTextureImage };
+const mapDispatch = { bufferTextureImage, loadTexture };
 const connector = connect(mapStateToProps, mapDispatch);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;

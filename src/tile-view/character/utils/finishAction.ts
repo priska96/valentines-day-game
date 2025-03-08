@@ -28,6 +28,8 @@ import {
     getMermaidTear,
     receiveMermaidTear,
     seerRestoresBalance,
+    balanceRestored,
+    chapter3GetReward,
 } from '../../action_utils';
 import { initialDialogState } from '../../../game-ui/slices/dialogSlice';
 import { FinishActionParams } from '../types/FinishActionParams';
@@ -272,6 +274,14 @@ export const handleActionAfterDialogDone = ({
             onGameEnd,
             otherThingIdx
         )
+    ) {
+        return { success: true };
+    } else if (
+        balanceRestored(dialog.action, otherThingIdx, setContents, onGameEnd)
+    ) {
+        return { success: true };
+    } else if (
+        chapter3GetReward(dialog.action, otherThingIdx, setContents, onGameEnd)
     ) {
         return { success: true };
     }
