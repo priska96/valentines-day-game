@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Sequence } from '../Battle';
-import { CharSummary } from '../../tile-view/character/slices/characterSlice';
-import { NPCSummary } from '../../tile-view/npc/slices/npcSlice';
 import { handleAttack } from '../utils/handleAttack';
 import { handleMagic } from '../utils/handleMagic';
 import { handleHeal } from '../utils/handleHeal';
+import { CharSummary, NPCSummary } from '@/store/types';
 
 export const useBattleSequence = (
     sequence: Sequence,
@@ -88,7 +87,7 @@ export const useBattleSequence = (
             }
         }
         return () => {};
-    }, [sequence]);
+    }, [npcSummary, playerSummary, sequence]);
 
     return {
         turn,

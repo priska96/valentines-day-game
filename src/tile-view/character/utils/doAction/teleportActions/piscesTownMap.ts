@@ -13,7 +13,7 @@ import {
     goToWellInner,
 } from '@/tile-view/action_utils';
 import { DoActionParams } from '@/tile-view/character/types/DoActionParams';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum } from '@/store/enums';
 
 export const hanldeTeleportationsForPiscesTownMap = ({
     character,

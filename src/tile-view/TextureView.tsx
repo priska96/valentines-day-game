@@ -1,22 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bufferTextureImage, loadTexture } from './slices/statusSlice';
 import Water from '../images/water-texture.png';
 import Water2 from '../images/water-texture2.png';
-import { RootState } from '../store';
+import { useRootStore } from '@/store/useRootStore';
 
-const TextureView: React.FC<PropsFromRedux> = ({
-    textureImg,
-    bufferTextureImage,
-    loadTexture,
-}: PropsFromRedux) => {
+const TextureView = () => {
+    const { gameStatus, bufferTextureImage, loadTexture } = useRootStore();
+
     const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (textureImg.length === 2) {
+        if (gameStatus.textureImg.length === 2) {
             loadTexture(true);
         }
-    }, [textureImg]);
+    }, [gameStatus.textureImg, loadTexture]);
 
     return (
         <>
@@ -50,13 +46,4 @@ const TextureView: React.FC<PropsFromRedux> = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    textureImg: state.gameStatus.textureImg,
-});
-
-const mapDispatch = { bufferTextureImage, loadTexture };
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(TextureView);
+export default TextureView;

@@ -1,4 +1,4 @@
-import EvilQueenFight from '../../../../images/heroes/evil-queen_fight.png';
+import EvilQueenFight from '../../images/heroes/evil-queen_fight.png';
 
 export const princessPriska = {
     id: 'npc-2',

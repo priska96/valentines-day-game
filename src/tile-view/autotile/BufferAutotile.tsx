@@ -1,17 +1,13 @@
 import { Autotile_SPRITE } from '@/constants';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import React, { useRef } from 'react';
 import {
-    BufferImageAction,
     Autotile as AutotileInterface,
-} from './slices/autotileSlice';
+    BufferImagePayloadAutotile,
+} from '@/store/types';
 
 interface AutotileProps extends AutotileInterface {
     idx: number;
-    bufferImage: ActionCreatorWithPayload<
-        BufferImageAction,
-        'autotile/bufferImage'
-    >;
+    bufferImage: (payload: BufferImagePayloadAutotile) => void;
 }
 export const BufferAutotile: React.FC<AutotileProps> = ({
     id,

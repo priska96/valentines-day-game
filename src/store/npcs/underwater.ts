@@ -1,5 +1,5 @@
-import SeaMonster1Fight from '../../../../images/heroes/seaMonster1_fight.png';
-import SeaMonster2Fight from '../../../../images/heroes/seaMonster2_fight.png';
+import SeaMonster1Fight from '../../images/heroes/seaMonster1_fight.png';
+import SeaMonster2Fight from '../../images/heroes/seaMonster2_fight.png';
 
 export const whiteFish = {
     id: 'npc-21',

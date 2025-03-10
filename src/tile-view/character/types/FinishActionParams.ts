@@ -1,51 +1,30 @@
-import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import {
-    NPCState,
-    FireAction,
-    UpdateNPCAction,
-} from '@/tile-view/npc/slices/npcSlice';
-import {
-    ObjectState,
-    UpdateObjectAction,
-} from '@/tile-view/objectNPC/slices/objectSlice';
-import { OnGameEndAction } from '@/tile-view/slices/statusSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import {
+    AddToInventoryPayloadChar,
     CharacterState,
-    UpdatePlayerPositionAction,
-    AddToInventoryAction,
-} from '../slices/characterSlice';
+    FireActionPayloadNPC,
+    NPC,
+    OnGameEndPayload,
+    UpdateNPCPayload,
+    UpdatePlayerPositionPayloadChar,
+    ObjectNPC,
+    UpdateObjectNPCPayload,
+    FireActionObjectNPCPayload,
+    SetContentsPayload,
+    DialogState,
+} from '@/store/types';
 
 export type FinishActionParams = {
     dialog: DialogState;
-    npc: NPCState;
-    objectNPC: ObjectState;
+    npcs: NPC[];
+    objectNPCs: ObjectNPC[];
     character: CharacterState;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
-    fireAction: ActionCreatorWithPayload<FireAction, 'npc/fireAction'>;
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >;
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>;
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >;
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
-    updateObject: ActionCreatorWithPayload<
-        UpdateObjectAction,
-        'objectNPC/updateObject'
-    >;
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >;
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >;
+    setContents: (payload: SetContentsPayload) => void;
+    fireActionNPC: (payload: FireActionPayloadNPC) => void;
+    onGameEnd: (payload: OnGameEndPayload) => void;
+    changeMap: (map: string) => void;
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void;
+    updateNPC: (payload: UpdateNPCPayload) => void;
+    updateObjectNPC: (payload: UpdateObjectNPCPayload) => void;
+    fireActionObjectNPC: (payload: FireActionObjectNPCPayload) => void;
+    addToInventory: (payload: AddToInventoryPayloadChar) => void;
 };

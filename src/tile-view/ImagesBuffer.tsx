@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-
 import { MAP_TILE_IMAGES2 } from './maps/mapData';
-import { bufferMapImage } from './slices/mapImagesSlice';
+import { useRootStore } from '@/store/useRootStore';
 
-const ImagesBuffer = ({ bufferMapImage }: PropsFromRedux) => {
+const ImagesBuffer = () => {
+    const { bufferMapImage } = useRootStore();
     return (
         <div className="images-buffer">
             {Object.keys(MAP_TILE_IMAGES2).map((key) => {
@@ -39,10 +38,4 @@ const ImagesBuffer = ({ bufferMapImage }: PropsFromRedux) => {
     );
 };
 
-const mapDispatch = { bufferMapImage };
-
-const connector = connect(null, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(ImagesBuffer);
+export default ImagesBuffer;

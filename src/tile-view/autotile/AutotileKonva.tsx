@@ -1,44 +1,34 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Group } from 'react-konva';
-import { move } from './slices/autotileSlice';
-import { loadAutotile } from '../slices/statusSlice';
-import { RootState } from '../../store';
-import { setContents } from '../../game-ui/slices/dialogSlice';
 import { Autotile } from './Autotile';
+import { useRootStore } from '@/store/useRootStore';
 
-const AutotileKonva = (props: PropsFromRedux) => {
+const AutotileKonva = () => {
+    const {
+        autotiles,
+        moveAutotile: move,
+        gameStatus,
+        loadAutotile,
+        character,
+        setContents,
+    } = useRootStore();
     return (
         <Group name="autotile">
-            {props.autotiles.map((elem, idx) => (
+            {autotiles.map((elem, idx) => (
                 <Autotile
                     key={idx}
                     {...elem}
                     idx={idx}
-                    currentMap={props.currentMap}
-                    loadAutotile={props.loadAutotile}
-                    character={props.character}
-                    move={props.move}
-                    mode={props.mode}
-                    setContents={props.setContents}
+                    currentMap={gameStatus.map}
+                    loadAutotile={loadAutotile}
+                    character={character}
+                    move={move}
+                    mode={gameStatus.mode}
+                    setContents={setContents}
                 />
             ))}
         </Group>
     );
 };
-const mapStateToProps = (state: RootState) => ({
-    ...state.autotile,
-    currentMap: state.gameStatus.map,
-    mode: state.gameStatus.mode,
-    character: state.character,
-});
 
-const mapDispatch = { loadAutotile, move, setContents };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ConnectedAutotileKonva = connector(AutotileKonva);
-
-export default ConnectedAutotileKonva;
+export default AutotileKonva;

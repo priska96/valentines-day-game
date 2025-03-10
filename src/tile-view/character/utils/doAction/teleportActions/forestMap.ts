@@ -1,6 +1,6 @@
 import {
     DialogActionEnum,
-    SetContentsAction,
+    SetContentsPayload,
 } from '@/game-ui/slices/dialogSlice';
 import { DoActionParams } from '../../../types/DoActionParams';
 import { dialogs } from '@/tile-view/dialog_utils';
@@ -14,7 +14,7 @@ import {
     goToForest4,
     goToPiscesTown,
 } from '@/tile-view/action_utils';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum } from '@/store/enums';
 
 export const hanldeTeleportationsForForestMap = ({
     character,
@@ -40,8 +40,8 @@ export const hanldeTeleportationsForForestMap = ({
     //in front of dungeon entrance
     if (map === 'sky' && character.x === 5 && character.y === 7) {
         setContents(
-            (dialogs.sky['npc-0'].enterDungeon.content as SetContentsAction) ??
-                ({} as SetContentsAction)
+            (dialogs.sky['npc-0'].enterDungeon.content as SetContentsPayload) ??
+                ({} as SetContentsPayload)
         );
         res.success = true;
         return res;
@@ -50,7 +50,7 @@ export const hanldeTeleportationsForForestMap = ({
     if (map === 'evilKing' && character.x === 12 && character.y === 14) {
         setContents(
             (dialogs.evilKing['npc-2'].exitDungeon
-                .content as SetContentsAction) ?? ({} as SetContentsAction)
+                .content as SetContentsPayload) ?? ({} as SetContentsPayload)
         );
         res.success = true;
         return res;
@@ -94,12 +94,14 @@ export const hanldeTeleportationsForForestMap = ({
         if (mode === GameModeEnum.NEW_CHAPTER) {
             setContents(
                 (dialogs.forest2.woodenBoard.readBoard
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         } else {
             setContents(
                 (dialogs.forest2.woodenBoard2.readBoard
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }
         res.success = false;

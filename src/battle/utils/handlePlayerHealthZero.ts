@@ -1,21 +1,18 @@
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { UpdatePlayerSummaryAction } from '@/tile-view/character/slices/characterSlice';
+import { GameModeEnum } from '@/store/enums';
+import {
+    NPCSummary,
+    OnGameEndPayload,
+    SetContentsPayload,
+    UpdatePlayerSummaryPayloadChar,
+} from '@/store/types';
 import { dialogs, NestedDialog } from '@/tile-view/dialog_utils';
-import { NPCSummary } from '@/tile-view/npc/slices/npcSlice';
-import { GameModeEnum, onGameEnd } from '@/tile-view/slices/statusSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 interface HandlePlayerHealthZeroProps {
     npcSummary: NPCSummary;
-    updatePlayerSummary: ActionCreatorWithPayload<
-        UpdatePlayerSummaryAction,
-        'character/updatePlayerSummary'
-    >;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
+    updatePlayerSummary: (payload: UpdatePlayerSummaryPayloadChar) => void;
+    setContents: (payload: SetContentsPayload) => void;
     playerHealth: number;
+    onGameEnd: (payload: OnGameEndPayload) => void;
 }
 
 export const handlePlayerHealthZero = ({
@@ -23,26 +20,27 @@ export const handlePlayerHealthZero = ({
     updatePlayerSummary,
     setContents,
     playerHealth,
+    onGameEnd,
 }: HandlePlayerHealthZeroProps) => {
     switch (npcSummary.name) {
         case 'Blue Dragon': {
             setContents(
                 (dialogs.forest['npc-0'].afterFight.lost as NestedDialog)
-                    .content as SetContentsAction
+                    .content as SetContentsPayload
             );
             break;
         }
         case 'Evil King': {
             setContents(
                 (dialogs.evilKing['npc-1'].afterFight.lost as NestedDialog)
-                    .content as SetContentsAction
+                    .content as SetContentsPayload
             );
             break;
         }
         case 'Evil Queen': {
             setContents(
                 (dialogs.piscesTown['npc-3'].afterFight.lost as NestedDialog)
-                    .content as SetContentsAction
+                    .content as SetContentsPayload
             );
             break;
         }

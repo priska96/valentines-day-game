@@ -1,9 +1,6 @@
+import { Autotile, CharacterState, NPC, ObjectNPC } from '@/store/types';
 import { MAP_DIMENSIONS } from './maps/mapData';
 import { LAYERS, LayersInterface, SOLID_TILES } from './maps/mapImgs';
-import { NPC } from './npc/slices/npcSlice';
-import { ObjectNPC } from './objectNPC/slices/objectSlice';
-import { CharacterState } from './character/slices/characterSlice';
-import { Autotile } from './autotile/slices/autotileSlice';
 
 export const isSolidTile = (x: number, y: number, map: string) => {
     const currentMapLayers = LAYERS[map as keyof LayersInterface];
@@ -108,15 +105,17 @@ export const checkMapCollision = (
 
 export const fullyGeared = (inventory: ObjectNPC[]) => {
     let result = 0;
-    inventory.forEach((item) => {
+    console.log('inventory', inventory);
+    inventory.forEach((obj) => {
         if (
-            item.item === 'Armor' ||
-            item.item === 'Boots' ||
-            item.item === 'Sword'
+            obj.item === 'Armor' ||
+            obj.item === 'Boots' ||
+            obj.item === 'Sword'
         ) {
             result += 1;
         }
     });
+    console.log('fullyGeared', result);
     return result;
 };
 

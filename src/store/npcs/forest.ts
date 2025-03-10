@@ -1,5 +1,5 @@
-import BlueDragonFight from '../../../../images/heroes/blue-dragon_fight.png';
-import EvilKingFight from '../../../../images/heroes/evil-king_fight.png';
+import BlueDragonFight from '../../images/heroes/blue-dragon_fight.png';
+import EvilKingFight from '../../images/heroes/evil-king_fight.png';
 
 export const blueDragon = {
     id: 'npc-0',

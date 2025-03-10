@@ -1,19 +1,6 @@
-import { CharSummary } from '../../tile-view/character/slices/characterSlice';
-import { NPCSummary } from '../../tile-view/npc/slices/npcSlice';
+import { CharacterState, CharSummary, NPCSummary } from '@/store/types';
 
-export interface CharacterStats {
-    level: number;
-    maxHealth: number;
-    name: string;
-    img: string;
-    magic: number;
-    attack: number;
-    defense: number;
-    magicDefense: number;
-    portrait?: string; // Optional property
-}
-
-export const playerStats: CharSummary & Pick<CharacterStats, 'portrait'> = {
+export const playerStats: CharSummary & Pick<CharacterState, 'portrait'> = {
     level: 0,
     health: 177,
     maxHealth: 177,

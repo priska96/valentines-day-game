@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { wait } from './shared/helpers';
 import styles from './stylesBattle.module.css';
-import { PlayerSummary } from './PlayerSummary';
 import { useAIOpponent, useBattleSequence } from './hooks';
+import { PlayerSummary } from './PlayerSummary';
 import { BattleMenu } from './BattleMenu';
 import { BattleAnnouncer } from './BattleAnnouncer';
-import { GameModeEnum, onGameEnd } from '../tile-view/slices/statusSlice';
-import { updatePlayerSummary } from '../tile-view/character/slices/characterSlice';
-import { setContents } from '../game-ui/slices/dialogSlice';
 import BattleMusic from '../images/battle.mp3';
 import BattleMusic2 from '../images/battle2.mp3';
-import { RootState } from '../store';
 import { handleOpponentHealthZero } from './utils/handleOpponentHealthZero';
 import { handlePlayerHealthZero } from './utils/handlePlayerHealthZero';
+import { GameModeEnum } from '@/store/enums';
+import { useRootStore } from '@/store/useRootStore';
 
 export interface Sequence {
     turn: number;
     mode: string;
 }
 
-const Battle = ({
-    character,
-    npcs,
-    selectedOpponentIdx,
-    onGameEnd,
-    setContents,
-    updatePlayerSummary,
-}: PropsFromRedux) => {
+const Battle = () => {
+    const {
+        npcs,
+        gameStatus,
+        onGameEnd,
+        setContents,
+        updatePlayerSummary,
+        character,
+    } = useRootStore();
     const [sequence, setSequence] = useState<Sequence>({ turn: -1, mode: '' });
     const { playerSummary } = character;
+    const { selectedOpponentIdx } = gameStatus;
     const { npcSummary } = npcs[selectedOpponentIdx];
 
     const {
@@ -51,6 +50,7 @@ const Battle = ({
         return () => {
             setSequence({ turn: -1, mode: '' });
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [turn, aiChoice, inSequence]);
 
     useEffect(() => {
@@ -87,6 +87,7 @@ const Battle = ({
                             updatePlayerSummary,
                             playerHealth,
                             setContents,
+                            onGameEnd,
                         });
                     }
                 })
@@ -97,6 +98,7 @@ const Battle = ({
         return () => {
             setSequence({ turn: -1, mode: '' });
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [playerHealth, opponentHealth, onGameEnd]);
 
     return (
@@ -186,14 +188,4 @@ const Battle = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    character: { ...state.character },
-    npcs: [...state.npc.npcs],
-    selectedOpponentIdx: state.gameStatus.selectedOpponentIdx,
-});
-const mapDispatch = { onGameEnd, setContents, updatePlayerSummary };
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(Battle);
+export default Battle;

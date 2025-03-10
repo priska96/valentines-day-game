@@ -1,4 +1,4 @@
-import { DialogState } from '@/game-ui/slices/dialogSlice';
+import { DialogState } from '@/store/types';
 import { forest, forest2 } from './dialogs/forest';
 import { sky, skyBroken } from './dialogs/sky';
 import { evilKing } from './dialogs/evilKing';

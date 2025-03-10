@@ -1,41 +1,33 @@
 import { dialogs, NestedDialog } from './dialog_utils';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import {
-    AddToInventoryAction,
-    CharacterState,
-    UpdateCharacterStateAction,
-    UpdatePlayerPositionAction,
-} from './character/slices/characterSlice';
-import { FireAction, UpdateNPCAction } from './npc/slices/npcSlice';
-import { UpdateObjectAction } from './objectNPC/slices/objectSlice';
-import {
-    GameModeEnum,
-    MELTED_PISCESTOWN_GAME_MODES,
-    OnGameEndAction,
-} from './slices/statusSlice';
-import {
-    DialogActionEnum,
-    initialDialogState,
-    SetContentsAction,
-} from '@/game-ui/slices/dialogSlice';
 import {
     dragonSword,
     mermaidTear,
     underWaterPotion,
-} from './character/slices/inventory';
+} from './character/inventory';
+import {
+    CharacterState,
+    AddToInventoryPayloadChar,
+    UpdatePlayerPositionPayloadChar,
+    UpdateNPCPayload,
+    OnGameEndPayload,
+    UpdateObjectNPCPayload,
+    FireActionObjectNPCPayload,
+    SetContentsPayload,
+} from '@/store/types';
+import {
+    DialogActionEnum,
+    GameModeEnum,
+    MELTED_PISCESTOWN_GAME_MODES,
+} from '@/store/enums';
+import { initialDialogState } from '@/store/createDialogSlice';
 
 export const goToSky = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.GO_TO_SKY) {
         setContents(initialDialogState);
@@ -57,25 +49,16 @@ export const goToSky = (
 
 export const enterDungeon = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updateObject: ActionCreatorWithPayload<
-        UpdateObjectAction,
-        'objectNPC/updateObject'
-    >
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updateObjectNPC: (payload: UpdateObjectNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.ENTER_DUNGEON) {
         setContents(initialDialogState);
         changeMap('evilKing');
-        updateObject({
+        updateObjectNPC({
             idx: [5, 6],
             updates: { 'data-5': { x: 4, y: 10 }, 'data-6': { x: 4, y: 11 } },
         });
@@ -91,7 +74,8 @@ export const enterDungeon = (
         setTimeout(() => {
             setContents(
                 (dialogs.evilKing['npc-1'].beforeFight
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }, 200);
         return true;
@@ -102,11 +86,8 @@ export const enterDungeon = (
 export const battleEvilKing = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.BATTLE_EVIL_KING) {
         setContents(initialDialogState);
@@ -123,11 +104,8 @@ export const battleEvilKing = (
 export const gameOver = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.GAME_OVER) {
         setContents(initialDialogState);
@@ -144,21 +122,15 @@ export const gameOver = (
 export const victory = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    fireActionObjectNPC: (payload: FireActionObjectNPCPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.VICOTRY) {
         setContents(initialDialogState);
-        fireActionObject({ idx: 5 }); // open door top
-        fireActionObject({ idx: 6 }); // open door bottom
+        fireActionObjectNPC({ idx: 5 }); // open door top
+        fireActionObjectNPC({ idx: 6 }); // open door bottom
 
         updateNPC({
             idx: [2, 1],
@@ -179,11 +151,8 @@ export const victory = (
 
 export const followHeroOutOfDungeon = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.FOLLOW_HERO) {
         setContents(initialDialogState);
@@ -203,16 +172,10 @@ export const followHeroOutOfDungeon = (
 
 export const exitDungeon = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.EXIT_DUNGEON) {
         setContents(initialDialogState);
@@ -238,17 +201,11 @@ export const exitDungeon = (
 
 export const leaveDungeon = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.LEAVE_DUNGEON) {
         setContents(initialDialogState);
@@ -280,7 +237,8 @@ export const leaveDungeon = (
         setTimeout(() => {
             setContents(
                 (dialogs.sky['npc-0'].leftDungeon
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }, 1000);
         return true;
@@ -290,17 +248,11 @@ export const leaveDungeon = (
 
 export const goBackToGround = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.GO_TO_GROUND) {
         setContents(initialDialogState);
@@ -345,11 +297,8 @@ export const goBackToGround = (
 
 export const followHeroHome = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
     character: CharacterState
 ) => {
     if (action === DialogActionEnum.FOLLOW_HERO_HOME) {
@@ -371,12 +320,9 @@ export const followHeroHome = (
 };
 
 export const goToForest = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     changeMap('forest');
     updateNPC({
@@ -397,12 +343,9 @@ export const goToForest = (
 };
 
 export const goToForest2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
@@ -426,12 +369,9 @@ export const goToForest2 = (
 };
 
 export const goToForest2From3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     changeMap('forest2');
@@ -455,12 +395,9 @@ export const goToForest2From3 = (
 };
 
 export const goToForest3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     changeMap('forest3');
@@ -484,12 +421,9 @@ export const goToForest3 = (
 };
 
 export const goToForest3From4 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -516,12 +450,9 @@ export const goToForest3From4 = (
 };
 
 export const goToForest4 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -547,12 +478,9 @@ export const goToForest4 = (
     updatePlayerPosition({ x: 1, y: 10, step: 1, dir: 2 });
 };
 export const goToForest4FromPiscesTown = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -579,16 +507,10 @@ export const goToForest4FromPiscesTown = (
 };
 
 export const goToPiscesTown = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    setContents: (payload: SetContentsPayload) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -616,18 +538,16 @@ export const goToPiscesTown = (
         setTimeout(() => {
             setContents(
                 (dialogs.piscesTown['npc-2'].enterTown
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }, 500);
     }
 };
 export const goToHouse1 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     changeMap('house1');
@@ -652,12 +572,9 @@ export const goToHouse1 = (
 };
 
 export const goPiscesTownFromHouse1 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -686,12 +603,9 @@ export const goPiscesTownFromHouse1 = (
 };
 
 export const goToPiscesTown2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -719,12 +633,9 @@ export const goToPiscesTown2 = (
 };
 
 export const goToPiscesTownFrom2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -753,12 +664,9 @@ export const goToPiscesTownFrom2 = (
 };
 
 export const goToPiscesTown2From3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -787,16 +695,10 @@ export const goToPiscesTown2From3 = (
 };
 
 export const goToPiscesTown3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    setContents: (payload: SetContentsPayload) => void,
     mode: string | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -828,19 +730,17 @@ export const goToPiscesTown3 = (
         setTimeout(() => {
             setContents(
                 (dialogs.piscesTown['npc-3'].beforeFight
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }, 200);
     }
 };
 
 export const goToHouse2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     changeMap('house2');
@@ -865,12 +765,9 @@ export const goToHouse2 = (
 };
 
 export const goPiscesTown2FromHouse2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -899,12 +796,9 @@ export const goPiscesTown2FromHouse2 = (
 };
 
 export const goToHouse3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     changeMap('house3');
@@ -929,12 +823,9 @@ export const goToHouse3 = (
 };
 
 export const goPiscesTown2FromHouse3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
@@ -963,13 +854,10 @@ export const goPiscesTown2FromHouse3 = (
 };
 
 export const goToWellInner = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
+    changeMap: (map: string) => void,
 
-    updateCharacterState: ActionCreatorWithPayload<
-        UpdateCharacterStateAction,
-        'character/updateCharacterState'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    updateCharacterState: (updates: Partial<CharacterState>) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     updateNPC({
         idx: [1, 3],
@@ -989,58 +877,40 @@ export const goToWellInner = (
 };
 
 export const goToUnderwater2FromUnderwater = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     changeMap('underwater2');
     updatePlayerPosition({ x: 7, y: 15, step: 1, dir: 3 });
 };
 export const goToUnderwaterFromUnderwater2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     changeMap('underwater');
     updatePlayerPosition({ x: 7, y: 0, step: 1, dir: 0 });
 };
 
 export const goToUnderwater3FromUnderwater2 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     changeMap('underwater3');
     updatePlayerPosition({ x: 0, y: 9, step: 1, dir: 2 });
 };
 
 export const goToUnderwater2FromUnderwater3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     changeMap('underwater2');
     updatePlayerPosition({ x: 16, y: 8, step: 1, dir: 1 });
 };
 
 export const goToUnderwater4FromUnderwater3 = (
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    setContents: (payload: SetContentsPayload) => void
 ) => {
     changeMap('underwater4');
     updatePlayerPosition({ x: 0, y: 10, step: 1, dir: 1 });
@@ -1049,18 +919,15 @@ export const goToUnderwater4FromUnderwater3 = (
             ((
                 dialogs.underwater['npc-29'].beforeFight
                     .underwater4 as NestedDialog
-            ).content as SetContentsAction) ?? ({} as SetContentsAction)
+            ).content as SetContentsPayload) ?? ({} as SetContentsPayload)
         );
     }, 200);
 };
 
 export const beforeBattleEvilQueen = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.BEFORE_BATTLE_EVIL_QUEEN) {
         setContents(initialDialogState);
@@ -1075,11 +942,8 @@ export const beforeBattleEvilQueen = (
 
 export const beforeBattleEvilQueen2 = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.BEFORE_BATTLE_EVIL_QUEEN2) {
         setContents(initialDialogState);
@@ -1107,11 +971,8 @@ export const beforeBattleEvilQueen2 = (
 export const battleEvilQueen = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.BATTLE_EVIL_QUEEN) {
         setContents(initialDialogState);
@@ -1128,12 +989,9 @@ export const battleEvilQueen = (
 export const victoryEvilQueen = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.VICTORY_EVIL_QUEEN) {
         setContents(initialDialogState);
@@ -1166,11 +1024,8 @@ export const victoryEvilQueen = (
 export const gameOverEvilQueen = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.GAME_OVER_EVIL_QUEEN) {
         setContents(initialDialogState);
@@ -1187,11 +1042,8 @@ export const gameOverEvilQueen = (
 export const gameWonEvilQueen = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.GAME_WON_EVIL_QUEEN) {
         setContents(initialDialogState);
@@ -1207,15 +1059,12 @@ export const gameWonEvilQueen = (
 
 export const getReward = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >
+    setContents: (payload: SetContentsPayload) => void
 ) => {
     if (action === DialogActionEnum.REWARDED_KING) {
         setContents(
             (dialogs.piscesTownMelted['npc-4'].getReward
-                .content as SetContentsAction) ?? ({} as SetContentsAction)
+                .content as SetContentsPayload) ?? ({} as SetContentsPayload)
         );
         return true;
     }
@@ -1224,18 +1073,9 @@ export const getReward = (
 
 export const receiveSword = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
+    setContents: (payload: SetContentsPayload) => void,
+    addToInventory: (payload: AddToInventoryPayloadChar) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
     otherThingIdx: number
 ) => {
     if (action === DialogActionEnum.RECEIVE_SWORD) {
@@ -1253,12 +1093,9 @@ export const receiveSword = (
 
 export const spellBroken = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    changeMap: (map: string) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.SPELL_BROKEN) {
         setContents(initialDialogState);
@@ -1292,11 +1129,8 @@ export const spellBroken = (
 
 export const seerComesOut = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.SEER_COMES_OUT) {
         setContents(initialDialogState);
@@ -1320,15 +1154,9 @@ export const seerComesOut = (
 };
 export const collectMermaidTear = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
     otherThingIdx: number
 ) => {
     if (action === DialogActionEnum.COLLECT_MERMAID_TEAR) {
@@ -1352,7 +1180,8 @@ export const collectMermaidTear = (
         setTimeout(() => {
             setContents(
                 (dialogs.piscesTownMelted['npc-2'].collectMermaidTear
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
         }, 1000);
 
@@ -1371,14 +1200,8 @@ export const collectMermaidTear = (
 
 export const receivePotion = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >
+    setContents: (payload: SetContentsPayload) => void,
+    addToInventory: (payload: AddToInventoryPayloadChar) => void
 ) => {
     if (action === DialogActionEnum.RECEIVE_POTION) {
         setContents(initialDialogState);
@@ -1391,14 +1214,8 @@ export const receivePotion = (
 
 export const goToMermaidCity = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
     otherThingIdx: number
 ) => {
     if (action === DialogActionEnum.GO_TO_MERMAID_CITY) {
@@ -1417,11 +1234,8 @@ export const goToMermaidCity = (
 export const battleSeaMonster1 = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.SEA_MONSTER1_BATTLE) {
         setContents(initialDialogState);
@@ -1438,11 +1252,8 @@ export const battleSeaMonster1 = (
 export const battleSeaMonster2 = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.SEA_MONSTER2_BATTLE) {
         setContents(initialDialogState);
@@ -1459,15 +1270,9 @@ export const battleSeaMonster2 = (
 export const victorySeaMonsters = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void
 ) => {
     if (action === DialogActionEnum.VICTORY_SEA_MONSTERS) {
         setContents(initialDialogState);
@@ -1493,17 +1298,14 @@ export const victorySeaMonsters = (
 
 export const getMermaidTear = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >
+    setContents: (payload: SetContentsPayload) => void
 ) => {
     if (action === DialogActionEnum.GET_MERMAID_TEAR) {
         setContents(
             ((
                 dialogs.underwater['npc-30'].receiveMermaidTear
                     .underwater4 as NestedDialog
-            ).content as SetContentsAction) ?? ({} as SetContentsAction)
+            ).content as SetContentsPayload) ?? ({} as SetContentsPayload)
         );
         return true;
     }
@@ -1512,24 +1314,12 @@ export const getMermaidTear = (
 
 export const receiveMermaidTear = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
+    setContents: (payload: SetContentsPayload) => void,
+    addToInventory: (payload: AddToInventoryPayloadChar) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
     otherThingIdx: number,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >
+    changeMap: (map: string) => void,
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
 ) => {
     if (action === DialogActionEnum.RECEIVE_MERMAID_TEAR) {
         setContents(initialDialogState);
@@ -1556,15 +1346,9 @@ export const receiveMermaidTear = (
 
 export const seerRestoresBalance = (
     action: DialogActionEnum,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
+    setContents: (payload: SetContentsPayload) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void,
     otherThingIdx: number
 ) => {
     if (action === DialogActionEnum.RESTORE_BALANCE) {
@@ -1591,11 +1375,8 @@ export const seerRestoresBalance = (
 export const balanceRestored = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.BALANCE_RESTORED) {
         setContents(initialDialogState);
@@ -1612,11 +1393,8 @@ export const balanceRestored = (
 export const chapter3GetReward = (
     action: DialogActionEnum,
     otherThingIdx: number,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (action === DialogActionEnum.CHAPTER3_REWARD) {
         setContents(initialDialogState);

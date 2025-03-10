@@ -1,10 +1,7 @@
 import React from 'react';
 import GameUI from './game-ui/GameUI';
-import './App.css';
 import SimpleDialog from './game-ui/SimpleDialog';
 import Battle from './battle/Battle';
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from './store';
 import BackgroundView from './tile-view/BackgroundView';
 import ImagesBuffer from './tile-view/ImagesBuffer';
 import CharacterBuffer from './tile-view/character/CharacterBuffer';
@@ -14,12 +11,15 @@ import GameStage from './canvas/GameStage';
 import GameStartScreen from './game-ui/GameStartScreen';
 import GameAudio from './game-ui/GameAudio';
 import GameEndScreen from './game-ui/GameEndScreen';
-import { GameModeEnum } from './tile-view/slices/statusSlice';
 import AutotileBuffer from './tile-view/autotile/AutotileBuffer';
 import TextureView from './tile-view/TextureView';
+import { GameModeEnum } from './store/enums';
+import { useRootStore } from './store/useRootStore';
+import './App.css';
 
-function App({ mode }: PropsFromRedux) {
-    const currentMode = mode;
+function App() {
+    const { gameStatus } = useRootStore();
+    const { mode: currentMode } = gameStatus;
 
     return (
         <main
@@ -44,11 +44,4 @@ function App({ mode }: PropsFromRedux) {
         </main>
     );
 }
-const mapStateToProps = (state: RootState) => ({
-    mode: state.gameStatus.mode,
-});
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(App);
+export default App;

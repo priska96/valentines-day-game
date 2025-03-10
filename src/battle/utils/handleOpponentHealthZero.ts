@@ -1,23 +1,17 @@
-import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import {
     CharSummary,
-    UpdatePlayerSummaryAction,
-} from '@/tile-view/character/slices/characterSlice';
+    DialogState,
+    NPCSummary,
+    SetContentsPayload,
+    UpdatePlayerSummaryPayloadChar,
+} from '@/store/types';
 import { dialogs, NestedDialog } from '@/tile-view/dialog_utils';
-import { NPCSummary } from '@/tile-view/npc/slices/npcSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 interface HandleOpponentHealthZeroProps {
     npcSummary: NPCSummary;
     playerSummary: CharSummary;
-    updatePlayerSummary: ActionCreatorWithPayload<
-        UpdatePlayerSummaryAction,
-        'character/updatePlayerSummary'
-    >;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
+    updatePlayerSummary: (payload: UpdatePlayerSummaryPayloadChar) => void;
+    setContents: (payload: SetContentsPayload) => void;
     playerHealth: number;
 }
 

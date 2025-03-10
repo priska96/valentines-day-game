@@ -1,49 +1,39 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Layer } from 'react-konva';
-import { move, updateNPC } from './slices/npcSlice';
-import { loadNPC } from '../slices/statusSlice';
-import { RootState } from '../../store';
-import { setContents } from '../../game-ui/slices/dialogSlice';
 import { NPC } from './NPC';
+import { useRootStore } from '@/store/useRootStore';
 
-const NPCKonva = (props: PropsFromRedux) => {
+const NPCKonva = () => {
+    const {
+        character,
+        npcs,
+        moveNPC: move,
+        updateNPC,
+        gameStatus,
+        loadNPC,
+        objectNPCs,
+        setContents,
+    } = useRootStore();
     return (
         <Layer>
-            {props.npcs.map((elem, idx) => (
+            {npcs.map((elem, idx) => (
                 <NPC
                     key={idx}
                     {...elem}
                     idx={idx}
-                    currentMap={props.currentMap}
-                    loadNPC={props.loadNPC}
-                    character={props.character}
-                    objectNPC={props.objectNPC}
-                    move={props.move}
-                    setContents={props.setContents}
-                    allNPC={props.allNPC}
-                    mode={props.mode}
-                    updateNPC={props.updateNPC}
+                    currentMap={gameStatus.map}
+                    loadNPC={loadNPC}
+                    character={character}
+                    objectNPCs={objectNPCs}
+                    move={move}
+                    setContents={setContents}
+                    allNPC={npcs}
+                    mode={gameStatus.mode}
+                    updateNPC={updateNPC}
                 />
             ))}
         </Layer>
     );
 };
-const mapStateToProps = (state: RootState) => ({
-    ...state.npc,
-    currentMap: state.gameStatus.map,
-    mode: state.gameStatus.mode,
-    character: state.character,
-    objectNPC: state.objectNPC,
-    allNPC: state.npc,
-});
 
-const mapDispatch = { loadNPC, move, setContents, updateNPC };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ConnectedNPCKonva = connector(NPCKonva);
-
-export default ConnectedNPCKonva;
+export default NPCKonva;

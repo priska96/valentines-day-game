@@ -1,18 +1,13 @@
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
 import { dialogs } from '@/tile-view/dialog_utils';
 import { TILE_SIZE } from '@/tile-view/maps/mapData';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { Sprite } from 'konva/lib/shapes/Sprite';
-import { UpdateNPCAction } from '../slices/npcSlice';
+import { SetContentsPayload, UpdateNPCPayload } from '@/store/types';
 
 interface AnimateProps {
     spriteRef: React.RefObject<Sprite | null>;
     animate: string;
-    setContents?: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
-    updateNPC?: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
+    setContents: (payload: SetContentsPayload) => void;
+    updateNPC?: (payload: UpdateNPCPayload) => void;
 }
 
 export const animateFallDownEvilKing = ({
@@ -33,8 +28,8 @@ export const animateFallDownEvilKing = ({
                     if (setContents) {
                         setContents(
                             (dialogs.piscesTown['npc-3'].evilKingFellDown
-                                .content as SetContentsAction) ??
-                                ({} as SetContentsAction)
+                                .content as SetContentsPayload) ??
+                                ({} as SetContentsPayload)
                         );
                     }
                 }, 200),
@@ -76,8 +71,8 @@ export const animateWalkToDad = ({
                                 if (setContents) {
                                     setContents(
                                         (dialogs.piscesTown['npc-2'].beforeFight
-                                            .content as SetContentsAction) ??
-                                            ({} as SetContentsAction)
+                                            .content as SetContentsPayload) ??
+                                            ({} as SetContentsPayload)
                                     );
                                 }
                             },
@@ -108,8 +103,8 @@ export const animateSeerComesOut = ({
                     if (setContents) {
                         setContents(
                             (dialogs.piscesTownMelted['npc-10'].chapter3
-                                .content as SetContentsAction) ??
-                                ({} as SetContentsAction)
+                                .content as SetContentsPayload) ??
+                                ({} as SetContentsPayload)
                         );
                     }
                 }, 200);
@@ -148,8 +143,8 @@ export const animateGoesBack = ({
                     if (setContents) {
                         setContents(
                             (dialogs.piscesTownMelted['npc-4'].restoreBalance
-                                .content as SetContentsAction) ??
-                                ({} as SetContentsAction)
+                                .content as SetContentsPayload) ??
+                                ({} as SetContentsPayload)
                         );
                     }
                 }, 200);

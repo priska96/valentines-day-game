@@ -1,12 +1,12 @@
-import { RootState } from '@/store';
-import { connect, ConnectedProps } from 'react-redux';
 import styles from '../stylesApp.module.css';
-import { DialogActionEnum, setContents } from './slices/dialogSlice';
 import Reward from '../images/message2.mp4';
 import SpecialReward from '../images/IMG_5230.jpeg';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { useRootStore } from '@/store/useRootStore';
+import { DialogActionEnum, GameModeEnum } from '@/store/enums';
 
-const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
+const GameEndScreen = () => {
+    const { gameStatus, setContents } = useRootStore();
+    const { mode } = gameStatus;
     if (mode === GameModeEnum.GAME_OVER) {
         return (
             <div className={styles.gameOverContainer}>
@@ -51,7 +51,6 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                                 text: Reward,
                                 openerId: '',
                                 action: DialogActionEnum.VIDEO,
-                                continue: false,
                             });
                         }}
                     >
@@ -66,7 +65,6 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                                 text: SpecialReward,
                                 openerId: '',
                                 action: DialogActionEnum.PHOTO,
-                                continue: false,
                             });
                         }}
                     >
@@ -93,7 +91,6 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
                                 text: Reward,
                                 openerId: '',
                                 action: DialogActionEnum.PHOTO,
-                                continue: false,
                             });
                         }}
                     >
@@ -106,13 +103,4 @@ const GameEndScreen = ({ mode, setContents }: PropsFromRedux) => {
     return <></>;
 };
 
-const mapStateToProps = (state: RootState) => ({
-    mode: state.gameStatus.mode,
-});
-const mapDispatch = { setContents };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(GameEndScreen);
+export default GameEndScreen;

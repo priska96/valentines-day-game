@@ -3,12 +3,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Backdrop from '@mui/material/Backdrop';
 import DialogContentText from '@mui/material/DialogContentText';
-import { connect, ConnectedProps } from 'react-redux';
-import { RootState } from '../store';
 import './dialog.css';
-import { DialogActionEnum } from './slices/dialogSlice';
+import { useRootStore } from '@/store/useRootStore';
+import { DialogActionEnum } from '@/store/enums';
 
-function SimpleDialog({ dialog }: PropsFromRedux) {
+function SimpleDialog() {
+    const { dialog } = useRootStore();
     const { open, title, text, action } = dialog;
 
     const update = (
@@ -82,10 +82,4 @@ function SimpleDialog({ dialog }: PropsFromRedux) {
     );
 }
 
-const mapStateToProps = ({ dialog }: RootState) => ({ dialog });
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(SimpleDialog);
+export default SimpleDialog;

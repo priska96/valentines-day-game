@@ -40,17 +40,17 @@ import { InteractWithObjectParams } from '../types/InteractWithObjectParams';
 
 export const finishAction = ({
     dialog,
-    npc,
-    objectNPC,
+    npcs,
+    objectNPCs,
     character,
     setContents,
-    fireAction,
+    fireActionNPC,
     onGameEnd,
     changeMap,
     updatePlayerPosition,
     updateNPC,
-    updateObject,
-    fireActionObject,
+    updateObjectNPC,
+    fireActionObjectNPC,
     addToInventory,
 }: FinishActionParams) => {
     const openerId = dialog.openerId;
@@ -65,26 +65,26 @@ export const finishAction = ({
         changeMap,
         updatePlayerPosition,
         updateNPC,
-        updateObject,
-        fireActionObject,
+        updateObjectNPC,
+        fireActionObjectNPC,
         addToInventory,
     });
     if (res.success) return;
 
-    if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
+    if (openerId.startsWith('npc-') && npcs[otherThingIdx].stopMoving) {
         finishInteractionWithNPC({
             setContents,
-            npc,
+            npcs,
             otherThingIdx,
-            fireAction,
+            fireActionNPC,
         });
     } else if (openerId.startsWith('object-')) {
         finishInteractionWithObject({
             dialog,
             setContents,
-            fireActionObject,
+            fireActionObjectNPC,
             otherThingIdx,
-            objectNPC,
+            objectNPCs,
             addToInventory,
         });
     } else {
@@ -101,8 +101,8 @@ export const handleActionAfterDialogDone = ({
     onGameEnd,
     updatePlayerPosition,
     updateNPC,
-    updateObject,
-    fireActionObject,
+    updateObjectNPC,
+    fireActionObjectNPC,
     addToInventory,
 }: HanldeActionAfterDialogParams): { success: boolean } => {
     if (
@@ -112,7 +112,7 @@ export const handleActionAfterDialogDone = ({
             changeMap,
             updatePlayerPosition,
             updateNPC,
-            updateObject
+            updateObjectNPC
         )
     ) {
         return { success: true };
@@ -137,7 +137,7 @@ export const handleActionAfterDialogDone = ({
             dialog.action,
             otherThingIdx,
             setContents,
-            fireActionObject,
+            fireActionObjectNPC,
             updateNPC,
             onGameEnd
         )
@@ -293,28 +293,28 @@ export const handleActionAfterDialogDone = ({
 
 const finishInteractionWithNPC = ({
     setContents,
-    npc,
+    npcs,
     otherThingIdx,
-    fireAction,
+    fireActionNPC,
 }: InteractWithNPCParams) => {
     setContents(initialDialogState);
-    if (!npc.npcs[otherThingIdx].dead) {
-        fireAction({ idx: otherThingIdx });
+    if (!npcs[otherThingIdx].dead) {
+        fireActionNPC({ idx: otherThingIdx });
     }
 };
 
 const finishInteractionWithObject = ({
     dialog,
     setContents,
-    fireActionObject,
+    fireActionObjectNPC,
     otherThingIdx,
-    objectNPC,
+    objectNPCs,
     addToInventory,
 }: InteractWithObjectParams) => {
     const prevTitle = dialog.title;
 
     setContents(initialDialogState);
-    fireActionObject({ idx: otherThingIdx });
+    fireActionObjectNPC({ idx: otherThingIdx });
     if (prevTitle !== 'Nothing!')
-        addToInventory({ item: objectNPC.objects[otherThingIdx] });
+        addToInventory({ item: objectNPCs[otherThingIdx] });
 };

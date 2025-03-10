@@ -1,8 +1,6 @@
-import { ObjectNPC } from '@/tile-view/objectNPC/slices/objectSlice';
 import { DoActionParams } from '../../types/DoActionParams';
-import { NPC } from '@/tile-view/npc/slices/npcSlice';
-import { Autotile } from '@/tile-view/autotile/slices/autotileSlice';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { NPC, Autotile, ObjectNPC } from '@/store/types';
+import { GameModeEnum } from '@/store/enums';
 
 export const doActionWithAutotile = ({
     otherThing,
@@ -15,7 +13,7 @@ export const doActionWithAutotile = ({
 }: { otherThing: ObjectNPC | NPC | Autotile } & Pick<
     DoActionParams,
     | 'setContents'
-    | 'fireAction'
+    | 'fireActionNPC'
     | 'map'
     | 'mode'
     | 'winner'

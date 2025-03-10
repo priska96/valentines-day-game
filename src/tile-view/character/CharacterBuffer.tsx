@@ -1,19 +1,13 @@
 import React, { useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-
 import { HEROES_SPRITE, HEROES_SPRITE_NAKED } from '../../constants';
-import { bufferImage } from './slices/characterSlice';
-import { loadCharacter } from '../slices/statusSlice';
-import { fullyGeared } from '../utils';
-import { RootState } from '../../store';
+import { isFullyGeared } from '@/store/createCharacterSlice';
+import { useRootStore } from '@/store/useRootStore';
 
-const CharacterBuffer: React.FC<PropsFromRedux> = ({
-    inventory,
-    bufferImage,
-}: PropsFromRedux) => {
+const CharacterBuffer = () => {
+    const { bufferImage } = useRootStore();
+    const fullyGeared = useRootStore(isFullyGeared);
     const imgRef = useRef<HTMLImageElement>(null);
-    const img =
-        fullyGeared(inventory) === 3 ? HEROES_SPRITE : HEROES_SPRITE_NAKED;
+    const img = fullyGeared === 3 ? HEROES_SPRITE : HEROES_SPRITE_NAKED;
 
     return (
         <div className="character-images-buffer">
@@ -31,12 +25,4 @@ const CharacterBuffer: React.FC<PropsFromRedux> = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({ ...state.character });
-
-const mapDispatch = { loadCharacter, bufferImage };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(CharacterBuffer);
+export default CharacterBuffer;

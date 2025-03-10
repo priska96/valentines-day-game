@@ -1,4 +1,41 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+export enum GameModeEnum {
+    START = 'start',
+    WORLD = 'world',
+    BATTLE = 'battle',
+    GET_OUT = 'get-out',
+    NEW_CHAPTER = 'new-chapter',
+    GAME_OVER = 'game-over',
+    GAME_OVER_HOLE = 'game-over-hole',
+    GAME_OVER_UNDERWATER = 'game-over-underwater',
+    GAME_WON = 'game-won',
+    VICTORY_EVIL_QUEEN = 'victory-evil-queen',
+    SPELL_BROKEN = 'spell-broken',
+    CHAPTER3 = 'chapter3',
+    COLLECT_MERMAID_TEAR = 'collect-mermaid-tear',
+    GO_TO_MERMAID_CITY = 'go-to-mermaid-city',
+    WHIRLPOOL = 'whirlpool',
+    VICTORY_SEA_MONSTERS = 'victory-sea-monsters',
+    DELIVER_MERMAID_TEAR = 'deliver-mermaid-tear',
+    RESTORE_BALANCE = 'restore-balance',
+    EXPLOSION = 'explosion',
+    BALANCE_RESTORED = 'balance-restored',
+    GAME_WON_CHAPTER3_REWARD = 'game-won-chapter3-reward',
+}
+
+export const MELTED_PISCESTOWN_GAME_MODES = [
+    GameModeEnum.VICTORY_EVIL_QUEEN,
+    GameModeEnum.SPELL_BROKEN,
+    GameModeEnum.CHAPTER3,
+    GameModeEnum.COLLECT_MERMAID_TEAR,
+    GameModeEnum.GO_TO_MERMAID_CITY,
+    GameModeEnum.WHIRLPOOL,
+    GameModeEnum.VICTORY_SEA_MONSTERS,
+    GameModeEnum.DELIVER_MERMAID_TEAR,
+    GameModeEnum.RESTORE_BALANCE,
+    GameModeEnum.EXPLOSION,
+    GameModeEnum.BALANCE_RESTORED,
+    GameModeEnum.GAME_WON_CHAPTER3_REWARD,
+];
 
 export enum DialogActionEnum {
     VICOTRY = 'victory',
@@ -36,49 +73,3 @@ export enum DialogActionEnum {
     CHAPTER3_REWARD = 'chapter3-reward',
     DEFAULT = '',
 }
-export interface DialogState {
-    open: boolean;
-    title: string;
-    text: string;
-    openerId: string;
-    action: DialogActionEnum;
-    continue: boolean;
-}
-
-export interface SetContentsPayload {
-    open: boolean;
-    title: string;
-    text: string;
-    openerId: string;
-    action: DialogActionEnum;
-    continue: boolean;
-}
-export const initialDialogState: DialogState = {
-    open: false,
-    title: '',
-    text: '',
-    openerId: '',
-    action: DialogActionEnum.DEFAULT,
-    continue: false,
-};
-const dialogSlice = createSlice({
-    name: 'dialog',
-    initialState: initialDialogState,
-    reducers: {
-        setContents(state, action: PayloadAction<SetContentsPayload>) {
-            state.open = action.payload.open;
-            state.title = action.payload.title;
-            state.text = action.payload.text;
-            state.openerId = action.payload.openerId;
-            state.action = action.payload.action;
-            state.continue = action.payload.continue;
-        },
-        updateDialogState(_, action: PayloadAction<DialogState>) {
-            return action.payload;
-        },
-    },
-});
-
-export const { setContents, updateDialogState } = dialogSlice.actions;
-
-export default dialogSlice.reducer;

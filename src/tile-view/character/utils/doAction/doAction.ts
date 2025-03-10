@@ -10,13 +10,13 @@ import { hanldeTeleportationsForUnderwaterMap } from './teleportActions/underwat
 export const doAction = ({
     map,
     character,
-    npc,
-    objectNPC,
-    autotile,
+    npcs,
+    objectNPCs,
+    autotiles,
     winner,
     mode,
     setContents,
-    fireAction,
+    fireActionNPC,
     onGameEnd,
     changeMap,
     updatePlayerPosition,
@@ -26,7 +26,7 @@ export const doAction = ({
     const otherThing = whoIsOnMap(
         character.x,
         character.y,
-        [...npc.npcs, ...objectNPC.objects, ...autotile.autotiles],
+        [...npcs, ...objectNPCs, ...autotiles],
         map
     );
 
@@ -75,7 +75,7 @@ export const doAction = ({
     const res2 = doActionWithNPC({
         otherThing,
         setContents,
-        fireAction,
+        fireActionNPC,
         map,
         mode,
         winner,
@@ -92,7 +92,7 @@ export const doAction = ({
     const res4 = doActionWithAutotile({
         otherThing,
         setContents,
-        fireAction,
+        fireActionNPC,
         map,
         mode,
         winner,
