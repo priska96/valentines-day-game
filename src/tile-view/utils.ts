@@ -120,7 +120,6 @@ export const checkMapCollision = (
 
 export const fullyGeared = (inventory: ObjectNPC[]) => {
     let result = 0;
-    console.log('inventory', inventory);
     inventory.forEach((obj) => {
         if (
             obj.item === 'Armor' ||
@@ -130,7 +129,6 @@ export const fullyGeared = (inventory: ObjectNPC[]) => {
             result += 1;
         }
     });
-    console.log('fullyGeared', result);
     return result;
 };
 

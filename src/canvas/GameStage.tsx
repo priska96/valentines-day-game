@@ -19,7 +19,6 @@ const GameStage = () => {
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [bgImg, setBgImg] = useState<string | null>(backgroundImg[0]);
     useEffect(() => {
-        console.log('mode', mode, backgroundImg);
         if (
             mode &&
             [GameModeEnum.GO_TO_MERMAID_CITY, GameModeEnum.WHIRLPOOL].includes(

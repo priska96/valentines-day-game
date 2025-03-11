@@ -149,7 +149,6 @@ export const createGameStatusSlice: StateCreator<
             (state) => {
                 const newTextureImg = [...state.gameStatus.textureImg];
                 newTextureImg[idx] = textureImg;
-                console.log('newTextureImg', newTextureImg, idx, textureImg);
                 return {
                     ...state,
                     gameStatus: {

@@ -89,7 +89,6 @@ const CharacterKonva = () => {
                 [...npcs, ...objectNPCs, ...autotiles],
                 map
             );
-            console.log('collusion', collusion);
             if (!collusion) {
                 move({ x: xDir, y: yDir, dirKey: key });
                 handleGameEndConditions(x, y, map, onGameEnd);

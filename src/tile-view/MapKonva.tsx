@@ -31,10 +31,8 @@ const MapKonva = () => {
                     mapRef.current
                         ?.getChildren()
                         .forEach((child) => child.rotate(5));
-                    console.log('props updated');
                 },
                 onFinish: () => {
-                    console.log('finished');
                     mapRef.current
                         ?.getChildren()
                         .forEach((child) => child.rotate(-child.rotation()));

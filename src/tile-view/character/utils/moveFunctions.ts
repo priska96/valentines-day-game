@@ -210,11 +210,6 @@ export const animateFallIntoWell = ({
             onFinish: () => {
                 setTimeout(() => {
                     spriteRef.current!.rotate(-ref.rotation());
-                    console.log(
-                        ref._getTransform(),
-                        ref.rotation(),
-                        ref.absolutePosition()
-                    );
                     updateCharacterState({ animate: '', x: 8, y: 10 });
                 }, 200);
             },

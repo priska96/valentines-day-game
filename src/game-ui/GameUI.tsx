@@ -21,7 +21,6 @@ const GameUI = () => {
             });
         }
         if (item.action !== '') {
-            console.log(item.action);
             updateInventoryItemInUse({ id: item.id });
         }
     };

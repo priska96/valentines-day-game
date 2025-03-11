@@ -11,7 +11,6 @@ const BackgroundView = () => {
 
     useEffect(() => {
         if (gameStatus.backgroundImg.length === 2) {
-            console.log('loadBackground');
             loadBackground(true);
         }
     }, [gameStatus.backgroundImg, loadBackground]);

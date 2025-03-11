@@ -26,10 +26,6 @@ export const doActionWithAutotile = ({
     if (otherThing.type === 'autotile') {
         const otherThingIdx = parseInt(otherThing.id.split('-')[1]);
         if (map === 'wellInner') {
-            console.log(
-                'wellInner',
-                character.inventory.filter((item) => item.id === 'object-8')
-            );
             if (mode === GameModeEnum.GO_TO_MERMAID_CITY) {
                 // whirlpool
                 if (otherThingIdx === 0) {
@@ -42,7 +38,7 @@ export const doActionWithAutotile = ({
                         changeMap('underwater');
 
                         updatePlayerPosition({ x: 7, y: 12, step: 0, dir: 3 });
-                    }, 4000);
+                    }, 3500);
 
                     const underwaterPotion = character.inventory.filter(
                         (item) => item.id === 'object-8'
