@@ -9,7 +9,7 @@
         "@emotion/styled": "^11.11.0",
         "@mui/material": "^5.15.7",
         "@reduxjs/toolkit": "^2.5.1",
-        "gh-pages": "^6.1.1",
+        "gh-pages": "^6.3.0",
         "konva": "^9.3.18",
         "prettier": "^3.5.2",
         "react": "^19.0.0",
@@ -28,7 +28,8 @@
         "lint": "eslint src",
         "lint:fix": "eslint src --fix",
         "format": "prettier \"src/**/*.{js,jsx,ts,tsx,css,scss}\" --write",
-        "precommit": "npm run format && tsc && npm run lint"
+        "precommit": "npm run format && tsc && npm run lint",
+        "deploy": "gh-pages -d bulid"
     },
     "browserslist": {
         "production": [

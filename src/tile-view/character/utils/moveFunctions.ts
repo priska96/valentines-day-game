@@ -61,7 +61,10 @@ export const handleWildFight = (
     setContents: (payload: SetContentsPayload) => void,
     onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
-    if ((map === 'forest2' || map === 'forest3') && mode !== 'battle') {
+    if (
+        ['forest2', 'forest3', 'underwater3'].includes(map) &&
+        mode !== 'battle'
+    ) {
         if (wildFightOpts[Math.floor(Math.random() * wildFightOpts.length)]) {
             const opponent = [7, 8, 9];
 

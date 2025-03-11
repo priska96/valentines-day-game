@@ -89,7 +89,7 @@ export const createNPCSlice: StateCreator<
             heroImg: null,
             stopMoving: true,
             type: 'npc',
-            map: ['forest2', 'forest3'],
+            map: ['forest2', 'forest3', 'underwater3'],
             dead: false,
             animate: '',
             npcSummary: {

@@ -92,7 +92,7 @@ const CharacterKonva = () => {
             if (!collusion) {
                 move({ x: xDir, y: yDir, dirKey: key });
                 handleGameEndConditions(x, y, map, onGameEnd);
-                //handleWildFight(map, mode, setContents, onGameEnd); //TODO: put back in
+                handleWildFight(map, mode, setContents, onGameEnd);
                 handleNPCFollow(x, y, key, npcs, moveNPC);
             } else {
                 move({ x: 0, y: 0, dirKey: key });
