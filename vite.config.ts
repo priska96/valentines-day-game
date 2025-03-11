@@ -10,6 +10,8 @@ export default defineConfig({
         },
     },
     build: {
+        outDir: 'dist',
         assetsInlineLimit: 0, // Ensures Vite serves assets properly
     },
+    base: '/valentines-day-game/',
 });
