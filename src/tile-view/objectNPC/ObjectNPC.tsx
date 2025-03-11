@@ -27,7 +27,6 @@ export const ObjectNPC: React.FC<ObjectNPCProps> = ({
     loadObject,
     currentMap,
 }: ObjectNPCProps) => {
-    console.log('ObjectNPC', objectImg);
     useEffect(() => {
         if (objectImg && map.includes(currentMap)) {
             loadObject({ idx: idx, val: true });

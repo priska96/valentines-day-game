@@ -26,6 +26,7 @@ export const doAction = ({
     const otherThing = whoIsOnMap(
         character.x,
         character.y,
+        character.dir,
         [...npcs, ...objectNPCs, ...autotiles],
         map
     );

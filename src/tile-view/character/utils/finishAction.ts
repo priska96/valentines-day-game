@@ -1,3 +1,4 @@
+import { initialDialogState } from '@/store/createDialogSlice';
 import {
     battleEvilKing,
     enterDungeon,
@@ -32,7 +33,6 @@ import {
     chapter3GetReward,
     followHeroOutOfDungeon,
 } from '../../action_utils';
-import { initialDialogState } from '../../../game-ui/slices/dialogSlice';
 import { FinishActionParams } from '../types/FinishActionParams';
 import { HanldeActionAfterDialogParams } from '../types/HanldeActionAfterDialogParams';
 import { InteractWithNPCParams } from '../types/InteractWithNPCParams';

@@ -2,11 +2,11 @@ import { Autotile_IMAGE_SIZE } from '@/constants';
 import Konva from 'konva';
 import { useRef, useEffect, useState } from 'react';
 import { Sprite } from 'react-konva';
-import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
 import { movesList } from '../utils';
 import {
+    CharacterState,
     LoadAutotilePayload,
     MovePayloadAutotile,
     SetContentsPayload,

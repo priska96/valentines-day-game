@@ -49,7 +49,6 @@ const MapKonva = () => {
     }, [mode, onGameEnd]);
 
     const drawLayer = (grid: MapMatrixRow) => {
-        console.log('draw map');
         const rowArray = Array.from({ length: ROWS }, (value, index) => index);
         const colArray = Array.from({ length: COLS }, (value, index) => index);
         return rowArray.map((i) => {

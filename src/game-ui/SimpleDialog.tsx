@@ -57,6 +57,13 @@ function SimpleDialog() {
                 </div>
             );
         }
+        if (action === DialogActionEnum.LETTER) {
+            return (
+                <DialogContentText style={{ whiteSpace: 'pre-line' }}>
+                    {text}
+                </DialogContentText>
+            );
+        }
         return <DialogContentText>{text}</DialogContentText>;
     };
     return (

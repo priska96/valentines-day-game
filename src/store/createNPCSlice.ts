@@ -159,20 +159,15 @@ export const createNPCSlice: StateCreator<
 
     moveNPC: ({ idx, x, y, dirKey }) =>
         set(
-            (state) => ({
-                ...state,
-                npcs: state.npcs.map((npc, i) =>
-                    i === idx
-                        ? {
-                              ...npc,
-                              x: npc.x + x,
-                              y: npc.y + y,
-                              step: npc.step < 2 ? npc.step + 1 : 0,
-                              dir: directions[dirKey as keyof KeyDirections],
-                          }
-                        : npc
-                ),
-            }),
+            (state) => {
+                const npcsCopy = [...state.npcs];
+                npcsCopy[idx].x += x;
+                npcsCopy[idx].y += y;
+                npcsCopy[idx].step =
+                    npcsCopy[idx].step < 3 - 1 ? npcsCopy[idx].step + 1 : 0;
+                npcsCopy[idx].dir = directions[dirKey as keyof KeyDirections];
+                return { ...state, npcs: npcsCopy };
+            },
             undefined,
             'root:npc/moveNPC'
         ),
@@ -203,12 +198,16 @@ export const createNPCSlice: StateCreator<
 
     updateNPC: ({ idx, updates }) =>
         set(
-            (state) => ({
-                ...state,
-                npcs: state.npcs.map((npc, i) =>
-                    idx.includes(i) ? { ...npc, ...updates[i] } : npc
-                ),
-            }),
+            (state) => {
+                const npcsCopy = [...state.npcs];
+                idx.forEach((index) => {
+                    npcsCopy[index] = {
+                        ...npcsCopy[index],
+                        ...updates[`data-${index}`],
+                    };
+                });
+                return { ...state, npcs: npcsCopy };
+            },
             undefined,
             'root:npc/updateNPC'
         ),

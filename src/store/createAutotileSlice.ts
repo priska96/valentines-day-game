@@ -17,7 +17,7 @@ export const createAutotileSlice: StateCreator<
             autotileImg: null,
             stopMoving: false,
             type: 'autotile',
-            map: ['forest'],
+            map: ['wellInner'],
             animate: '',
         },
     ],

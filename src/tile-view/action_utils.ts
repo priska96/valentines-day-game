@@ -1277,7 +1277,7 @@ export const victorySeaMonsters = (
     if (action === DialogActionEnum.VICTORY_SEA_MONSTERS) {
         setContents(initialDialogState);
         updateNPC({
-            idx: [3, 1],
+            idx: [31, 32],
             updates: {
                 'data-31': { dead: true, stopMoving: true },
                 'data-32': {
@@ -1337,7 +1337,7 @@ export const receiveMermaidTear = (
             });
             changeMap('piscesTown2Melted');
             updatePlayerPosition({ x: 8, y: 8, step: 1, dir: 1 });
-        }, 5000);
+        }, 3500);
 
         return true;
     }

@@ -3,32 +3,38 @@ import ConnectedLoadGameButton from './LoadGameButton';
 import styles from '../stylesApp.module.css';
 import { useRootStore } from '@/store/useRootStore';
 import { GameModeEnum } from '@/store/enums';
+import LoadingIndicator from './LoadindIndicator';
 
 const GameStartScreen = () => {
     const { mapImages, onGameEnd } = useRootStore();
     return (
         <div className={styles.gameOverContainer}>
             <div className={styles.gameOver}>~~The Rescue~~</div>
-            <div className={styles.startGameButtonContainer}>
-                <span
-                    className={styles.startGameButton}
-                    onClick={() => {
-                        onGameEnd({
-                            mode: GameModeEnum.WORLD,
-                            winner: undefined,
-                            selectedOpponentIdx: 0,
-                        });
-                    }}
-                >
-                    Start
-                </span>
-            </div>
 
             {mapImages &&
-                Object.keys(mapImages).length >=
-                    Object.keys(MAP_TILE_IMAGES2).length - 1 && (
+            Object.keys(mapImages).length >=
+                Object.keys(MAP_TILE_IMAGES2).length - 1 ? (
+                <div>
+                    <div className={styles.startGameButtonContainer}>
+                        <span
+                            className={styles.startGameButton}
+                            onClick={() => {
+                                onGameEnd({
+                                    mode: GameModeEnum.WORLD,
+                                    winner: undefined,
+                                    selectedOpponentIdx: 0,
+                                });
+                            }}
+                        >
+                            Start
+                        </span>
+                    </div>
+
                     <ConnectedLoadGameButton />
-                )}
+                </div>
+            ) : (
+                <LoadingIndicator />
+            )}
             <div>
                 Instructions:
                 <ul>

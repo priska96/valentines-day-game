@@ -40,6 +40,9 @@ export const othersIsOnMap = (
                 (otherElem as NPC | ObjectNPC | Autotile).map.includes(map)
             ) {
                 result = true;
+                if (otherElem.type === 'npc' && (otherElem as NPC).followHero) {
+                    result = false;
+                }
             }
             if (
                 otherElem.type !== 'hero' &&
@@ -55,9 +58,10 @@ export const othersIsOnMap = (
 export const whoIsOnMap = (
     x: number,
     y: number,
+    dir: number,
     others: (CharacterState | NPC | ObjectNPC | Autotile)[],
     map: string
-): (NPC | ObjectNPC) | undefined => {
+): (NPC | ObjectNPC | Autotile) | undefined => {
     let result = undefined;
     others
         .filter((otherElem) => {
@@ -75,18 +79,29 @@ export const whoIsOnMap = (
                 (otherElem as NPC).type === 'npc' ||
                 (otherElem as Autotile).type === 'autotile'
             ) {
-                if (otherElem.x === x && otherElem.y === y - 1) {
+                if (otherElem.x === x && otherElem.y === y - 1 && dir === 3) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x - 1 && otherElem.y === y) {
+                } else if (
+                    otherElem.x === x - 1 &&
+                    otherElem.y === y &&
+                    dir === 1
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x && otherElem.y === y + 1) {
+                } else if (
+                    otherElem.x === x &&
+                    otherElem.y === y + 1 &&
+                    dir === 0
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x + 1 && otherElem.y === y) {
+                } else if (
+                    otherElem.x === x + 1 &&
+                    otherElem.y === y &&
+                    dir === 2
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
                 }
             }
         });
-
     return result;
 };
 

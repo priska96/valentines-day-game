@@ -234,7 +234,7 @@ export const seaMonster1 = {
     heroImg: null,
     stopMoving: true,
     type: 'npc',
-    map: ['underwater3'],
+    map: ['underwater4'],
     dead: false,
     animate: '',
     npcSummary: {

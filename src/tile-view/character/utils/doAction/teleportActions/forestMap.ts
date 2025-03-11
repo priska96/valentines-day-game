@@ -1,7 +1,3 @@
-import {
-    DialogActionEnum,
-    SetContentsPayload,
-} from '@/game-ui/slices/dialogSlice';
 import { DoActionParams } from '../../../types/DoActionParams';
 import { dialogs } from '@/tile-view/dialog_utils';
 import {
@@ -14,7 +10,8 @@ import {
     goToForest4,
     goToPiscesTown,
 } from '@/tile-view/action_utils';
-import { GameModeEnum } from '@/store/enums';
+import { DialogActionEnum, GameModeEnum } from '@/store/enums';
+import { SetContentsPayload } from '@/store/types';
 
 export const hanldeTeleportationsForForestMap = ({
     character,

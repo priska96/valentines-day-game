@@ -41,6 +41,7 @@ export enum DialogActionEnum {
     VICOTRY = 'victory',
     VIDEO = 'video',
     PHOTO = 'photo',
+    LETTER = 'letter',
     GO_TO_SKY = 'go-to-sky',
     ENTER_DUNGEON = 'enter-dungeon',
     BATTLE_EVIL_KING = 'battle-evil-king',

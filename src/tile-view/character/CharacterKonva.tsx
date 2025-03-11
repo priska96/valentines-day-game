@@ -89,11 +89,12 @@ const CharacterKonva = () => {
                 [...npcs, ...objectNPCs, ...autotiles],
                 map
             );
+            console.log('collusion', collusion);
             if (!collusion) {
                 move({ x: xDir, y: yDir, dirKey: key });
-                handleGameEndConditions(x + xDir, y + yDir, map, onGameEnd);
+                handleGameEndConditions(x, y, map, onGameEnd);
                 //handleWildFight(map, mode, setContents, onGameEnd); //TODO: put back in
-                handleNPCFollow(xDir, yDir, key, npcs, moveNPC);
+                handleNPCFollow(x, y, key, npcs, moveNPC);
             } else {
                 move({ x: 0, y: 0, dirKey: key });
             }

@@ -103,7 +103,7 @@ export const handleNPCFollow = (
     if (npcs.some((n) => n.followHero)) {
         npcs.forEach((n, idx) => {
             if (n.followHero) {
-                moveNPC({ x: xDir, y: yDir, dirKey: key, idx });
+                moveNPC({ x: xDir - n.x, y: yDir - n.y, dirKey: key, idx });
             }
         });
     }
