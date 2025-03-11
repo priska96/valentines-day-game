@@ -29,7 +29,7 @@
         "lint:fix": "eslint src --fix",
         "format": "prettier \"src/**/*.{js,jsx,ts,tsx,css,scss}\" --write",
         "precommit": "npm run format && tsc && npm run lint",
-        "deploy": "gh-pages -d dist"
+        "deploy": "gh-pages -d dist --depth=1"
     },
     "browserslist": {
         "production": [
