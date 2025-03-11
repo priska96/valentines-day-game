@@ -1,30 +1,24 @@
 import { Autotile_IMAGE_SIZE } from '@/constants';
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import Konva from 'konva';
 import { useRef, useEffect, useState } from 'react';
 import { Sprite } from 'react-konva';
-import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
-import { GameModeEnum, LoadAutotileAction } from '../slices/statusSlice';
 import { movesList } from '../utils';
 import {
-    MoveAction,
-    Autotile as AutotileInterface,
-} from './slices/autotileSlice';
+    CharacterState,
+    LoadAutotilePayload,
+    MovePayloadAutotile,
+    SetContentsPayload,
+} from '@/store/types';
+import { Autotile as AutotileInterface } from '@/store/types';
+import { GameModeEnum } from '@/store/enums';
 
 interface AutotileProps extends AutotileInterface {
     idx: number;
-    loadAutotile: ActionCreatorWithPayload<
-        LoadAutotileAction,
-        'gameStatus/loadAutotile'
-    >;
-    move: ActionCreatorWithPayload<MoveAction, 'autotile/move'>;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
+    loadAutotile: (payload: LoadAutotilePayload) => void;
+    move: (payload: MovePayloadAutotile) => void;
+    setContents: (payload: SetContentsPayload) => void;
     currentMap: string;
     character: CharacterState;
     mode: string | undefined;

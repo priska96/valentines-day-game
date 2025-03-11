@@ -1,4 +1,4 @@
-import { ObjectNPC } from '@/tile-view/objectNPC/slices/objectSlice';
+import { ObjectNPC } from '@/store/types';
 
 export const dragonSword = {
     id: 'object-7',

@@ -1,42 +1,38 @@
 import { NPC_IMAGE_SIZE } from '@/constants';
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import Konva from 'konva';
 import { useRef, useEffect } from 'react';
 import { Sprite } from 'react-konva';
-import { CharacterState } from '../character/slices/characterSlice';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
-import { ObjectState } from '../objectNPC/slices/objectSlice';
-import { GameModeEnum, LoadNPCAction } from '../slices/statusSlice';
 import { checkMapCollision, getRandom, movesList } from '../utils';
-import {
-    MoveAction,
-    NPCState,
-    NPC as NPCInterface,
-    UpdateNPCAction,
-} from './slices/npcSlice';
 import {
     animateFallDownEvilKing,
     animateGoesBack,
     animateSeerComesOut,
     animateWalkToDad,
 } from './utils/moveNPCFunctions';
+import {
+    CharacterState,
+    NPC as NPCInterface,
+    MoveNPCPayload,
+    UpdateNPCPayload,
+    LoadNPCPayload,
+    ObjectNPC,
+    SetContentsPayload,
+} from '@/store/types';
+import { GameModeEnum } from '@/store/enums';
 
 interface NPCProps extends NPCInterface {
     idx: number;
-    loadNPC: ActionCreatorWithPayload<LoadNPCAction, 'gameStatus/loadNPC'>;
-    move: ActionCreatorWithPayload<MoveAction, 'npc/move'>;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
+    loadNPC: (payload: LoadNPCPayload) => void;
+    move: (payload: MoveNPCPayload) => void;
+    setContents: (payload: SetContentsPayload) => void;
     currentMap: string;
     character: CharacterState;
-    objectNPC: ObjectState;
-    allNPC: NPCState;
+    objectNPCs: ObjectNPC[];
+    allNPC: NPCInterface[];
     mode: string | undefined;
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
+    updateNPC: (payload: UpdateNPCPayload) => void;
 }
 
 export const NPC: React.FC<NPCProps> = ({
@@ -55,7 +51,7 @@ export const NPC: React.FC<NPCProps> = ({
     setContents,
     map,
     character,
-    objectNPC,
+    objectNPCs,
     currentMap,
     allNPC,
     mode,
@@ -85,6 +81,7 @@ export const NPC: React.FC<NPCProps> = ({
             spriteRef,
             animate,
             updateNPC,
+            setContents,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [animate]);
@@ -106,8 +103,8 @@ export const NPC: React.FC<NPCProps> = ({
                 y + yDir,
                 [
                     character,
-                    ...objectNPC.objects,
-                    ...allNPC.npcs.filter((npc) => npc.id !== id),
+                    ...objectNPCs,
+                    ...allNPC.filter((npc) => npc.id !== id),
                 ],
                 currentMap
             );

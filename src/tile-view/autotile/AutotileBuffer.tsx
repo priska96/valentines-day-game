@@ -1,32 +1,21 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { BufferAutotile } from './BufferAutotile';
-import { bufferImage } from './slices/autotileSlice';
-import { RootState } from '../../store';
+import { useRootStore } from '@/store/useRootStore';
 
-const AutotileBuffer: React.FC<PropsFromRedux> = (props) => {
+const AutotileBuffer = () => {
+    const { autotiles, bufferImageAutotile: bufferImage } = useRootStore();
     return (
         <div className="npc-imgs-buffer">
-            {props.autotiles.map((elem, idx) => (
+            {autotiles.map((elem, idx) => (
                 <BufferAutotile
                     key={idx}
                     {...elem}
                     idx={idx}
-                    bufferImage={props.bufferImage}
+                    bufferImage={bufferImage}
                 />
             ))}
         </div>
     );
 };
 
-const mapStateToProps = (state: RootState) => ({ ...state.autotile });
-
-const mapDispatch = { bufferImage };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ConnectedAutotileBuffer = connector(AutotileBuffer);
-
-export default ConnectedAutotileBuffer;
+export default AutotileBuffer;

@@ -1,9 +1,6 @@
+import { Autotile, CharacterState, NPC, ObjectNPC } from '@/store/types';
 import { MAP_DIMENSIONS } from './maps/mapData';
 import { LAYERS, LayersInterface, SOLID_TILES } from './maps/mapImgs';
-import { NPC } from './npc/slices/npcSlice';
-import { ObjectNPC } from './objectNPC/slices/objectSlice';
-import { CharacterState } from './character/slices/characterSlice';
-import { Autotile } from './autotile/slices/autotileSlice';
 
 export const isSolidTile = (x: number, y: number, map: string) => {
     const currentMapLayers = LAYERS[map as keyof LayersInterface];
@@ -43,6 +40,9 @@ export const othersIsOnMap = (
                 (otherElem as NPC | ObjectNPC | Autotile).map.includes(map)
             ) {
                 result = true;
+                if (otherElem.type === 'npc' && (otherElem as NPC).followHero) {
+                    result = false;
+                }
             }
             if (
                 otherElem.type !== 'hero' &&
@@ -58,9 +58,10 @@ export const othersIsOnMap = (
 export const whoIsOnMap = (
     x: number,
     y: number,
+    dir: number,
     others: (CharacterState | NPC | ObjectNPC | Autotile)[],
     map: string
-): (NPC | ObjectNPC) | undefined => {
+): (NPC | ObjectNPC | Autotile) | undefined => {
     let result = undefined;
     others
         .filter((otherElem) => {
@@ -78,18 +79,29 @@ export const whoIsOnMap = (
                 (otherElem as NPC).type === 'npc' ||
                 (otherElem as Autotile).type === 'autotile'
             ) {
-                if (otherElem.x === x && otherElem.y === y - 1) {
+                if (otherElem.x === x && otherElem.y === y - 1 && dir === 3) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x - 1 && otherElem.y === y) {
+                } else if (
+                    otherElem.x === x - 1 &&
+                    otherElem.y === y &&
+                    dir === 1
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x && otherElem.y === y + 1) {
+                } else if (
+                    otherElem.x === x &&
+                    otherElem.y === y + 1 &&
+                    dir === 0
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
-                } else if (otherElem.x === x + 1 && otherElem.y === y) {
+                } else if (
+                    otherElem.x === x + 1 &&
+                    otherElem.y === y &&
+                    dir === 2
+                ) {
                     result = otherElem as NPC | ObjectNPC | Autotile;
                 }
             }
         });
-
     return result;
 };
 
@@ -108,15 +120,17 @@ export const checkMapCollision = (
 
 export const fullyGeared = (inventory: ObjectNPC[]) => {
     let result = 0;
-    inventory.forEach((item) => {
+    console.log('inventory', inventory);
+    inventory.forEach((obj) => {
         if (
-            item.item === 'Armor' ||
-            item.item === 'Boots' ||
-            item.item === 'Sword'
+            obj.item === 'Armor' ||
+            obj.item === 'Boots' ||
+            obj.item === 'Sword'
         ) {
             result += 1;
         }
     });
+    console.log('fullyGeared', result);
     return result;
 };
 

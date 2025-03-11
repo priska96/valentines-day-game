@@ -1,4 +1,4 @@
-import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
+import { DialogActionEnum } from '@/store/enums';
 
 export const piscesTown = {
     'npc-1': {
@@ -233,6 +233,16 @@ export const piscesTownMelted = {
                 continue: false,
             },
         },
+        balanceRestored: {
+            content: {
+                open: true,
+                title: 'Princess Priska',
+                text: "I can't thank you enough, Hero Jihoon. You saved Pisces Town and restored the balance of power. Take this as your reward.",
+                openerId: 'npc-2',
+                action: DialogActionEnum.CHAPTER3_REWARD,
+                continue: false,
+            },
+        },
     },
 
     'npc-3': {
@@ -333,6 +343,16 @@ export const piscesTownMelted = {
                 open: true,
                 title: 'King of Pisces Town',
                 text: "Let's restore the balance of power in Pisces Town!!",
+                openerId: 'npc-4',
+                action: DialogActionEnum.BALANCE_RESTORED,
+                continue: false,
+            },
+        },
+        balanceRestored: {
+            content: {
+                open: true,
+                title: 'King of Pisces Town',
+                text: 'Hero Jihoon you will forever be remembered as the hero of Pisces Town. You saved us all.',
                 openerId: 'npc-4',
                 action: DialogActionEnum.DEFAULT,
                 continue: false,
@@ -448,7 +468,7 @@ export const piscesTownMelted = {
             content: {
                 open: true,
                 title: 'Ancient Seer',
-                text: 'My King!! Due to the ice spell the crystals that maintained the balance of power in Pisces Town were cracked. The only way to restore the balance is to gather tears of the fairies to fill the cracks.',
+                text: 'My King!! Due to the ice spell the crystals that maintained the balance of power in Pisces Town were cracked. The only way to restore the balance is to gather tears of the mermaids to fill the cracks.',
                 openerId: 'npc-10',
                 action: DialogActionEnum.COLLECT_MERMAID_TEAR,
                 continue: false,

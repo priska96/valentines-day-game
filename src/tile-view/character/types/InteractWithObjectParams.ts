@@ -1,23 +1,16 @@
-import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { FireAction } from '@/tile-view/npc/slices/npcSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
-import { AddToInventoryAction } from '../slices/characterSlice';
-import { ObjectState } from '@/tile-view/objectNPC/slices/objectSlice';
+import {
+    AddToInventoryPayloadChar,
+    FireActionObjectNPCPayload,
+    ObjectNPC,
+    SetContentsPayload,
+    DialogState,
+} from '@/store/types';
 
 export type InteractWithObjectParams = {
     dialog: DialogState;
     otherThingIdx: number;
-    objectNPC: ObjectState;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >;
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >;
+    objectNPCs: ObjectNPC[];
+    setContents: (payload: SetContentsPayload) => void;
+    fireActionObjectNPC: (payload: FireActionObjectNPCPayload) => void;
+    addToInventory: (payload: AddToInventoryPayloadChar) => void;
 };

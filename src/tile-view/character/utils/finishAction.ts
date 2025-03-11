@@ -1,3 +1,4 @@
+import { initialDialogState } from '@/store/createDialogSlice';
 import {
     battleEvilKing,
     enterDungeon,
@@ -28,8 +29,10 @@ import {
     getMermaidTear,
     receiveMermaidTear,
     seerRestoresBalance,
+    balanceRestored,
+    chapter3GetReward,
+    followHeroOutOfDungeon,
 } from '../../action_utils';
-import { initialDialogState } from '../../../game-ui/slices/dialogSlice';
 import { FinishActionParams } from '../types/FinishActionParams';
 import { HanldeActionAfterDialogParams } from '../types/HanldeActionAfterDialogParams';
 import { InteractWithNPCParams } from '../types/InteractWithNPCParams';
@@ -37,17 +40,17 @@ import { InteractWithObjectParams } from '../types/InteractWithObjectParams';
 
 export const finishAction = ({
     dialog,
-    npc,
-    objectNPC,
+    npcs,
+    objectNPCs,
     character,
     setContents,
-    fireAction,
+    fireActionNPC,
     onGameEnd,
     changeMap,
     updatePlayerPosition,
     updateNPC,
-    updateObject,
-    fireActionObject,
+    updateObjectNPC,
+    fireActionObjectNPC,
     addToInventory,
 }: FinishActionParams) => {
     const openerId = dialog.openerId;
@@ -62,26 +65,26 @@ export const finishAction = ({
         changeMap,
         updatePlayerPosition,
         updateNPC,
-        updateObject,
-        fireActionObject,
+        updateObjectNPC,
+        fireActionObjectNPC,
         addToInventory,
     });
     if (res.success) return;
 
-    if (openerId.startsWith('npc-') && npc.npcs[otherThingIdx].stopMoving) {
+    if (openerId.startsWith('npc-') && npcs[otherThingIdx].stopMoving) {
         finishInteractionWithNPC({
             setContents,
-            npc,
+            npcs,
             otherThingIdx,
-            fireAction,
+            fireActionNPC,
         });
     } else if (openerId.startsWith('object-')) {
         finishInteractionWithObject({
             dialog,
             setContents,
-            fireActionObject,
+            fireActionObjectNPC,
             otherThingIdx,
-            objectNPC,
+            objectNPCs,
             addToInventory,
         });
     } else {
@@ -98,8 +101,8 @@ export const handleActionAfterDialogDone = ({
     onGameEnd,
     updatePlayerPosition,
     updateNPC,
-    updateObject,
-    fireActionObject,
+    updateObjectNPC,
+    fireActionObjectNPC,
     addToInventory,
 }: HanldeActionAfterDialogParams): { success: boolean } => {
     if (
@@ -109,7 +112,7 @@ export const handleActionAfterDialogDone = ({
             changeMap,
             updatePlayerPosition,
             updateNPC,
-            updateObject
+            updateObjectNPC
         )
     ) {
         return { success: true };
@@ -134,7 +137,7 @@ export const handleActionAfterDialogDone = ({
             dialog.action,
             otherThingIdx,
             setContents,
-            fireActionObject,
+            fireActionObjectNPC,
             updateNPC,
             onGameEnd
         )
@@ -150,6 +153,8 @@ export const handleActionAfterDialogDone = ({
             onGameEnd
         )
     ) {
+        return { success: true };
+    } else if (followHeroOutOfDungeon(dialog.action, setContents, updateNPC)) {
         return { success: true };
     } else if (
         exitDungeon(
@@ -216,15 +221,7 @@ export const handleActionAfterDialogDone = ({
         return { success: true };
     } else if (spellBroken(dialog.action, setContents, changeMap, updateNPC)) {
         return { success: true };
-    } else if (
-        seerComesOut(
-            dialog.action,
-            setContents,
-            updateNPC,
-            onGameEnd,
-            otherThingIdx
-        )
-    ) {
+    } else if (seerComesOut(dialog.action, setContents, updateNPC)) {
         return { success: true };
     } else if (
         collectMermaidTear(
@@ -282,34 +279,42 @@ export const handleActionAfterDialogDone = ({
         )
     ) {
         return { success: true };
+    } else if (
+        balanceRestored(dialog.action, otherThingIdx, setContents, onGameEnd)
+    ) {
+        return { success: true };
+    } else if (
+        chapter3GetReward(dialog.action, otherThingIdx, setContents, onGameEnd)
+    ) {
+        return { success: true };
     }
     return { success: false };
 };
 
 const finishInteractionWithNPC = ({
     setContents,
-    npc,
+    npcs,
     otherThingIdx,
-    fireAction,
+    fireActionNPC,
 }: InteractWithNPCParams) => {
     setContents(initialDialogState);
-    if (!npc.npcs[otherThingIdx].dead) {
-        fireAction({ idx: otherThingIdx });
+    if (!npcs[otherThingIdx].dead) {
+        fireActionNPC({ idx: otherThingIdx });
     }
 };
 
 const finishInteractionWithObject = ({
     dialog,
     setContents,
-    fireActionObject,
+    fireActionObjectNPC,
     otherThingIdx,
-    objectNPC,
+    objectNPCs,
     addToInventory,
 }: InteractWithObjectParams) => {
     const prevTitle = dialog.title;
 
     setContents(initialDialogState);
-    fireActionObject({ idx: otherThingIdx });
+    fireActionObjectNPC({ idx: otherThingIdx });
     if (prevTitle !== 'Nothing!')
-        addToInventory({ item: objectNPC.objects[otherThingIdx] });
+        addToInventory({ item: objectNPCs[otherThingIdx] });
 };

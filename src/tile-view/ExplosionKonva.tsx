@@ -1,15 +1,16 @@
+import React from 'react';
 import Konva from 'konva';
-import { Group } from 'react-konva';
+import { Layer } from 'react-konva';
 import { useEffect, useRef } from 'react';
 import { MAP_DIMENSIONS, TILE_SIZE } from './maps/mapData';
 import { Ring, Satellite } from './Explosion';
-import { RootState } from '../store';
-import { GameModeEnum, onGameEnd } from './slices/statusSlice';
-import { setContents, SetContentsAction } from '../game-ui/slices/dialogSlice';
-import { connect, ConnectedProps } from 'react-redux';
 import { dialogs } from './dialog_utils';
+import { useRootStore } from '@/store/useRootStore';
+import { GameModeEnum } from '@/store/enums';
+import { SetContentsPayload } from '@/store/types';
 
-const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
+const ExplosionKonva = () => {
+    const { gameStatus, onGameEnd, setContents } = useRootStore();
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const spriteRef = useRef<Konva.Layer>(null);
 
@@ -92,15 +93,24 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
             animate();
         }, 4000);
         setTimeout(() => {
-            setContents(
-                (dialogs.piscesTown['npc-2'].spellBroken
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
-            );
-            onGameEnd({
-                mode: GameModeEnum.SPELL_BROKEN,
-                winner: 'Jihoon',
-                selectedOpponentIdx: 0,
-            });
+            if (gameStatus.mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
+                setContents(
+                    (dialogs.piscesTown['npc-2'].spellBroken
+                        .content as SetContentsPayload) ??
+                        ({} as SetContentsPayload)
+                );
+                onGameEnd({
+                    mode: GameModeEnum.SPELL_BROKEN,
+                    winner: 'Jihoon',
+                    selectedOpponentIdx: 0,
+                });
+            } else if (GameModeEnum.RESTORE_BALANCE) {
+                onGameEnd({
+                    mode: GameModeEnum.BALANCE_RESTORED,
+                    winner: 'Jihoon',
+                    selectedOpponentIdx: 0,
+                });
+            }
         }, 6000);
     }
 
@@ -108,19 +118,10 @@ const ExplosionKonva = ({ onGameEnd, setContents }: PropsFromRedux) => {
         if (spriteRef && spriteRef.current) {
             initializeAnimation();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [spriteRef]);
 
-    return <Group name="explosion" ref={spriteRef}></Group>;
+    return <Layer name="explosion" ref={spriteRef}></Layer>;
 };
 
-const mapStateToProps = (state: RootState) => ({
-    mode: state.gameStatus.mode,
-    mapImagesLoaded: state.mapImagesLoaded,
-});
-const mapDispatch = { onGameEnd, setContents };
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(ExplosionKonva);
+export default ExplosionKonva;

@@ -1,4 +1,4 @@
-import EvilQueenFight from '../../../../images/heroes/evil-queen_fight.png';
+import EvilQueenFight from '../../images/heroes/evil-queen_fight.png';
 
 export const princessPriska = {
     id: 'npc-2',
@@ -255,8 +255,8 @@ export const citizen5 = {
 
 export const citizen6 = {
     id: 'npc-16',
-    x: 13,
-    y: 8,
+    x: 5,
+    y: 7,
     step: 0,
     dir: 0,
     followHero: false,
@@ -278,7 +278,7 @@ export const citizen6 = {
 
 export const citizen7 = {
     id: 'npc-17',
-    x: 13,
+    x: 8,
     y: 8,
     step: 0,
     dir: 0,
@@ -287,7 +287,7 @@ export const citizen7 = {
     heroImg: null,
     stopMoving: false,
     type: 'npc',
-    map: ['piscesTown2Melted'],
+    map: ['house3'],
     dead: false,
     animate: '',
     npcSummary: {
@@ -324,8 +324,8 @@ export const citizen8 = {
 
 export const citizen9 = {
     id: 'npc-19',
-    x: 13,
-    y: 8,
+    x: 4,
+    y: 13,
     step: 0,
     dir: 0,
     followHero: false,

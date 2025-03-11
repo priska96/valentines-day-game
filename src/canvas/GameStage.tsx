@@ -1,4 +1,3 @@
-import { RootState } from '@/store';
 import CharacterKonva from '@/tile-view/character/CharacterKonva';
 import ExplosionKonva from '@/tile-view/ExplosionKonva';
 import MapKonva from '@/tile-view/MapKonva';
@@ -6,22 +5,21 @@ import { MAP_DIMENSIONS, MAP_TILE_IMAGES2 } from '@/tile-view/maps/mapData';
 import NPCKonva from '@/tile-view/npc/NPCKonva';
 import ObjectNPCKonva from '@/tile-view/objectNPC/ObjectNPCKonva';
 import { Stage, Layer, Image } from 'react-konva';
-import { connect, ConnectedProps } from 'react-redux';
 import { Grid } from './Grid';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
 import AutotileKonva from '@/tile-view/autotile/AutotileKonva';
 import { useEffect, useState } from 'react';
 import TextureKonva from '@/tile-view/TextureKonva';
+import { useRootStore } from '@/store/useRootStore';
+import { GameModeEnum } from '@/store/enums';
 
-const GameStage = ({
-    mode,
-    mapImagesLoaded,
-    backgroundImg,
-}: PropsFromRedux) => {
+const GameStage = () => {
+    const { gameStatus, mapImages } = useRootStore();
+    const { mode, backgroundImg } = gameStatus;
     const currentMode = mode;
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [bgImg, setBgImg] = useState<string | null>(backgroundImg[0]);
     useEffect(() => {
+        console.log('mode', mode, backgroundImg);
         if (
             mode &&
             [GameModeEnum.GO_TO_MERMAID_CITY, GameModeEnum.WHIRLPOOL].includes(
@@ -29,12 +27,14 @@ const GameStage = ({
             )
         ) {
             setBgImg(backgroundImg[1]);
+        } else {
+            setBgImg(backgroundImg[0]);
         }
     }, [mode, backgroundImg]);
 
     if (
-        Object.keys(mapImagesLoaded).length <
-        Object.keys(MAP_TILE_IMAGES2).length - 1
+        mapImages &&
+        Object.keys(mapImages).length < Object.keys(MAP_TILE_IMAGES2).length - 1
     ) {
         return <></>;
     }
@@ -61,25 +61,14 @@ const GameStage = ({
             <Layer>
                 <ObjectNPCKonva />
                 <AutotileKonva />
-                {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ? (
-                    <ExplosionKonva />
-                ) : null}
                 <TextureKonva />
             </Layer>
+            {currentMode === GameModeEnum.VICTORY_EVIL_QUEEN ||
+            currentMode === GameModeEnum.EXPLOSION ? (
+                <ExplosionKonva />
+            ) : null}
         </Stage>
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    mode: state.gameStatus.mode,
-    map: state.gameStatus.map,
-    mapImagesLoaded: state.mapImagesLoaded,
-    backgroundImg: state.gameStatus.backgroundImg,
-    textureImg: state.gameStatus.textureImg,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(GameStage);
+export default GameStage;

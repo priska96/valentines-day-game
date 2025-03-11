@@ -1,4 +1,4 @@
-import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
+import { DialogActionEnum } from '@/store/enums';
 
 export const forest = {
     'npc-0': {

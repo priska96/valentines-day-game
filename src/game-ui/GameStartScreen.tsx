@@ -1,32 +1,39 @@
 import { MAP_TILE_IMAGES2 } from '@/tile-view/maps/mapData';
 import ConnectedLoadGameButton from './LoadGameButton';
-import { RootState } from '@/store';
-import { connect, ConnectedProps } from 'react-redux';
 import styles from '../stylesApp.module.css';
-import { GameModeEnum, onGameEnd } from '@/tile-view/slices/statusSlice';
+import { useRootStore } from '@/store/useRootStore';
+import { GameModeEnum } from '@/store/enums';
+import LoadingIndicator from './LoadindIndicator';
 
-const GameStartScreen = ({ mapImagesLoaded, onGameEnd }: PropsFromRedux) => {
+const GameStartScreen = () => {
+    const { mapImages, onGameEnd } = useRootStore();
     return (
         <div className={styles.gameOverContainer}>
             <div className={styles.gameOver}>~~The Rescue~~</div>
-            <div className={styles.startGameButtonContainer}>
-                <span
-                    className={styles.startGameButton}
-                    onClick={() => {
-                        onGameEnd({
-                            mode: GameModeEnum.WORLD,
-                            winner: undefined,
-                            selectedOpponentIdx: 0,
-                        });
-                    }}
-                >
-                    Start
-                </span>
-            </div>
 
-            {Object.keys(mapImagesLoaded).length >=
-                Object.keys(MAP_TILE_IMAGES2).length - 1 && (
-                <ConnectedLoadGameButton />
+            {mapImages &&
+            Object.keys(mapImages).length >=
+                Object.keys(MAP_TILE_IMAGES2).length - 1 ? (
+                <div>
+                    <div className={styles.startGameButtonContainer}>
+                        <span
+                            className={styles.startGameButton}
+                            onClick={() => {
+                                onGameEnd({
+                                    mode: GameModeEnum.WORLD,
+                                    winner: undefined,
+                                    selectedOpponentIdx: 0,
+                                });
+                            }}
+                        >
+                            Start
+                        </span>
+                    </div>
+
+                    <ConnectedLoadGameButton />
+                </div>
+            ) : (
+                <LoadingIndicator />
             )}
             <div>
                 Instructions:
@@ -45,13 +52,4 @@ const GameStartScreen = ({ mapImagesLoaded, onGameEnd }: PropsFromRedux) => {
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    mapImagesLoaded: state.mapImagesLoaded,
-});
-
-const mapDispatch = { onGameEnd };
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(GameStartScreen);
+export default GameStartScreen;

@@ -1,16 +1,13 @@
-import { SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { Autotile } from '@/tile-view/autotile/slices/autotileSlice';
 import { dialogs, NestedDialog } from '@/tile-view/dialog_utils';
-import { NPC } from '@/tile-view/npc/slices/npcSlice';
-import { ObjectNPC } from '@/tile-view/objectNPC/slices/objectSlice';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum } from '@/store/enums';
 import { fullyGeared } from '@/tile-view/utils';
 import { DoActionParams } from '../../types/DoActionParams';
+import { Autotile, NPC, ObjectNPC, SetContentsPayload } from '@/store/types';
 
 export const doActionWithNPC = ({
     otherThing,
     setContents,
-    fireAction,
+    fireActionNPC,
     map,
     mode,
     winner,
@@ -19,7 +16,7 @@ export const doActionWithNPC = ({
 }: { otherThing: ObjectNPC | NPC | Autotile } & Pick<
     DoActionParams,
     | 'setContents'
-    | 'fireAction'
+    | 'fireActionNPC'
     | 'map'
     | 'mode'
     | 'winner'
@@ -30,14 +27,14 @@ export const doActionWithNPC = ({
     if (otherThing.type === 'npc') {
         const otherThingIdx = parseInt(otherThing.id.split('-')[1]);
         if (!(otherThing as NPC).dead) {
-            fireAction({ idx: otherThingIdx });
+            fireActionNPC({ idx: otherThingIdx });
         }
         if (map === 'forest') {
             if (mode === GameModeEnum.NEW_CHAPTER) {
                 setContents(
                     (dialogs.forest[otherThing.id].travelHome
-                        .content as SetContentsAction) ??
-                        ({} as SetContentsAction)
+                        .content as SetContentsPayload) ??
+                        ({} as SetContentsPayload)
                 );
                 res.success = true;
                 return res;
@@ -49,7 +46,7 @@ export const doActionWithNPC = ({
                             (
                                 dialogs.forest[otherThing.id].beforeFight
                                     .afterGear as NestedDialog
-                            ).content as SetContentsAction
+                            ).content as SetContentsPayload
                         );
                         setTimeout(() => {
                             onGameEnd({
@@ -66,7 +63,7 @@ export const doActionWithNPC = ({
                             (
                                 dialogs.forest[otherThing.id].afterFight
                                     .goToSky as NestedDialog
-                            ).content as SetContentsAction
+                            ).content as SetContentsPayload
                         );
                         res.success = true;
                         return res;
@@ -76,7 +73,7 @@ export const doActionWithNPC = ({
                         (
                             dialogs.forest[otherThing.id].beforeFight
                                 .beforeGear as NestedDialog
-                        ).content as SetContentsAction
+                        ).content as SetContentsPayload
                     );
                     res.success = true;
                     return res;
@@ -86,7 +83,8 @@ export const doActionWithNPC = ({
         if (map === 'evilKing') {
             setContents(
                 (dialogs.evilKing[otherThing.id].afterVictory
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -94,7 +92,8 @@ export const doActionWithNPC = ({
         if (map === 'skyBroken') {
             setContents(
                 (dialogs.skyBroken[otherThing.id].goBackToForest
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -102,7 +101,8 @@ export const doActionWithNPC = ({
         if (map === 'piscesTown3' && mode === GameModeEnum.VICTORY_EVIL_QUEEN) {
             setContents(
                 (dialogs.piscesTown[otherThing.id].afterVictory
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -120,7 +120,8 @@ export const doActionWithNPC = ({
         ) {
             setContents(
                 (dialogs.piscesTownMelted[otherThing.id].afterSpell
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -138,7 +139,8 @@ export const doActionWithNPC = ({
         ) {
             setContents(
                 (dialogs.piscesTownMelted[otherThing.id].chapter3
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -157,15 +159,16 @@ export const doActionWithNPC = ({
             if (character.inventory.find((item) => item.id === 'object-8')) {
                 setContents(
                     (dialogs.piscesTownMelted[otherThing.id].receivedPotion
-                        .content as SetContentsAction) ??
-                        ({} as SetContentsAction)
+                        .content as SetContentsPayload) ??
+                        ({} as SetContentsPayload)
                 );
                 res.success = true;
                 return res;
             }
             setContents(
                 (dialogs.piscesTownMelted[otherThing.id]?.collectMermaidTear
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;
@@ -177,7 +180,8 @@ export const doActionWithNPC = ({
                         dialogs.underwater[otherThing.id].beforeFight[
                             map
                         ] as NestedDialog
-                    ).content as SetContentsAction) ?? ({} as SetContentsAction)
+                    ).content as SetContentsPayload) ??
+                        ({} as SetContentsPayload)
                 );
                 res.success = true;
                 return res;
@@ -188,7 +192,8 @@ export const doActionWithNPC = ({
                         dialogs.underwater[otherThing.id].afterVictory[
                             map
                         ] as NestedDialog
-                    ).content as SetContentsAction) ?? ({} as SetContentsAction)
+                    ).content as SetContentsPayload) ??
+                        ({} as SetContentsPayload)
                 );
                 res.success = true;
                 return res;
@@ -207,7 +212,27 @@ export const doActionWithNPC = ({
         ) {
             setContents(
                 (dialogs.piscesTownMelted[otherThing.id].deliverMermaidTear
-                    .content as SetContentsAction) ?? ({} as SetContentsAction)
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
+            );
+            res.success = true;
+            return res;
+        }
+        if (
+            [
+                'piscesTownMelted',
+                'piscesTown2Melted',
+                'piscesTown3Melted',
+                'house1',
+                'house2',
+                'house3',
+            ].includes(map) &&
+            mode === GameModeEnum.BALANCE_RESTORED
+        ) {
+            setContents(
+                (dialogs.piscesTownMelted[otherThing.id].balanceRestored
+                    .content as SetContentsPayload) ??
+                    ({} as SetContentsPayload)
             );
             res.success = true;
             return res;

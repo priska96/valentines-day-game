@@ -1,7 +1,6 @@
 import { OBJECT_NPC_SPRITE } from '@/constants';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import React, { useRef } from 'react';
-import { BufferImageAction } from './slices/objectSlice';
+import { BufferImageObjectNPCPayload } from '@/store/types';
 
 interface ObjectNPCProps {
     id: string;
@@ -14,10 +13,7 @@ interface ObjectNPCProps {
     tookItem: boolean;
     healing: number;
     idx: number;
-    bufferImage: ActionCreatorWithPayload<
-        BufferImageAction,
-        'objectNPC/bufferImage'
-    >;
+    bufferImage: (payload: BufferImageObjectNPCPayload) => void;
 }
 
 export const BufferObjectNPC: React.FC<ObjectNPCProps> = ({

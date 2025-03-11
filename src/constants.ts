@@ -32,6 +32,8 @@ import mermaid2 from './assets/heroes/npc29.png';
 import mermaidQueen from './assets/heroes/npc30.png';
 import seaMonster1 from './assets/heroes/seaMonster1.png';
 import seaMonster2 from './assets/heroes/seaMonster2.png';
+import seaMonster1Dead from './assets/heroes/seaMonster1_dead.png';
+import seaMonster2Dead from './assets/heroes/seaMonster2_dead.png';
 import objectO1 from './assets/map/PineTools.com_files/row-6-column-1.png';
 import objectO2 from './assets/map/PineTools.com_files/row-6-column-3.png';
 import object11 from './assets/map/PineTools.com_files/row-6-column-1.png';
@@ -141,6 +143,8 @@ export const NPC_SPRITE_DEAD: AssetsSingle = {
     'npc-2': priska,
     'npc-3': evilQueenDead,
     'npc-4': king,
+    'npc-31': seaMonster1Dead,
+    'npc-32': seaMonster2Dead,
 };
 export const OBJECT_NPC_SPRITE: Assets = {
     'object-0': [objectO1, objectO2],

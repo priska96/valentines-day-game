@@ -1,20 +1,15 @@
 import React, { useEffect, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-
 import { MAP_DIMENSIONS, MapMatrixRow, TILE_SIZE } from './maps/mapData';
 import { LAYERS, LayersInterface } from './maps/mapImgs';
-import { GameModeEnum, loadMap, onGameEnd } from './slices/statusSlice';
-import { RootState } from '../store';
 
 import { Image, Group } from 'react-konva';
 import { Group as GroupClass } from 'konva/lib/Group';
+import { useRootStore } from '@/store/useRootStore';
+import { GameModeEnum } from '@/store/enums';
 
-const MapKonva: React.FC<PropsFromRedux> = ({
-    loadMap,
-    map,
-    mode,
-    onGameEnd,
-}: PropsFromRedux) => {
+const MapKonva = () => {
+    const { gameStatus, onGameEnd, loadMap } = useRootStore();
+    const { map, mode } = gameStatus;
     const mapRef = useRef<GroupClass>(null);
     const { COLS, ROWS } = MAP_DIMENSIONS;
 
@@ -51,10 +46,9 @@ const MapKonva: React.FC<PropsFromRedux> = ({
                 },
             });
         }
-    }, [mode]);
+    }, [mode, onGameEnd]);
 
     const drawLayer = (grid: MapMatrixRow) => {
-        console.log('draw map');
         const rowArray = Array.from({ length: ROWS }, (value, index) => index);
         const colArray = Array.from({ length: COLS }, (value, index) => index);
         return rowArray.map((i) => {
@@ -92,13 +86,4 @@ const MapKonva: React.FC<PropsFromRedux> = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    map: state.gameStatus.map,
-    mode: state.gameStatus.mode,
-});
-const mapDispatch = { loadMap, onGameEnd };
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(MapKonva);
+export default MapKonva;

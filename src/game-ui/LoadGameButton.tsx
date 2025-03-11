@@ -1,23 +1,17 @@
 import React, { useRef } from 'react';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import { updateStatusState } from '../tile-view/slices/statusSlice';
-import { updateObjectNPCState } from '../tile-view/objectNPC/slices/objectSlice';
-import { updateNPCState } from '../tile-view/npc/slices/npcSlice';
-import { updateCharacterState } from '../tile-view/character/slices/characterSlice';
-import { updateDialogState } from './slices/dialogSlice';
 import styles from '../stylesApp.module.css';
-import { RootState } from '@/store';
-import { updateAutotileState } from '@/tile-view/autotile/slices/autotileSlice';
+import { useRootStore } from '@/store/useRootStore';
+import { RootStoreObjects } from '@/store/types';
 
-const LoadGameButton = ({
-    updateStatusState,
-    updateObjectNPCState,
-    updateNPCState,
-    updateCharacterState,
-    updateDialogState,
-    updateAutotileState,
-}: PropsFromRedux) => {
-    const dispatch = useDispatch();
+const LoadGameButton = () => {
+    const {
+        updateCharacterState,
+        updateNPCState,
+        updateStatusState,
+        updateObjectNPCState,
+        updateDialogState,
+        updateAutotileState,
+    } = useRootStore();
     const inputRef = useRef<HTMLInputElement>(null);
     const handleLoadState = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -26,15 +20,15 @@ const LoadGameButton = ({
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
-                const importedState: RootState = JSON.parse(
+                const importedState = JSON.parse(
                     e.target?.result as string
-                ) as RootState;
-                dispatch(updateStatusState(importedState.gameStatus));
-                dispatch(updateObjectNPCState(importedState.objectNPC));
-                dispatch(updateNPCState(importedState.npc));
-                dispatch(updateCharacterState(importedState.character));
-                dispatch(updateDialogState(importedState.dialog));
-                dispatch(updateAutotileState(importedState.autotile));
+                ) as RootStoreObjects;
+                updateStatusState(importedState.gameStatus);
+                updateObjectNPCState(importedState.objectNPCs);
+                updateNPCState(importedState.npcs);
+                updateCharacterState(importedState.character);
+                updateDialogState(importedState.dialog);
+                updateAutotileState(importedState.autotiles);
                 alert('State loaded successfully!');
             } catch (error) {
                 alert('Invalid JSON file.');
@@ -64,19 +58,5 @@ const LoadGameButton = ({
         </div>
     );
 };
-const mapDispatch = {
-    updateStatusState,
-    updateObjectNPCState,
-    updateNPCState,
-    updateCharacterState,
-    updateDialogState,
-    updateAutotileState,
-};
 
-const connector = connect(null, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ConnectedLoadGameButton = connector(LoadGameButton);
-
-export default ConnectedLoadGameButton;
+export default LoadGameButton;

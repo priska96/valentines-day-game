@@ -1,8 +1,6 @@
-import { DialogActionEnum } from '@/game-ui/slices/dialogSlice';
-import { Autotile } from '@/tile-view/autotile/slices/autotileSlice';
-import { NPC } from '@/tile-view/npc/slices/npcSlice';
-import { ObjectNPC } from '@/tile-view/objectNPC/slices/objectSlice';
+import { Autotile, NPC, ObjectNPC } from '@/store/types';
 import { DoActionParams } from '../../types/DoActionParams';
+import { DialogActionEnum } from '@/store/enums';
 
 export const doActionWithOpbjectNPC = ({
     otherThing,
@@ -20,7 +18,6 @@ export const doActionWithOpbjectNPC = ({
                 text: `Here is nothing to take from.`,
                 openerId: otherThing.id,
                 action: DialogActionEnum.DEFAULT,
-                continue: false,
             });
         } else {
             setContents({
@@ -29,7 +26,6 @@ export const doActionWithOpbjectNPC = ({
                 text: `You found ${(otherThing as ObjectNPC).item}!`,
                 openerId: otherThing.id,
                 action: DialogActionEnum.DEFAULT,
-                continue: false,
             });
         }
         res.success = true;

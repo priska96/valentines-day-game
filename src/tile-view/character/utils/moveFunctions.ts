@@ -1,33 +1,27 @@
 import { wildFightOpts } from '@/constants';
-import { GameModeEnum, OnGameEndAction } from '@/tile-view/slices/statusSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { finishAction } from './finishAction';
-import {
-    DialogActionEnum,
-    DialogState,
-    initialDialogState,
-    SetContentsAction,
-} from '@/game-ui/slices/dialogSlice';
-import {
-    FireAction,
-    MoveAction,
-    NPCState,
-    UpdateNPCAction,
-} from '@/tile-view/npc/slices/npcSlice';
-import {
-    ObjectState,
-    UpdateObjectAction,
-} from '@/tile-view/objectNPC/slices/objectSlice';
-import {
-    AddToInventoryAction,
-    CharacterState,
-    UpdateCharacterStateAction,
-    UpdatePlayerPositionAction,
-} from '../slices/characterSlice';
+
 import { TILE_SIZE } from '@/tile-view/maps/mapData';
 import { Sprite } from 'konva/lib/shapes/Sprite';
-import { AutotileState } from '@/tile-view/autotile/slices/autotileSlice';
 import { doAction } from './doAction/doAction';
+import {
+    Autotile,
+    AddToInventoryPayloadChar,
+    CharacterState,
+    NPC,
+    UpdatePlayerPositionPayloadChar,
+    UpdateNPCPayload,
+    OnGameEndPayload,
+    MoveNPCPayload,
+    FireActionPayloadNPC,
+    ObjectNPC,
+    FireActionObjectNPCPayload,
+    UpdateObjectNPCPayload,
+    DialogState,
+    SetContentsPayload,
+} from '@/store/types';
+import { initialDialogState } from '@/store/createDialogSlice';
+import { DialogActionEnum, GameModeEnum } from '@/store/enums';
 
 /**
  * Handles game end conditions based on character position.
@@ -40,7 +34,7 @@ export const handleGameEndConditions = (
     newX: number,
     newY: number,
     map: string,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if (
         map === 'forest2' &&
@@ -64,11 +58,8 @@ export const handleGameEndConditions = (
 export const handleWildFight = (
     map: string,
     mode: string | undefined,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    onGameEnd: ActionCreatorWithPayload<OnGameEndAction, 'gameStatus/onGameEnd'>
+    setContents: (payload: SetContentsPayload) => void,
+    onGameEnd: (payload: OnGameEndPayload) => void
 ) => {
     if ((map === 'forest2' || map === 'forest3') && mode !== 'battle') {
         if (wildFightOpts[Math.floor(Math.random() * wildFightOpts.length)]) {
@@ -80,7 +71,6 @@ export const handleWildFight = (
                 text: 'A wild monster attacked you!',
                 openerId: '',
                 action: DialogActionEnum.DEFAULT,
-                continue: false,
             });
             setTimeout(() => {
                 setContents(initialDialogState);
@@ -107,13 +97,13 @@ export const handleNPCFollow = (
     xDir: number,
     yDir: number,
     key: string,
-    npc: NPCState,
-    moveNPC: ActionCreatorWithPayload<MoveAction, 'npc/move'>
+    npcs: NPC[],
+    moveNPC: (payload: MoveNPCPayload) => void
 ) => {
-    if (npc.npcs.some((n) => n.followHero)) {
-        npc.npcs.forEach((n, idx) => {
+    if (npcs.some((n) => n.followHero)) {
+        npcs.forEach((n, idx) => {
             if (n.followHero) {
-                moveNPC({ x: xDir, y: yDir, dirKey: key, idx });
+                moveNPC({ x: xDir - n.x, y: yDir - n.y, dirKey: key, idx });
             }
         });
     }
@@ -140,90 +130,54 @@ export const handleNPCFollow = (
  */
 export const handleDialogAction = (
     dialog: DialogState,
-    npc: NPCState,
-    objectNPC: ObjectState,
-    autotile: AutotileState,
+    npcs: NPC[],
+    objectNPCs: ObjectNPC[],
+    autotiles: Autotile[],
     character: CharacterState,
     map: string,
     winner: string | undefined,
     mode: GameModeEnum | undefined,
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >,
-    fireAction: ActionCreatorWithPayload<FireAction, 'npc/fireAction'>,
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >,
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>,
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >,
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>,
-    updateObject: ActionCreatorWithPayload<
-        UpdateObjectAction,
-        'objectNPC/updateObject'
-    >,
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >,
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >,
-    updateCharacterState: ActionCreatorWithPayload<
-        UpdateCharacterStateAction,
-        'character/updateCharacterState'
-    >
+
+    setContents: (payload: SetContentsPayload) => void,
+    fireActionNPC: (payload: FireActionPayloadNPC) => void,
+
+    onGameEnd: (payload: OnGameEndPayload) => void,
+    changeMap: (map: string) => void,
+
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    updateNPC: (payload: UpdateNPCPayload) => void,
+    updateObjectNPC: (payload: UpdateObjectNPCPayload) => void,
+    fireActionObjectNPC: (payload: FireActionObjectNPCPayload) => void,
+    addToInventory: (payload: AddToInventoryPayloadChar) => void,
+    updateCharacterState: (updates: Partial<CharacterState>) => void
 ) => {
     if (dialog.open) {
         finishAction({
             dialog,
-            npc,
-            objectNPC,
+            npcs,
+            objectNPCs,
             character,
             setContents,
-            fireAction,
+            fireActionNPC,
             onGameEnd,
             changeMap,
             updatePlayerPosition,
             updateNPC,
-            updateObject,
-            fireActionObject,
+            updateObjectNPC,
+            fireActionObjectNPC,
             addToInventory,
         });
-    }
-    // else if (dialog.open && dialog.continue) {
-    //     continueDialog({
-    //         dialog,
-    //         npc,
-    //         objectNPC,
-    //         character,
-    //         setContents,
-    //         fireAction,
-    //         onGameEnd,
-    //         changeMap,
-    //         updatePlayerPosition,
-    //         updateNPC,
-    //         updateObject,
-    //         fireActionObject,
-    //         addToInventory,
-    //     });
-    // }
-    else {
+    } else {
         doAction({
             map,
             character,
-            npc,
-            objectNPC,
-            autotile,
+            npcs,
+            objectNPCs,
+            autotiles,
             winner,
             mode,
             setContents,
-            fireAction,
+            fireActionNPC,
             onGameEnd,
             changeMap,
             updatePlayerPosition,
@@ -236,10 +190,7 @@ export const handleDialogAction = (
 interface AnimateProps {
     spriteRef: React.RefObject<Sprite | null>;
     animate: string;
-    updateCharacterState: ActionCreatorWithPayload<
-        UpdateCharacterStateAction,
-        'character/updateCharacterState'
-    >;
+    updateCharacterState: (updates: Partial<CharacterState>) => void;
 }
 
 export const animateFallIntoWell = ({
@@ -248,7 +199,7 @@ export const animateFallIntoWell = ({
     updateCharacterState,
 }: AnimateProps) => {
     if (spriteRef && spriteRef.current && animate === 'fall-into-well') {
-        const ref = spriteRef.current!;
+        const ref = spriteRef.current;
         spriteRef.current.to({
             x: 8 * TILE_SIZE,
             y: 10 * TILE_SIZE,

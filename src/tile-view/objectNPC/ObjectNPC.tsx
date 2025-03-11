@@ -1,8 +1,8 @@
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import React from 'react';
 import { useEffect } from 'react';
 import { Sprite } from 'react-konva';
 import { TILE_SIZE } from '../maps/mapData';
-import { LoadObjectAction } from '../slices/statusSlice';
+import { LoadObjectPayload } from '@/store/types';
 
 interface ObjectNPCProps {
     id: string;
@@ -14,10 +14,7 @@ interface ObjectNPCProps {
     map: string[];
     healing: number;
     idx: number;
-    loadObject: ActionCreatorWithPayload<
-        LoadObjectAction,
-        'gameStatus/loadObject'
-    >;
+    loadObject: (payload: LoadObjectPayload) => void;
     currentMap: string;
 }
 
@@ -34,7 +31,6 @@ export const ObjectNPC: React.FC<ObjectNPCProps> = ({
         if (objectImg && map.includes(currentMap)) {
             loadObject({ idx: idx, val: true });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loadObject, map, idx, objectImg, currentMap]);
 
     return objectImg && map.includes(currentMap) ? (

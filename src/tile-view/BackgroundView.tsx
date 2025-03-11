@@ -1,22 +1,20 @@
 import React, { useEffect, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { bufferBackgroundImage, loadBackground } from './slices/statusSlice';
 import Sky from '../images/sky_background.png';
 import Underwater from '../images/underwater_background.png';
-import { RootState } from '../store';
+import { useRootStore } from '@/store/useRootStore';
 
-const BackgroundView: React.FC<PropsFromRedux> = ({
-    backgroundImg,
-    bufferBackgroundImage,
-}: PropsFromRedux) => {
+const BackgroundView = () => {
+    const { gameStatus, bufferBackgroundImage, loadBackground } =
+        useRootStore();
     const imgRef = useRef<HTMLImageElement>(null);
     const imgRef2 = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        if (backgroundImg.length === 2) {
+        if (gameStatus.backgroundImg.length === 2) {
+            console.log('loadBackground');
             loadBackground(true);
         }
-    }, [backgroundImg]);
+    }, [gameStatus.backgroundImg, loadBackground]);
 
     return (
         <>
@@ -50,13 +48,4 @@ const BackgroundView: React.FC<PropsFromRedux> = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    backgroundImg: state.gameStatus.backgroundImg,
-});
-
-const mapDispatch = { bufferBackgroundImage };
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default connector(BackgroundView);
+export default BackgroundView;

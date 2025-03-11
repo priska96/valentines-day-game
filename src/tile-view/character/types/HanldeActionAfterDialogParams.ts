@@ -1,42 +1,25 @@
-import { DialogState, SetContentsAction } from '@/game-ui/slices/dialogSlice';
-import { FireAction, UpdateNPCAction } from '@/tile-view/npc/slices/npcSlice';
-import { UpdateObjectAction } from '@/tile-view/objectNPC/slices/objectSlice';
-import { OnGameEndAction } from '@/tile-view/slices/statusSlice';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
+    AddToInventoryPayloadChar,
     CharacterState,
-    UpdatePlayerPositionAction,
-    AddToInventoryAction,
-} from '../slices/characterSlice';
+    FireActionObjectNPCPayload,
+    OnGameEndPayload,
+    UpdateNPCPayload,
+    UpdateObjectNPCPayload,
+    UpdatePlayerPositionPayloadChar,
+    DialogState,
+    SetContentsPayload,
+} from '@/store/types';
 
 export type HanldeActionAfterDialogParams = {
     dialog: DialogState;
     character: CharacterState;
     otherThingIdx: number;
-    setContents: ActionCreatorWithPayload<
-        SetContentsAction,
-        'dialog/setContents'
-    >;
-    onGameEnd: ActionCreatorWithPayload<
-        OnGameEndAction,
-        'gameStatus/onGameEnd'
-    >;
-    changeMap: ActionCreatorWithPayload<string, 'gameStatus/changeMap'>;
-    updatePlayerPosition: ActionCreatorWithPayload<
-        UpdatePlayerPositionAction,
-        'character/updatePlayerPosition'
-    >;
-    updateNPC: ActionCreatorWithPayload<UpdateNPCAction, 'npc/updateNPC'>;
-    updateObject: ActionCreatorWithPayload<
-        UpdateObjectAction,
-        'objectNPC/updateObject'
-    >;
-    fireActionObject: ActionCreatorWithPayload<
-        FireAction,
-        'objectNPC/fireAction'
-    >;
-    addToInventory: ActionCreatorWithPayload<
-        AddToInventoryAction,
-        'character/addToInventory'
-    >;
+    setContents: (payload: SetContentsPayload) => void;
+    onGameEnd: (payload: OnGameEndPayload) => void;
+    changeMap: (map: string) => void;
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void;
+    updateNPC: (payload: UpdateNPCPayload) => void;
+    updateObjectNPC: (payload: UpdateObjectNPCPayload) => void;
+    fireActionObjectNPC: (payload: FireActionObjectNPCPayload) => void;
+    addToInventory: (payload: AddToInventoryPayloadChar) => void;
 };

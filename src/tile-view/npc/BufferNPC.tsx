@@ -1,11 +1,10 @@
-import { NPC_SPRITE, NPC_SPRITE_DEAD } from '@/constants';
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import React, { useRef } from 'react';
-import { BufferImageAction, NPC as NPCInterface } from './slices/npcSlice';
+import { NPC_SPRITE, NPC_SPRITE_DEAD } from '@/constants';
+import { BufferImagePayloadNPC, NPC as NPCInterface } from '@/store/types';
 
 interface NPCProps extends NPCInterface {
     idx: number;
-    bufferImage: ActionCreatorWithPayload<BufferImageAction, 'npc/bufferImage'>;
+    bufferImage: (payload: BufferImagePayloadNPC) => void;
 }
 export const BufferNPC: React.FC<NPCProps> = ({
     id,

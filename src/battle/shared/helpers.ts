@@ -1,5 +1,4 @@
-import { CharSummary } from '../../tile-view/character/slices/characterSlice';
-import { NPCSummary } from '../../tile-view/npc/slices/npcSlice';
+import { CharSummary, NPCSummary } from '@/store/types';
 
 export const wait = (ms: number): Promise<void> =>
     new Promise((resolve) => {

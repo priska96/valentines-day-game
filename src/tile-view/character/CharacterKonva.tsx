@@ -1,25 +1,9 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Sprite } from 'react-konva';
-
-import { RootState } from '../../store';
-import {
-    addToInventory,
-    move,
-    updateCharacterState,
-    updatePlayerPosition,
-} from './slices/characterSlice';
-import { changeMap, loadCharacter, onGameEnd } from '../slices/statusSlice';
 import { HERO_IMAGE_SIZE } from '../../constants';
 import { MOVE_DIRECTIONS, MoveDirectionsInterface } from '../constants';
 import { TILE_SIZE } from '../maps/mapData';
 import { checkMapCollision } from '../utils';
-import { fireAction, updateNPC, move as moveNPC } from '../npc/slices/npcSlice';
-import { setContents } from '../../game-ui/slices/dialogSlice';
-import {
-    updateObject,
-    fireAction as fireActionObject,
-} from '../objectNPC/slices/objectSlice';
 import { Sprite as SpriteClass } from 'konva/lib/shapes/Sprite';
 import {
     animateFallIntoWell,
@@ -28,40 +12,45 @@ import {
     handleNPCFollow,
     handleWildFight,
 } from './utils/moveFunctions';
+import { useRootStore } from '@/store/useRootStore';
 
-const CharacterKonva: React.FC<PropsFromRedux> = ({
-    x,
-    y,
-    step = 0,
-    dir = 0,
-    heroClass,
-    heroImg,
-    type,
-    playerSummary,
-    inventory,
-    portrait,
-    animate,
-    npc,
-    objectNPC,
-    autotile,
-    map,
-    dialog,
-    winner,
-    mode,
-    move,
-    loadCharacter,
-    changeMap,
-    updateNPC,
-    setContents,
-    fireAction,
-    onGameEnd,
-    updatePlayerPosition,
-    updateObject,
-    fireActionObject,
-    addToInventory,
-    moveNPC,
-    updateCharacterState,
-}: PropsFromRedux) => {
+const CharacterKonva = () => {
+    const {
+        character,
+        move,
+        updatePlayerPosition,
+        addToInventory,
+        updateCharacterState,
+        npcs,
+        moveNPC,
+        fireActionNPC,
+        updateNPC,
+        autotiles,
+        gameStatus,
+        changeMap,
+        onGameEnd,
+        loadCharacter,
+        objectNPCs,
+        fireActionObjectNPC,
+        updateObjectNPC,
+        dialog,
+        setContents,
+    } = useRootStore();
+    const {
+        x,
+        y,
+        step,
+        dir,
+        heroClass,
+        heroImg,
+        type,
+        playerSummary,
+        inventory,
+        portrait,
+        animate,
+    } = character;
+
+    const { mode, map, winner } = gameStatus;
     const spriteRef = useRef<SpriteClass>(null);
 
     useEffect(() => {
@@ -69,7 +58,8 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             loadCharacter(true);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [heroImg]);
+
     useEffect(() => {
         animateFallIntoWell({
             spriteRef,
@@ -96,14 +86,15 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             const collusion = checkMapCollision(
                 x + xDir,
                 y + yDir,
-                [...npc.npcs, ...objectNPC.objects, ...autotile.autotiles],
+                [...npcs, ...objectNPCs, ...autotiles],
                 map
             );
+            console.log('collusion', collusion);
             if (!collusion) {
                 move({ x: xDir, y: yDir, dirKey: key });
-                handleGameEndConditions(x + xDir, y + yDir, map, onGameEnd);
+                handleGameEndConditions(x, y, map, onGameEnd);
                 //handleWildFight(map, mode, setContents, onGameEnd); //TODO: put back in
-                handleNPCFollow(xDir, yDir, key, npc, moveNPC);
+                handleNPCFollow(x, y, key, npcs, moveNPC);
             } else {
                 move({ x: 0, y: 0, dirKey: key });
             }
@@ -125,37 +116,32 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
             };
             handleDialogAction(
                 dialog,
-                npc,
-                objectNPC,
-                autotile,
+                npcs,
+                objectNPCs,
+                autotiles,
                 character,
                 map,
                 winner,
                 mode,
                 setContents,
-                fireAction,
+                fireActionNPC,
                 onGameEnd,
                 changeMap,
                 updatePlayerPosition,
                 updateNPC,
-                updateObject,
-                fireActionObject,
+                updateObjectNPC,
+                fireActionObjectNPC,
                 addToInventory,
                 updateCharacterState
             );
         }
     };
 
-    const moveCharacter = useCallback(handleMovement, [
-        spriteRef,
-        move,
-        x,
-        y,
-        step,
-        dir,
-        dialog,
-        animate,
-    ]);
+    const moveCharacter = useCallback(
+        handleMovement,
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [spriteRef, move, x, y, step, dir, dialog, animate]
+    );
 
     useEffect(() => {
         document.addEventListener('keypress', moveCharacter);
@@ -239,37 +225,4 @@ const CharacterKonva: React.FC<PropsFromRedux> = ({
     );
 };
 
-const mapStateToProps = (state: RootState) => ({
-    ...state.character,
-    npc: state.npc,
-    objectNPC: state.objectNPC,
-    map: state.gameStatus.map,
-    mode: state.gameStatus.mode,
-    winner: state.gameStatus.winner,
-    dialog: state.dialog,
-    autotile: state.autotile,
-});
-
-const mapDispatch = {
-    loadCharacter,
-    move,
-    changeMap,
-    updateNPC,
-    setContents,
-    fireAction,
-    onGameEnd,
-    updatePlayerPosition,
-    updateObject,
-    fireActionObject,
-    addToInventory,
-    moveNPC,
-    updateCharacterState,
-};
-
-const connector = connect(mapStateToProps, mapDispatch);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ConnectedCharacterKonva = connector(CharacterKonva);
-
-export default ConnectedCharacterKonva;
+export default CharacterKonva;

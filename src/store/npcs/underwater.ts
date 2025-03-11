@@ -1,5 +1,5 @@
-import SeaMonster1Fight from '../../../../images/heroes/seaMonster1_fight.png';
-import SeaMonster2Fight from '../../../../images/heroes/seaMonster2_fight.png';
+import SeaMonster1Fight from '../../images/heroes/seaMonster1_fight.png';
+import SeaMonster2Fight from '../../images/heroes/seaMonster2_fight.png';
 
 export const whiteFish = {
     id: 'npc-21',
@@ -234,7 +234,7 @@ export const seaMonster1 = {
     heroImg: null,
     stopMoving: true,
     type: 'npc',
-    map: ['underwater3'],
+    map: ['underwater4'],
     dead: false,
     animate: '',
     npcSummary: {

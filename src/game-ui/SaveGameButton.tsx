@@ -1,10 +1,27 @@
-import { RootState } from '@/store';
+import { RootStoreObjects } from '@/store/types';
+import { useRootStore } from '@/store/useRootStore';
 import { Button } from '@mui/material';
-import React from 'react';
-import { useSelector } from 'react-redux';
 
 const SaveGameButton = () => {
-    const state = useSelector((state: RootState) => state);
+    const {
+        character,
+        npcs,
+        autotiles,
+        objectNPCs,
+        mapImages,
+        dialog,
+        gameStatus,
+    } = useRootStore();
+
+    const state = {
+        character,
+        npcs,
+        autotiles,
+        objectNPCs,
+        mapImages,
+        dialog,
+        gameStatus,
+    } as RootStoreObjects;
 
     const handleSaveState = () => {
         const jsonString = JSON.stringify(state, null, 4);

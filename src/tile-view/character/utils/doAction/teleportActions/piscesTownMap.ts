@@ -13,7 +13,7 @@ import {
     goToWellInner,
 } from '@/tile-view/action_utils';
 import { DoActionParams } from '@/tile-view/character/types/DoActionParams';
-import { GameModeEnum } from '@/tile-view/slices/statusSlice';
+import { GameModeEnum } from '@/store/enums';
 
 export const hanldeTeleportationsForPiscesTownMap = ({
     character,
@@ -51,9 +51,9 @@ export const hanldeTeleportationsForPiscesTownMap = ({
     }
     //in fornt of house1
     if (
-        map.startsWith('piscesTown') &&
+        (map === 'piscesTown' || map === 'piscesTownMelted') &&
         character.x === 3 &&
-        character.y === 7
+        character.y === 6
     ) {
         goToHouse1(changeMap, updateNPC, updatePlayerPosition, mode);
         res.success = true;
@@ -125,7 +125,7 @@ export const hanldeTeleportationsForPiscesTownMap = ({
     if (
         map.startsWith('piscesTown2') &&
         character.x === 3 &&
-        character.y === 7
+        character.y === 6
     ) {
         goToHouse2(changeMap, updateNPC, updatePlayerPosition, mode);
         res.success = true;
