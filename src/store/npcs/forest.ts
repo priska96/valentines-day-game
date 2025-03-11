@@ -48,7 +48,7 @@ export const evilKing = {
         name: 'Evil King',
         img: EvilKingFight,
         level: 10,
-        health: 1,
+        health: 355,
         maxHealth: 355,
         magic: 70,
         attack: 65,

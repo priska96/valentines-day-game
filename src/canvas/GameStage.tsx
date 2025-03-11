@@ -18,13 +18,7 @@ const GameStage = () => {
     const currentMode = mode;
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [bgImg, setBgImg] = useState<string | null>(backgroundImg[0]);
-    console.log(
-        Object.keys(mapImages).length,
-        Object.keys(mapImages).length <
-            Object.keys(MAP_TILE_IMAGES2).length - 1 &&
-            Object.keys(mapImages).length !== 747,
-        Object.keys(MAP_TILE_IMAGES2).length
-    );
+
     useEffect(() => {
         if (
             mode &&
