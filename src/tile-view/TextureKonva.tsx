@@ -6,12 +6,21 @@ import { useRootStore } from '@/store/useRootStore';
 const TextureKonva = () => {
     const { gameStatus } = useRootStore();
     const { map, textureImg } = gameStatus;
-
     const { COLS, ROWS } = MAP_DIMENSIONS;
     const [xY, setXY] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
-        if (!map.startsWith('underwater')) {
+        if (
+            !map.startsWith('underwater') &&
+            ![
+                'forest',
+                'forest2',
+                'forest3',
+                'foreste4',
+                'sky',
+                'skyBroken',
+            ].includes(map)
+        ) {
             return;
         }
         const interval = setInterval(() => {
@@ -22,9 +31,51 @@ const TextureKonva = () => {
         return () => clearInterval(interval);
     }, [map]);
 
-    if (!map.startsWith('underwater')) {
+    if (
+        !map.startsWith('underwater') &&
+        ![
+            'forest',
+            'forest2',
+            'forest3',
+            'foreste4',
+            'sky',
+            'skyBroken',
+        ].includes(map)
+    ) {
         return <></>;
     }
+    if (
+        [
+            'forest',
+            'forest2',
+            'forest3',
+            'forest4',
+            'sky',
+            'skyBroken',
+        ].includes(map)
+    ) {
+        return (
+            <Group>
+                <Rect
+                    opacity={0.3}
+                    x={0}
+                    y={0}
+                    width={COLS * 32}
+                    height={ROWS * 32}
+                    fillPatternRepeat="repeat"
+                    fillPatternImage={
+                        document.querySelector(
+                            textureImg[2]
+                        ) as HTMLImageElement
+                    }
+                    fillPatternOffsetX={xY.x}
+                    fillPatternOffsetY={xY.y}
+                    fillPatternScale={{ x: 0.35, y: 0.35 }}
+                />
+            </Group>
+        );
+    }
+
     return (
         <Group>
             <Rect
