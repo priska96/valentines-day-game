@@ -13,9 +13,9 @@ const GameStartScreen = () => {
             <div className={styles.gameOver}>~~The Rescue~~</div>
 
             {mapImages &&
-            (Object.keys(mapImages).length >=
-                Object.keys(MAP_TILE_IMAGES2).length - 1 ||
-                Object.keys(mapImages).length === 747) ? (
+            Object.keys(mapImages).length >=
+                Object.keys(MAP_TILE_IMAGES2).length - 1 &&
+            Object.keys(mapImages).length === 747 ? (
                 <div>
                     <div className={styles.startGameButtonContainer}>
                         <span
