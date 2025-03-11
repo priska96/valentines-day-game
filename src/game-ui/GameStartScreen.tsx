@@ -7,14 +7,7 @@ import LoadingIndicator from './LoadindIndicator';
 
 const GameStartScreen = () => {
     const { mapImages, onGameEnd } = useRootStore();
-    console.log(
-        'mapImages',
-        mapImages,
-        Object.keys(mapImages).length,
-        Object.keys(mapImages).length >=
-            Object.keys(MAP_TILE_IMAGES2).length - 1 ||
-            Object.keys(mapImages).length === 747
-    );
+
     return (
         <div className={styles.gameOverContainer}>
             <div className={styles.gameOver}>~~The Rescue~~</div>
