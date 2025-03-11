@@ -33,7 +33,9 @@ const GameStage = () => {
 
     if (
         mapImages &&
-        Object.keys(mapImages).length < Object.keys(MAP_TILE_IMAGES2).length - 1
+        (Object.keys(mapImages).length <
+            Object.keys(MAP_TILE_IMAGES2).length - 1 ||
+            Object.keys(mapImages).length === 747)
     ) {
         return <></>;
     }
