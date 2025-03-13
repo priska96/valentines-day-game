@@ -322,23 +322,30 @@ export const followHeroHome = (
 export const goToForest = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
-    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void
+    updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
+    mode: GameModeEnum | undefined
 ) => {
-    changeMap('forest');
-    updateNPC({
-        idx: [2],
-        updates: {
-            'data-2': {
-                x: 15,
-                y: 15,
-                step: 0,
-                dir: 3,
-                stopMoving: false,
-                map: ['forest'],
-                followHero: true,
+    const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    console.log('princessOnMap', princessOnMap, mode);
+    changeMap('forest2');
+    if (princessOnMap) {
+        changeMap('forest');
+        updateNPC({
+            idx: [2],
+            updates: {
+                'data-2': {
+                    x: 15,
+                    y: 15,
+                    step: 0,
+                    dir: 3,
+                    stopMoving: false,
+                    map: ['forest'],
+                    followHero: true,
+                },
             },
-        },
-    });
+        });
+    }
     updatePlayerPosition({ x: 15, y: 14, step: 0, dir: 3 });
 };
 
@@ -350,6 +357,7 @@ export const goToForest2 = (
 ) => {
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
 
+    console.log('princessOnMap', princessOnMap, mode);
     changeMap('forest2');
     if (princessOnMap) {
         updateNPC({
@@ -377,6 +385,8 @@ export const goToForest2From3 = (
     changeMap('forest2');
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+
+    console.log('princessOnMap', princessOnMap, mode);
     if (princessOnMap) {
         updateNPC({
             idx: [2],

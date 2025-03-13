@@ -77,7 +77,7 @@ export const hanldeTeleportationsForForestMap = ({
     }
     //in front of forestFrom2
     if (map === 'forest2' && character.x === 15 && character.y === 0) {
-        goToForest(changeMap, updateNPC, updatePlayerPosition);
+        goToForest(changeMap, updateNPC, updatePlayerPosition, mode);
         res.success = true;
         return res;
     }
