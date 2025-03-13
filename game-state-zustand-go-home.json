@@ -9,12 +9,12 @@
         "type": "hero",
         "playerSummary": {
             "level": 12,
-            "health": 128,
+            "health": 450,
             "maxHealth": 450,
             "name": "Jihoon",
             "img": "/src/images/heroes/jihoon_fight.png",
             "magic": 75,
-            "attack": 100,
+            "attack": 10000,
             "defense": 55,
             "magicDefense": 55
         },
@@ -27,9 +27,7 @@
                 "item": "Armor",
                 "objectImg": "#object-0",
                 "type": "objectNPC",
-                "map": [
-                    "forest"
-                ],
+                "map": ["forest"],
                 "tookItem": false,
                 "healing": 0,
                 "action": "",
@@ -42,9 +40,7 @@
                 "item": "Boots",
                 "objectImg": "#object-1",
                 "type": "objectNPC",
-                "map": [
-                    "forest"
-                ],
+                "map": ["forest"],
                 "tookItem": false,
                 "healing": 0,
                 "action": "",
@@ -57,9 +53,7 @@
                 "item": "Sword",
                 "objectImg": "#object-4",
                 "type": "objectNPC",
-                "map": [
-                    "forest"
-                ],
+                "map": ["forest"],
                 "tookItem": false,
                 "healing": 0,
                 "action": "",
@@ -72,9 +66,7 @@
                 "item": "Apples",
                 "objectImg": "#object-2",
                 "type": "objectNPC",
-                "map": [
-                    "forest"
-                ],
+                "map": ["forest"],
                 "tookItem": false,
                 "healing": 20,
                 "action": "",
@@ -87,9 +79,7 @@
                 "item": "Fish",
                 "objectImg": "#object-3",
                 "type": "objectNPC",
-                "map": [
-                    "forest"
-                ],
+                "map": ["forest"],
                 "tookItem": false,
                 "healing": 30,
                 "action": "",
@@ -110,9 +100,7 @@
             "heroImg": "#npc-0",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -139,9 +127,7 @@
             "heroImg": "#npc-1",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "evilKing"
-            ],
+            "map": ["evilKing"],
             "dead": true,
             "animate": "",
             "npcSummary": {
@@ -168,9 +154,7 @@
             "heroImg": "#npc-2",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -192,9 +176,7 @@
             "heroImg": "#npc-3",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "piscesTown3"
-            ],
+            "map": ["piscesTown3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -221,9 +203,7 @@
             "heroImg": "#npc-4",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "piscesTown3"
-            ],
+            "map": ["piscesTown3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -245,9 +225,7 @@
             "heroImg": "#npc-5",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "piscesTown3Melted"
-            ],
+            "map": ["piscesTown3Melted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -269,9 +247,7 @@
             "heroImg": "#npc-6",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "piscesTown3Melted"
-            ],
+            "map": ["piscesTown3Melted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -293,10 +269,7 @@
             "heroImg": null,
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "forest2",
-                "forest3"
-            ],
+            "map": [],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -323,10 +296,7 @@
             "heroImg": null,
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "forest2",
-                "forest3"
-            ],
+            "map": [],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -353,10 +323,7 @@
             "heroImg": null,
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "forest2",
-                "forest3"
-            ],
+            "map": [],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -405,9 +372,7 @@
             "heroImg": "#npc-11",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTownMelted"
-            ],
+            "map": ["piscesTownMelted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -429,9 +394,7 @@
             "heroImg": "#npc-12",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTownMelted"
-            ],
+            "map": ["piscesTownMelted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -453,9 +416,7 @@
             "heroImg": "#npc-13",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTownMelted"
-            ],
+            "map": ["piscesTownMelted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -477,9 +438,7 @@
             "heroImg": "#npc-14",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTownMelted"
-            ],
+            "map": ["piscesTownMelted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -501,9 +460,7 @@
             "heroImg": "#npc-15",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTownMelted"
-            ],
+            "map": ["piscesTownMelted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -525,9 +482,7 @@
             "heroImg": "#npc-16",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTown2Melted"
-            ],
+            "map": ["piscesTown2Melted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -549,9 +504,7 @@
             "heroImg": "#npc-17",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "house3"
-            ],
+            "map": ["house3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -573,9 +526,7 @@
             "heroImg": "#npc-18",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTown2Melted"
-            ],
+            "map": ["piscesTown2Melted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -597,9 +548,7 @@
             "heroImg": "#npc-19",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "piscesTown2Melted"
-            ],
+            "map": ["piscesTown2Melted"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -621,9 +570,7 @@
             "heroImg": "#npc-20",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "house2"
-            ],
+            "map": ["house2"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -645,11 +592,7 @@
             "heroImg": "#npc-21",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater2",
-                "underwater3"
-            ],
+            "map": ["underwater", "underwater2", "underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -671,11 +614,7 @@
             "heroImg": "#npc-22",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater2",
-                "underwater3"
-            ],
+            "map": ["underwater", "underwater2", "underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -697,11 +636,7 @@
             "heroImg": "#npc-23",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater2",
-                "underwater3"
-            ],
+            "map": ["underwater", "underwater2", "underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -723,11 +658,7 @@
             "heroImg": "#npc-24",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater2",
-                "underwater3"
-            ],
+            "map": ["underwater", "underwater2", "underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -749,11 +680,7 @@
             "heroImg": "#npc-25",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater2",
-                "underwater3"
-            ],
+            "map": ["underwater", "underwater2", "underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -775,9 +702,7 @@
             "heroImg": "#npc-26",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater"
-            ],
+            "map": ["underwater"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -799,10 +724,7 @@
             "heroImg": "#npc-27",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater4"
-            ],
+            "map": ["underwater", "underwater4"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -824,10 +746,7 @@
             "heroImg": "#npc-28",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater2",
-                "underwater4"
-            ],
+            "map": ["underwater2", "underwater4"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -849,10 +768,7 @@
             "heroImg": "#npc-29",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater",
-                "underwater4"
-            ],
+            "map": ["underwater", "underwater4"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -874,9 +790,7 @@
             "heroImg": "#npc-30",
             "stopMoving": false,
             "type": "npc",
-            "map": [
-                "underwater4"
-            ],
+            "map": ["underwater4"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -898,9 +812,7 @@
             "heroImg": "#npc-31",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "underwater3"
-            ],
+            "map": ["underwater3"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -927,9 +839,7 @@
             "heroImg": "#npc-32",
             "stopMoving": true,
             "type": "npc",
-            "map": [
-                "underwater4"
-            ],
+            "map": ["underwater4"],
             "dead": false,
             "animate": "",
             "npcSummary": {
@@ -956,9 +866,7 @@
             "autotileImg": "#autotile-0",
             "stopMoving": false,
             "type": "autotile",
-            "map": [
-                "wellInner"
-            ],
+            "map": ["wellInner"],
             "animate": ""
         }
     ],
@@ -970,9 +878,7 @@
             "item": "Armor",
             "objectImg": "#object-0",
             "type": "objectNPC",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "tookItem": true,
             "healing": 0,
             "action": "",
@@ -985,9 +891,7 @@
             "item": "Boots",
             "objectImg": "#object-1",
             "type": "objectNPC",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "tookItem": true,
             "healing": 0,
             "action": "",
@@ -1000,9 +904,7 @@
             "item": "Apples",
             "objectImg": "#object-2",
             "type": "objectNPC",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "tookItem": true,
             "healing": 20,
             "action": "",
@@ -1015,9 +917,7 @@
             "item": "Fish",
             "objectImg": "#object-3",
             "type": "objectNPC",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "tookItem": true,
             "healing": 30,
             "action": "",
@@ -1030,9 +930,7 @@
             "item": "Sword",
             "objectImg": "#object-4",
             "type": "objectNPC",
-            "map": [
-                "forest"
-            ],
+            "map": ["forest"],
             "tookItem": true,
             "healing": 0,
             "action": "",
@@ -1045,9 +943,7 @@
             "item": "doorOpenTop",
             "objectImg": "#object-5",
             "type": "objectNPC",
-            "map": [
-                "evilKing"
-            ],
+            "map": ["evilKing"],
             "tookItem": true,
             "healing": 0,
             "action": "",
@@ -1060,9 +956,7 @@
             "item": "doorOpenBottom",
             "objectImg": "#object-6",
             "type": "objectNPC",
-            "map": [
-                "evilKing"
-            ],
+            "map": ["evilKing"],
             "tookItem": true,
             "healing": 0,
             "action": "",
@@ -1870,31 +1764,15 @@
             false,
             false
         ],
-        "objectLoaded": [
-            true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true
-        ],
-        "autotileLoaded": [
-            false
-        ],
+        "objectLoaded": [true, true, true, true, true, true, true],
+        "autotileLoaded": [false],
         "mode": "new-chapter",
         "winner": "",
         "selectedOpponentIdx": 0,
         "map": "forest",
-        "backgroundImg": [
-            "#skybackground",
-            "#underwaterbackground"
-        ],
+        "backgroundImg": ["#skybackground", "#underwaterbackground"],
         "backgroundImgLoaded": true,
-        "textureImg": [
-            "#watertexture2",
-            "#watertexture2"
-        ],
+        "textureImg": ["#watertexture2", "#watertexture2"],
         "textureImgLoaded": true
     }
 }
