@@ -31,6 +31,7 @@ const Battle = () => {
     const { selectedOpponentIdx } = gameStatus;
     const { npcSummary } = npcs[selectedOpponentIdx];
 
+    console.log('mode', gameStatus.mode, gameStatus.previousMode);
     const {
         turn,
         inSequence,
@@ -55,6 +56,7 @@ const Battle = () => {
 
     useEffect(() => {
         if (playerHealth === 0 || opponentHealth === 0) {
+            console.log('fiight over: mode', gameStatus.mode);
             (async () => {
                 await wait(1000);
                 onGameEnd(
@@ -79,6 +81,8 @@ const Battle = () => {
                             updatePlayerSummary,
                             setContents,
                             playerHealth,
+                            onGameEnd,
+                            gameStatus,
                         });
                     }
                     if (playerHealth === 0) {
@@ -99,7 +103,7 @@ const Battle = () => {
             setSequence({ turn: -1, mode: '' });
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [playerHealth, opponentHealth, onGameEnd]);
+    }, [playerHealth, opponentHealth, onGameEnd, gameStatus.mode]);
 
     return (
         <div className={styles.mainContainer}>

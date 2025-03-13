@@ -173,6 +173,7 @@ export type GameState = {
     objectLoaded: boolean[];
     autotileLoaded: boolean[];
     mode: GameModeEnum;
+    previousMode: GameModeEnum;
     winner: string | undefined;
     selectedOpponentIdx: number;
     map: string;

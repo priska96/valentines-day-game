@@ -15,6 +15,7 @@ export const createGameStatusSlice: StateCreator<
         objectLoaded: new Array(7).fill(false) as boolean[],
         autotileLoaded: [false],
         mode: GameModeEnum.START,
+        previousMode: GameModeEnum.START,
         winner: 'Jihoon',
         selectedOpponentIdx: 0,
         map: 'forest',
@@ -104,6 +105,10 @@ export const createGameStatusSlice: StateCreator<
                     mode,
                     winner: winner ?? undefined,
                     selectedOpponentIdx,
+                    previousMode:
+                        state.gameStatus.mode === 'battle'
+                            ? state.gameStatus.previousMode
+                            : state.gameStatus.mode,
                 },
             }),
             undefined,

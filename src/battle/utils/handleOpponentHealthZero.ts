@@ -1,7 +1,9 @@
 import {
     CharSummary,
     DialogState,
+    GameState,
     NPCSummary,
+    OnGameEndPayload,
     SetContentsPayload,
     UpdatePlayerSummaryPayloadChar,
 } from '@/store/types';
@@ -13,6 +15,8 @@ interface HandleOpponentHealthZeroProps {
     updatePlayerSummary: (payload: UpdatePlayerSummaryPayloadChar) => void;
     setContents: (payload: SetContentsPayload) => void;
     playerHealth: number;
+    onGameEnd: (payload: OnGameEndPayload) => void;
+    gameStatus: GameState;
 }
 
 export const handleOpponentHealthZero = ({
@@ -21,6 +25,8 @@ export const handleOpponentHealthZero = ({
     updatePlayerSummary,
     setContents,
     playerHealth,
+    onGameEnd,
+    gameStatus,
 }: HandleOpponentHealthZeroProps) => {
     switch (npcSummary.name) {
         case 'Blue Dragon': {
@@ -127,6 +133,11 @@ export const handleOpponentHealthZero = ({
                     defense: playerSummary.defense + 15,
                     magicDefense: playerSummary.magicDefense + 5,
                 },
+            });
+            onGameEnd({
+                winner: 'Jihhon',
+                selectedOpponentIdx: 0,
+                mode: gameStatus.previousMode,
             });
         }
     }
