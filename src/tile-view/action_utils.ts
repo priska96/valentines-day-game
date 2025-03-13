@@ -346,7 +346,7 @@ export const goToForest2 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
 
@@ -372,7 +372,7 @@ export const goToForest2From3 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     changeMap('forest2');
 
@@ -398,11 +398,12 @@ export const goToForest3 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     changeMap('forest3');
 
     const princessOnMap = mode === GameModeEnum.NEW_CHAPTER;
+    console.log('princessOnMap', princessOnMap);
     if (princessOnMap) {
         updateNPC({
             idx: [2],
@@ -424,7 +425,7 @@ export const goToForest3From4 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'forest3'
@@ -453,7 +454,7 @@ export const goToForest4 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'forest4'
@@ -481,7 +482,7 @@ export const goToForest4FromPiscesTown = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'forest4'
@@ -511,7 +512,7 @@ export const goToPiscesTown = (
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     setContents: (payload: SetContentsPayload) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'piscesTown'
@@ -606,7 +607,7 @@ export const goToPiscesTown2 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'piscesTown2'
@@ -636,7 +637,7 @@ export const goToPiscesTownFrom2 = (
     changeMap: (map: string) => void,
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'piscesTown'
@@ -699,7 +700,7 @@ export const goToPiscesTown3 = (
     updateNPC: (payload: UpdateNPCPayload) => void,
     updatePlayerPosition: (payload: UpdatePlayerPositionPayloadChar) => void,
     setContents: (payload: SetContentsPayload) => void,
-    mode: string | undefined
+    mode: GameModeEnum | undefined
 ) => {
     const newMap = !MELTED_PISCESTOWN_GAME_MODES.includes(mode as GameModeEnum)
         ? 'piscesTown3'
